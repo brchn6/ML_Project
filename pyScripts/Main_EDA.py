@@ -8,7 +8,7 @@ warnings.filterwarnings("ignore")
 
 #path to data file
 GETCWD = os.getcwd()
-PathToData = os.path.join(GETCWD + "\\diabetes+130-us+hospitals+for+years+1999-2008/diabetic_data.csv")
+PathToData = os.path.join(GETCWD +"/.." +"\\diabetes+130-us+hospitals+for+years+1999-2008/diabetic_data.csv")
 
 #assing df
 Maindf = pd.read_csv(PathToData)
