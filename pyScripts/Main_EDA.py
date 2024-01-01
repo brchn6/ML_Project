@@ -24,6 +24,7 @@ Maindf = pd.read_csv(PathToData)
 sns.set_style("darkgrid")
 plt.style.use("dark_background")
 
+# [func for func in dir(SeeTheData) if callable(getattr(SeeTheData, func))]
 
 #%%
 a= SeeTheData(Maindf)
