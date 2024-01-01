@@ -45,3 +45,7 @@ f, ax = plt.subplots(figsize=(6, 6))
 sns.scatterplot(x=x, y=y, s=5, color=".15")
 # sns.histplot(x=x, y=y, bins=50, pthresh=.1, cmap="mako")
 # sns.kdeplot(x=x, y=y, levels=5, color="w", linewidths=1)
+
+#%%
+df = Maindf
+test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
