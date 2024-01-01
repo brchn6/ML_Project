@@ -30,8 +30,8 @@ plt.style.use("dark_background")
 a= SeeTheData(Maindf)
 a.Subsetting()
 # a.Display()
-a.CountPlotOfObjectColumns()
-# a.HistPlotOfNumericColumns()
+# a.CountPlotOfObjectColumns()
+a.HistPlotOfNumericColumns()
 
 #%%
 df["discharge_disposition_id"][0:100]
