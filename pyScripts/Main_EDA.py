@@ -32,14 +32,7 @@ a.Subsetting()
 # a.Display()
 # a.CountPlotOfObjectColumns()
 a.HistPlotOfNumericColumns()
-
 #%%
-df["discharge_disposition_id"][0:100]
-#%%
-# Simulate data from a bivariate Gaussian
-x = dfDiag["diag_1"]
-y = dfDiag["diag_3"]
-
 # Draw a combo histogram and scatterplot with density contours
 f, ax = plt.subplots(figsize=(6, 6))
 sns.scatterplot(x=x, y=y, s=5, color=".15")
