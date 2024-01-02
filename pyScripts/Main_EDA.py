@@ -65,6 +65,13 @@ display_all(mapdf)
 Maindf.info()
 
 #%%
+Maindf.describe()
+
+#%%
+Maindf.hist(bins=50, figsize=(20,15))
+
+
+#%%
 #Check for NA's in data:
 sum_na = Maindf.isnull().sum()
 [print(value) for value in sum_na if value > 0] or print("No NA's")
@@ -94,15 +101,16 @@ Maindf = hospDf.drop(['weight', 'medical_specialty', 'payer_code'], axis=1)
 #can adjust for more values (change the 2 in range function)
 unique_dict = {}
 for col in Maindf.columns:
-    for i in range(1,2):
-        vals = pd.unique(Maindf[col])
-        unique_dict[col] = vals
-        if len(vals) <= i :
-            print(f'column {col} has {i} unique values', unique_dict[col])
-            break
+    if np.dtype(Maindf[col]) == 'object':
+        for i in range(1,2):
+            vals = pd.unique(Maindf[col])
+            unique_dict[col] = vals
+            if len(vals) <= i :
+                print(f'column {col} has {i} unique values', unique_dict[col])
+                break
 #%%
         
-        
+
 columns_to_plot = ['admission_type_id', 'discharge_disposition_id', 'admission_source_id']
 
 # Set up the subplots
