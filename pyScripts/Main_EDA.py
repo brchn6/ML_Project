@@ -50,6 +50,8 @@ sns.scatterplot(x=x, y=y, s=5, color=".15")
 
 #%%
 df = Maindf
+
+#Removing non-diabetes diagnosis should be before starting EDA
 test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
 
 # %%
@@ -77,11 +79,15 @@ for col in Maindf.columns:
         empty_dict[col] = [empty_sum]
         print(col, empty_dict[col], f'% {np.round(empty_sum/col_len,2)*100}')
 
-# %%
+#%%
 #Visualization of empty data
 sns.set(rc={"figure.figsize":(14, 10)})
 colours = ['#34495E', 'seagreen'] 
 sns.heatmap(Maindf == '?', cmap=sns.color_palette(colours))
+
+#%%
+#Dropping columns with ALOT of missing values:
+Maindf = hospDf.drop(['weight', 'medical_specialty', 'payer_code'], axis=1)
 
 #%%
 #Checking for columns with just one kind of values,
@@ -95,3 +101,27 @@ for col in Maindf.columns:
             print(f'column {col} has {i} unique values', unique_dict[col])
             break
 #%%
+        
+        
+columns_to_plot = ['admission_type_id', 'discharge_disposition_id', 'admission_source_id']
+
+# Set up the subplots
+fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(15, 5))
+
+# Plot each column
+for i, column in enumerate(columns_to_plot):
+    sns.countplot(x=column, data=Maindf, ax=axes[i])
+    axes[i].set_title(f'Countplot of {column}')
+    axes[i].set_xlabel(column)
+    axes[i].set_ylabel('Count')
+
+# Adjust layout for better spacing
+plt.tight_layout()
+plt.show()
+
+#%%
+#Cleaning IDS_mapping variables:
+#These solumns have alot many NA data if different values:
+df['admission_type_id'] = df['admission_type_id'].replace([8,6],5)
+df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([11,18,26],25)
+df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([21,20,17,15],9)
