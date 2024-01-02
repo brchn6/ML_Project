@@ -45,12 +45,11 @@ sns.scatterplot(x=x, y=y, s=5, color=".15")
 # sns.histplot(x=x, y=y, bins=50, pthresh=.1, cmap="mako")
 # sns.kdeplot(x=x, y=y, levels=5, color="w", linewidths=1)
 
-#%%
-
 
 #%%
 df = Maindf
 
+#%%
 #Removing non-diabetes diagnosis should be before starting EDA
 test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
 
@@ -70,6 +69,9 @@ Maindf.describe()
 #%%
 Maindf.hist(bins=50, figsize=(20,15))
 
+#%%
+
+sns.countplot(Maindf)
 
 #%%
 #Check for NA's in data:
@@ -129,7 +131,7 @@ plt.show()
 
 #%%
 #Cleaning IDS_mapping variables:
-#These solumns have alot many NA data if different values:
+#These solumns have alot many NA data with different values:
 df['admission_type_id'] = df['admission_type_id'].replace([8,6],5)
 df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([11,18,26],25)
 df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([21,20,17,15],9)
