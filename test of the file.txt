@@ -1,8 +1,4 @@
 okkkkkkkk
 lets commit
-<<<<<<< HEAD
 add tetxxxx
 i'm alsoo commiting
-=======
-add tetxxxx
->>>>>>> 5b78a48ec7e23bba6efccb19facc5630ad4d049f
