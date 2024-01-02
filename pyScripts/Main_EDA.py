@@ -58,12 +58,15 @@ def display_all(data):
     with pd.option_context("display.max_row", 100, "display.max_columns", 100):
         display(data)
 display_all(mapdf)
+
 #%%
 Maindf.info()
+
 #%%
 #Check for NA's in data:
 sum_na = Maindf.isnull().sum()
 [print(value) for value in sum_na if value > 0] or print("No NA's")
+
 #%%
 #Checking percentage of '?' values in each column:
 empty_dict ={}
@@ -79,6 +82,7 @@ for col in Maindf.columns:
 sns.set(rc={"figure.figsize":(14, 10)})
 colours = ['#34495E', 'seagreen'] 
 sns.heatmap(Maindf == '?', cmap=sns.color_palette(colours))
+
 #%%
 #Checking for columns with just one kind of values,
 #can adjust for more values (change the 2 in range function)
