@@ -17,9 +17,11 @@ from SeeTheData import SeeTheData
 #path to data file
 GETCWD = os.getcwd()
 PathToData = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years+1999-2008/diabetic_data.csv" )
+PathToMap = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years+1999-2008/IDS_mapping.csv")
 
 #assing df
 Maindf = pd.read_csv(PathToData)
+mapdf = pd.read_csv(PathToMap)
 
 sns.set_style("darkgrid")
 plt.style.use("dark_background")
@@ -40,5 +42,22 @@ sns.scatterplot(x=x, y=y, s=5, color=".15")
 # sns.kdeplot(x=x, y=y, levels=5, color="w", linewidths=1)
 
 #%%
+
+
+#%%
 df = Maindf
 test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
+
+# %%
+#display all data:
+def display_all(data):
+    with pd.option_context("display.max_row", 100, "display.max_columns", 100):
+        display(data)
+display_all(mapdf)
+#%%
+Maindf.info()
+#%%
+#Check for NA's in data:
+sum_na = Maindf.isnull().sum()
+[print(value) for value in sum_na if value > 0] or print("No NA's")
+#%%
