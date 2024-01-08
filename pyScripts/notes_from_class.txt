@@ -1,0 +1,2 @@
+Duplicates - use either one of the occurences,
+or keep all instances and make sure you split them in the stratified folds.
