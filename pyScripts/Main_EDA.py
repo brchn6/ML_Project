@@ -121,7 +121,7 @@ plt.show()
 
 #%%
 #Cleaning IDS_mapping variables:
-#These solumns have alot many NA data if different values:
+#These columns have a lot many NA data if different values:
 df['admission_type_id'] = df['admission_type_id'].replace([8,6],5)
 df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([11,18,26],25)
 df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([21,20,17,15],9)
