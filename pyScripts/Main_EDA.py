@@ -11,7 +11,6 @@ import sys
 pd.set_option("display.max_row", 100) #add a option of pd
 pd.set_option("display.max_columns", 100) #add a option of pd
 #%%
-
 # Define the path you want to add
 path_to_add = "/c/Users/barc/Dropbox (Weizmann Institute)/MSc_Weizmann/FGS_ML/ML_Project/pyScripts/"
 
@@ -47,11 +46,8 @@ f, ax = plt.subplots(figsize=(6, 6))
 sns.scatterplot(x=x, y=y, s=5, color=".15")
 # sns.histplot(x=x, y=y, bins=50, pthresh=.1, cmap="mako")
 # sns.kdeplot(x=x, y=y, levels=5, color="w", linewidths=1)
-
-
 #%%
 df = Maindf
-
 #%%
 #Removing non-diabetes diagnosis should be before starting EDA
 test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
