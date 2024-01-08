@@ -60,7 +60,7 @@ def display_all(data):
 display_all(Mapdf)
 
 #%%
-df.info()
+display_all(df.info())
 
 #%%
 df.describe()
@@ -180,4 +180,10 @@ for col in diag_columns:
 #%%
 
 df_melted = pd.melt(df1.loc[:,'diag_1':'diag_3'])
-sns.countplot(x='value', hue='variable', data=df_melted)
+plt.figure(figsize=(15,8))
+
+ax = sns.countplot(x='value', hue='variable', data=df_melted)
+
+#%%
+
+df
