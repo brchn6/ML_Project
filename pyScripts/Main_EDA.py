@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import warnings 
 warnings.filterwarnings("ignore")
 import sys 
+pd.set_option("display.max_row", 100) #add a option of pd
+pd.set_option("display.max_columns", 100) #add a option of pd
 #%%
 
 # Define the path you want to add
@@ -18,6 +20,7 @@ if path_to_add not in sys.path:
     sys.path.append(path_to_add)
 from SeeTheData import SeeTheData
 
+#%% importing data
 #path to data file
 GETCWD = os.getcwd()
 PathToData = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years+1999-2008/diabetic_data.csv" )
@@ -25,19 +28,19 @@ PathToMap = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years
 
 #assing df
 Maindf = pd.read_csv(PathToData)
-mapdf = pd.read_csv(PathToMap)
+Mapdf = pd.read_csv(PathToMap)
 
+
+#sns + plt option and settings
 sns.set_style("darkgrid")
 plt.style.use("dark_background")
-
-# [func for func in dir(SeeTheData) if callable(getattr(SeeTheData, func))]
 
 #%%
 a= SeeTheData(Maindf)
 a.Subsetting()
 # a.Display()
 # a.CountPlotOfObjectColumns()
-a.HistPlotOfNumericColumns()
+# a.HistPlotOfNumericColumns()
 #%%
 # Draw a combo histogram and scatterplot with density contours
 f, ax = plt.subplots(figsize=(6, 6))
@@ -58,7 +61,7 @@ test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250')
 def display_all(data):
     with pd.option_context("display.max_row", 100, "display.max_columns", 100):
         display(data)
-display_all(mapdf)
+display_all(Mapdf)
 
 #%%
 display_all(df.info())
@@ -126,7 +129,7 @@ plt.show()
 
 #%%
 #Cleaning IDS_mapping variables:
-#These solumns have alot many NA data with different values:
+#These columns have a lot many NA data if different values:
 df['admission_type_id'] = df['admission_type_id'].replace([8,6],5)
 df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([11,18,26],25)
 df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([21,20,17,15],9)
