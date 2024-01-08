@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import warnings 
 warnings.filterwarnings("ignore")
 import sys 
+pd.set_option("display.max_row", 100) #add a option of pd
+pd.set_option("display.max_columns", 100) #add a option of pd
 #%%
 
 # Define the path you want to add
@@ -25,7 +27,7 @@ PathToMap = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years
 
 #assing df
 Maindf = pd.read_csv(PathToData)
-mapdf = pd.read_csv(PathToMap)
+Mapdf = pd.read_csv(PathToMap)
 
 sns.set_style("darkgrid")
 plt.style.use("dark_background")
@@ -37,7 +39,7 @@ a= SeeTheData(Maindf)
 a.Subsetting()
 # a.Display()
 # a.CountPlotOfObjectColumns()
-a.HistPlotOfNumericColumns()
+# a.HistPlotOfNumericColumns()
 #%%
 # Draw a combo histogram and scatterplot with density contours
 f, ax = plt.subplots(figsize=(6, 6))
@@ -58,7 +60,7 @@ test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250')
 def display_all(data):
     with pd.option_context("display.max_row", 100, "display.max_columns", 100):
         display(data)
-display_all(mapdf)
+display_all(Mapdf)
 
 #%%
 df.info()
