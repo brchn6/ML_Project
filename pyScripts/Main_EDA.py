@@ -50,9 +50,6 @@ sns.scatterplot(x=x, y=y, s=5, color=".15")
 
 
 #%%
-df = Maindf
-
-#%%
 #Removing non-diabetes diagnosis should be before starting EDA
 test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
 
