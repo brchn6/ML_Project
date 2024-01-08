@@ -20,6 +20,7 @@ if path_to_add not in sys.path:
     sys.path.append(path_to_add)
 from SeeTheData import SeeTheData
 
+#%% importing data
 #path to data file
 GETCWD = os.getcwd()
 PathToData = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years+1999-2008/diabetic_data.csv" )
@@ -29,10 +30,10 @@ PathToMap = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years
 Maindf = pd.read_csv(PathToData)
 Mapdf = pd.read_csv(PathToMap)
 
+
+#sns + plt option and settings
 sns.set_style("darkgrid")
 plt.style.use("dark_background")
-
-# [func for func in dir(SeeTheData) if callable(getattr(SeeTheData, func))]
 
 #%%
 a= SeeTheData(Maindf)
