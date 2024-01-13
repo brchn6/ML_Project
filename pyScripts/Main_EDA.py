@@ -188,7 +188,7 @@ def convert_values(value):
     return value
 
 #%%
-df1 = df
+df1 = test_df
 
 for col in diag_columns:
     df1[col] = df[col].apply(convert_values)
