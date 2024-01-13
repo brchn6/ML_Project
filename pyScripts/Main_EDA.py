@@ -10,6 +10,11 @@ warnings.filterwarnings("ignore")
 import sys 
 pd.set_option("display.max_row", 100) #add a option of pd
 pd.set_option("display.max_columns", 100) #add a option of pd
+
+#display all data:
+def display_all(data):
+    with pd.option_context("display.max_row", 100, "display.max_columns", 100):
+        display(data)
 #%%
 # Define the path you want to add
 path_to_add = "/c/Users/barc/Dropbox (Weizmann Institute)/MSc_Weizmann/FGS_ML/ML_Project/pyScripts/"
@@ -48,10 +53,6 @@ df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
 df["categoricalValue"] = df["insulin"]
 df= df.reset_index()
 # %%
-#display all data:
-def display_all(data):
-    with pd.option_context("display.max_row", 100, "display.max_columns", 100):
-        display(data)
 
 #%%
 ColName= "insulin"
