@@ -46,7 +46,7 @@ Subset_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250
 df = Subset_df
 df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
 df["categoricalValue"] = df["insulin"]
-df= df.reset_indexindex()
+df= df.reset_index()
 # %%
 #display all data:
 def display_all(data):
