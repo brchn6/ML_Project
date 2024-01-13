@@ -60,6 +60,17 @@ def split_train_test(data, test_ratio):
 train_set, test_set = split_train_test(df, 0.2)
 print(len(train_set))
 print(len(test_set))
+
+#%%
+from sklearn.model_selection import StratifiedShuffleSplit
+
+split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+for train_index, test_index in split.split(df, df["readmitted"]):
+    strat_train_set = df.loc[train_index]
+    strat_test_set = df.loc[test_index]
+
+strat_test_set["income_cat"].value_counts() / len(strat_test_set)
+
 #%%
 display_all(df.info())
 
