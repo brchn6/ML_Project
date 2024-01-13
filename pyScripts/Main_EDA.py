@@ -29,52 +29,37 @@ PathToMap = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years
 Maindf = pd.read_csv(PathToData)
 Mapdf = pd.read_csv(PathToMap)
 
-
 #sns + plt option and settings
 sns.set_style("darkgrid")
 plt.style.use("dark_background")
 
-#%%
-a= SeeTheData(Maindf)
-a.Subsetting()
+#%% SeeTheData script OOP will be use in the future
+# a= SeeTheData(Maindf)
+# a.Subsetting()
 # a.Display()
 # a.CountPlotOfObjectColumns()
 # a.HistPlotOfNumericColumns()
 #%%
-# Draw a combo histogram and scatterplot with density contours
-f, ax = plt.subplots(figsize=(6, 6))
-sns.scatterplot(x=x, y=y, s=5, color=".15")
-# sns.histplot(x=x, y=y, bins=50, pthresh=.1, cmap="mako")
-# sns.kdeplot(x=x, y=y, levels=5, color="w", linewidths=1)
-#%%
 df = Maindf
-#%%
 #Removing non-diabetes diagnosis should be before starting EDA
-test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
-
-#%%
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Subset_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
+df = Subset_df
 # %%
 #display all data:
 def display_all(data):
     with pd.option_context("display.max_row", 100, "display.max_columns", 100):
         display(data)
-display_all(Mapdf)
+#%%
+np.random.seed(42)
+def split_train_test(data, test_ratio):
+    shuffled_indices = np.random.permutation(len(data))
+    test_set_size = int(len(data) * test_ratio)
+    test_indices = shuffled_indices[:test_set_size]
+    train_indices = shuffled_indices[test_set_size:]
+    return data.iloc[train_indices], data.iloc[test_indices]
+train_set, test_set = split_train_test(df, 0.2)
+print(len(train_set))
+print(len(test_set))
 #%%
 display_all(df.info())
 
@@ -188,10 +173,9 @@ def convert_values(value):
     return value
 
 #%%
-df1 = test_df
 
 for col in diag_columns:
-    df1[col] = df[col].apply(convert_values)
+    df[col] = df[col].apply(convert_values)
 
 #%%
 
@@ -201,7 +185,12 @@ plt.figure(figsize=(15,8))
 ax = sns.countplot(x='value', hue='variable', data=df_melted)
 
 #%%
-print(df1["diag_1"].value_counts()["Diabetes"])
-print(df1["diag_2"].value_counts()["Diabetes"])
-print(df1["diag_3"].value_counts()["Diabetes"])
+listy= []
+listy.append(df1["diag_1"].value_counts()["Diabetes"])
+listy.append(df1["diag_2"].value_counts()["Diabetes"])
+listy.append(df1["diag_3"].value_counts()["Diabetes"])
+
+sum(listy)
+
+#%%
 
