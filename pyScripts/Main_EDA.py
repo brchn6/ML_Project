@@ -66,7 +66,7 @@ for train_index, test_index in split.split(df, df[ColName]):
     strat_train_set = df.loc[train_index]
     strat_test_set = df.loc[test_index]
 
-def income_cat_proportions(data):
+def Ratio_cat_proportions(data):
     return data["categoricalValue"].value_counts() / len(data)
 
 from sklearn.model_selection import train_test_split
@@ -74,9 +74,9 @@ from sklearn.model_selection import train_test_split
 train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
 
 compare_props = pd.DataFrame({
-    "Overall": income_cat_proportions(df),
-    "Stratified": income_cat_proportions(strat_test_set),
-    "Random": income_cat_proportions(test_set),
+    "Overall": Ratio_cat_proportions(df),
+    "Stratified": Ratio_cat_proportions(strat_test_set),
+    "Random": Ratio_cat_proportions(test_set),
 }).sort_index()
 compare_props["Rand. %error"] = 100 * compare_props["Random"] / compare_props["Overall"] - 100
 compare_props["Strat. %error"] = 100 * compare_props["Stratified"] / compare_props["Overall"] - 100
