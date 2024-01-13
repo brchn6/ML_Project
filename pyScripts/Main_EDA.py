@@ -34,32 +34,54 @@ sns.set_style("darkgrid")
 plt.style.use("dark_background")
 
 #%% SeeTheData script OOP will be use in the future
-# a= SeeTheData(Maindf)
-# a.Subsetting()
+a= SeeTheData(df)
+a.Subsetting()
 # a.Display()
-# a.CountPlotOfObjectColumns()
+a.CountPlotOfObjectColumns()
 # a.HistPlotOfNumericColumns()
 #%%
 df = Maindf
 #Removing non-diabetes diagnosis should be before starting EDA
 Subset_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
 df = Subset_df
+df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
+df["categoricalValue"] = df["insulin"]
+df= df.reset_index()
 # %%
 #display all data:
 def display_all(data):
     with pd.option_context("display.max_row", 100, "display.max_columns", 100):
         display(data)
+
 #%%
-np.random.seed(42)
-def split_train_test(data, test_ratio):
-    shuffled_indices = np.random.permutation(len(data))
-    test_set_size = int(len(data) * test_ratio)
-    test_indices = shuffled_indices[:test_set_size]
-    train_indices = shuffled_indices[test_set_size:]
-    return data.iloc[train_indices], data.iloc[test_indices]
-train_set, test_set = split_train_test(df, 0.2)
-print(len(train_set))
-print(len(test_set))
+ColName= "insulin"
+
+df_with_id = df.reset_index()   # adds an `index` column
+train_set, test_set = split_train_test_by_id(df_with_id, 0.2, "index")
+
+from sklearn.model_selection import StratifiedShuffleSplit
+
+split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+for train_index, test_index in split.split(df, df[ColName]):
+    strat_train_set = df.loc[train_index]
+    strat_test_set = df.loc[test_index]
+
+def income_cat_proportions(data):
+    return data["categoricalValue"].value_counts() / len(data)
+
+from sklearn.model_selection import train_test_split
+
+train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
+
+compare_props = pd.DataFrame({
+    "Overall": income_cat_proportions(df),
+    "Stratified": income_cat_proportions(strat_test_set),
+    "Random": income_cat_proportions(test_set),
+}).sort_index()
+compare_props["Rand. %error"] = 100 * compare_props["Random"] / compare_props["Overall"] - 100
+compare_props["Strat. %error"] = 100 * compare_props["Stratified"] / compare_props["Overall"] - 100
+compare_props
+
 #%%
 display_all(df.info())
 
