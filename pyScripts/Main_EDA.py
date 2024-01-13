@@ -261,4 +261,32 @@ compare_props = pd.DataFrame({
 compare_props["Rand. %error"] = 100 * compare_props["Random"] / compare_props["Overall"] - 100
 compare_props["Strat. %error"] = 100 * compare_props["Stratified"] / compare_props["Overall"] - 100
 #%%
-df
+df['A1Cresult'].unique()
+
+
+##We considered four groups of encounters: (1) no HbA1c
+#est performed, (2) HbA1c performed and in normal range,
+#(3) HbA1c performed and the result is greater than 8%
+#with no change in diabetic medications, and (4) HbA1c
+#performed, result is greater than 8%, and diabetic medication
+##was changed.
+
+df.columns
+df['change'].unique()
+
+
+# %%
+cond1 = df['A1Cresult'] == 'None'
+cond2 = (df['A1Cresult'] == 'Norm') | (df['A1Cresult'] == '>7')
+cond3 = (df['A1Cresult'] == '>8') & (df['change'] == "No")
+cond4 = (df['A1Cresult'] == '>8') & (df['change'] == 'Ch')
+# %%
+
+
+
+# %%
+df.loc[cond1, 'A1Cresult'] = 'No HbA1c test performed'
+df.loc[cond2, 'A1Cresult'] = 'HbA1c in normal range'
+df.loc[cond3, 'A1Cresult'] = 'HbA1c greater than 8%, but no med change'
+df.loc[cond4, 'A1Cresult'] = 'HbA1c greater than 8%, with med change'
+# %%
