@@ -8,6 +8,11 @@ import matplotlib.pyplot as plt
 import warnings 
 warnings.filterwarnings("ignore")
 import sys 
+
+from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import train_test_split
+
+
 pd.set_option("display.max_row", 100) #add a option of pd
 pd.set_option("display.max_columns", 100) #add a option of pd
 
@@ -52,15 +57,9 @@ df = Subset_df
 df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
 df["categoricalValue"] = df["insulin"]
 df= df.reset_index()
-# %%
 
 #%%
 ColName= "insulin"
-
-df_with_id = df.reset_index()   # adds an `index` column
-train_set, test_set = split_train_test_by_id(df_with_id, 0.2, "index")
-
-from sklearn.model_selection import StratifiedShuffleSplit
 
 split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 for train_index, test_index in split.split(df, df[ColName]):
@@ -69,8 +68,6 @@ for train_index, test_index in split.split(df, df[ColName]):
 
 def Ratio_cat_proportions(data):
     return data["categoricalValue"].value_counts() / len(data)
-
-from sklearn.model_selection import train_test_split
 
 train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
 
@@ -83,6 +80,7 @@ compare_props["Rand. %error"] = 100 * compare_props["Random"] / compare_props["O
 compare_props["Strat. %error"] = 100 * compare_props["Stratified"] / compare_props["Overall"] - 100
 compare_props
 
+plt
 #%%
 display_all(df.info())
 
