@@ -206,3 +206,5 @@ print(df1["diag_2"].value_counts()["Diabetes"])
 print(df1["diag_3"].value_counts()["Diabetes"])
 
 #show
+
+#now im ppb bar branch
