@@ -201,3 +201,6 @@ plt.figure(figsize=(15,8))
 ax = sns.countplot(x='value', hue='variable', data=df_melted)
 
 #%%
+df1["diag_1"].value_counts()
+df1["diag_2"].value_counts()
+df1["diag_3"].value_counts()
