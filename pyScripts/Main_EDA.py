@@ -38,6 +38,16 @@ PathToMap = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years
 #assing df
 Maindf = pd.read_csv(PathToData)
 Mapdf = pd.read_csv(PathToMap)
+print(len(Maindf.duplicated(subset="patient_nbr", keep='first')))
+NumberOf_patient_nbr_substract= len(Maindf) - len(Maindf.drop_duplicates(subset='patient_nbr', keep="first"))
+Maindf = Maindf.drop_duplicates(subset='patient_nbr', keep="first")
+
+
+
+def drop_duplicates_fromDF(df,subset2):
+    NumberOf_patient_nbr_substract= len(df) - len(df.drop_duplicates(subset=subset2, keep="first"))
+    return (df= df.drop_duplicates(subset=subset2, keep="first"))
+
 
 #sns + plt option and settings
 sns.set_style("darkgrid")
@@ -55,11 +65,11 @@ df = Maindf
 Subset_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
 df = Subset_df
 df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
-df["categoricalValue"] = df["insulin"]
 df= df.reset_index()
 
 #%%
-ColName= "insulin"
+ColName= "readmitted"
+df["categoricalValue"] = df[ColName]
 
 split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 for train_index, test_index in split.split(df, df[ColName]):
@@ -78,9 +88,18 @@ compare_props = pd.DataFrame({
 }).sort_index()
 compare_props["Rand. %error"] = 100 * compare_props["Random"] / compare_props["Overall"] - 100
 compare_props["Strat. %error"] = 100 * compare_props["Stratified"] / compare_props["Overall"] - 100
-compare_props
+display(compare_props)
 
-plt
+f, ax = plt.subplots(figsize=(7, 5))
+sns.despine(f)
+sns.barplot(x=compare_props.index, y="Rand. %error", data=compare_props, palette='magma')
+f, ax = plt.subplots(figsize=(7, 5))
+sns.despine(f)
+sns.barplot(x=compare_props.index, y="Strat. %error", data=compare_props, palette='magma')
+
+#%%
+strat_train_set
+
 #%%
 display_all(df.info())
 
