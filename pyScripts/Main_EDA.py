@@ -54,8 +54,6 @@ def display_all(data):
         display(data)
 
 #%%
-
-#%%
 from zlib import crc32
 
 def test_set_check(identifier, test_ratio):
