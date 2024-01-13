@@ -277,9 +277,11 @@ df['change'].unique()
 
 # %%
 cond1 = df['A1Cresult'] == 'None'
-cond2 = (df['A1Cresult'] == 'Norm') | (df['A1Cresult'] == '>7')
-cond3 = (df['A1Cresult'] == '>8') & (df['change'] == "No")
-cond4 = (df['A1Cresult'] == '>8') & (df['change'] == 'Ch')
+cond2 = (df['A1Cresult'] == 'Norm')
+cond3 = (df['A1Cresult'] == '>7') & (df['change'] == "No")
+cond4 = (df['A1Cresult'] == '>7') & (df['change'] == "Ch")
+cond5 = (df['A1Cresult'] == '>8') & (df['change'] == "No")
+cond6 = (df['A1Cresult'] == '>8') & (df['change'] == "Ch")
 # %%
 
 
@@ -287,6 +289,11 @@ cond4 = (df['A1Cresult'] == '>8') & (df['change'] == 'Ch')
 # %%
 df.loc[cond1, 'A1Cresult'] = 'No HbA1c test performed'
 df.loc[cond2, 'A1Cresult'] = 'HbA1c in normal range'
-df.loc[cond3, 'A1Cresult'] = 'HbA1c greater than 8%, but no med change'
-df.loc[cond4, 'A1Cresult'] = 'HbA1c greater than 8%, with med change'
+df.loc[cond3, 'A1Cresult'] = 'HbA1c greater than 7%, but no med change'
+df.loc[cond4, 'A1Cresult'] = 'HbA1c greater than 7%, with med change'
+df.loc[cond5, 'A1Cresult'] = 'HbA1c greater than 8%, but no med change'
+df.loc[cond6, 'A1Cresult'] = 'HbA1c greater than 8%, with med change'
+# %%
+df['A1Cresult'].unique()
+
 # %%
