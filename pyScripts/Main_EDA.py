@@ -193,4 +193,32 @@ listy.append(df1["diag_3"].value_counts()["Diabetes"])
 sum(listy)
 
 #%%
+df['readmitted'].unique()
 
+#%%
+from sklearn.model_selection import train_test_split
+
+train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
+
+# %%
+fig, ax = plt.subplots(1,3,figsize = (10,8))
+
+ax[0].hist(df['insulin'])
+ax[1].hist(train_set['insulin'])
+ax[2].hist(test_set['insulin'])
+
+# %%
+def income_cat_proportions(data):
+    return data["income_cat"].value_counts() / len(data)
+
+train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
+
+compare_props = pd.DataFrame({
+    "Overall": income_cat_proportions(housing),
+    "Stratified": income_cat_proportions(strat_test_set),
+    "Random": income_cat_proportions(test_set),
+}).sort_index()
+compare_props["Rand. %error"] = 100 * compare_props["Random"] / compare_props["Overall"] - 100
+compare_props["Strat. %error"] = 100 * compare_props["Stratified"] / compare_props["Overall"] - 100
+#%%
+df
