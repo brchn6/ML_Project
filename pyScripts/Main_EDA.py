@@ -52,13 +52,29 @@ df = Maindf
 #Removing non-diabetes diagnosis should be before starting EDA
 test_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
 
+#%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # %%
 #display all data:
 def display_all(data):
     with pd.option_context("display.max_row", 100, "display.max_columns", 100):
         display(data)
 display_all(Mapdf)
-
 #%%
 display_all(df.info())
 
@@ -185,5 +201,3 @@ plt.figure(figsize=(15,8))
 ax = sns.countplot(x='value', hue='variable', data=df_melted)
 
 #%%
-
-df
