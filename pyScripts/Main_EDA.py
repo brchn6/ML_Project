@@ -38,26 +38,16 @@ PathToMap = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years
 #assing df
 Maindf = pd.read_csv(PathToData)
 Mapdf = pd.read_csv(PathToMap)
-print(len(Maindf.duplicated(subset="patient_nbr", keep='first')))
-NumberOf_patient_nbr_substract= len(Maindf) - len(Maindf.drop_duplicates(subset='patient_nbr', keep="first"))
-Maindf = Maindf.drop_duplicates(subset='patient_nbr', keep="first")
-
-
-
-def drop_duplicates_fromDF(df,subset2):
-    NumberOf_patient_nbr_substract= len(df) - len(df.drop_duplicates(subset=subset2, keep="first"))
-    return (df= df.drop_duplicates(subset=subset2, keep="first"))
-
 
 #sns + plt option and settings
 sns.set_style("darkgrid")
 plt.style.use("dark_background")
 
 #%% SeeTheData script OOP will be use in the future
-a= SeeTheData(df)
-a.Subsetting()
-# a.Display()
-a.CountPlotOfObjectColumns()
+# a= SeeTheData(df)
+# a.Subsetting()
+# # a.Display()
+# a.CountPlotOfObjectColumns()
 # a.HistPlotOfNumericColumns()
 #%%
 df = Maindf
@@ -65,8 +55,7 @@ df = Maindf
 Subset_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
 df = Subset_df
 df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
-df= df.reset_index()
-
+df= df.reset_index(drop= True)
 #%%
 ColName= "readmitted"
 df["categoricalValue"] = df[ColName]
@@ -81,6 +70,7 @@ def Ratio_cat_proportions(data):
 
 train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
 
+#%%
 compare_props = pd.DataFrame({
     "Overall": Ratio_cat_proportions(df),
     "Stratified": Ratio_cat_proportions(strat_test_set),
@@ -98,7 +88,23 @@ sns.despine(f)
 sns.barplot(x=compare_props.index, y="Strat. %error", data=compare_props, palette='magma')
 
 #%%
-strat_train_set
+def drop_duplicates_fromDF(df,subset_col):
+    NumberOf_patient_nbr_substract= len(df) - len(df.drop_duplicates(subset=subset_col, keep="first"))
+    df= df.drop_duplicates(subset=subset_col, keep="first")
+    df= df.reset_index(drop=True)
+    return df , NumberOf_patient_nbr_substract
+
+df = drop_duplicates_fromDF(strat_train_set,"patient_nbr") [0]
+
+# print(len(Maindf.duplicated(subset="patient_nbr", keep='first')))
+# NumberOf_patient_nbr_substract= len(Maindf) - len(Maindf.drop_duplicates(subset='patient_nbr', keep="first"))
+# Maindf = Maindf.drop_duplicates(subset='patient_nbr', keep="first")
+
+#%%
+#this cell is for submitting the Expired and hospice patient from df
+discharge_disposition_id_DF = Mapdf[["discharge_disposition_id", "description.1"]]
+discharge_disposition_id_DF = discharge_disposition_id_DF[discharge_disposition_id_DF['description.1'].str.contains('Hospice') | discharge_disposition_id_DF['description.1'].str.contains('Expired')]
+df = df[~df['discharge_disposition_id'].isin(discharge_disposition_id_DF ['discharge_disposition_id'])]
 
 #%%
 display_all(df.info())
