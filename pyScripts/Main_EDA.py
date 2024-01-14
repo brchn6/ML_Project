@@ -110,7 +110,6 @@ df = df.drop_duplicates(subset = 'patient_nbr', keep = 'first')
 discharge_disposition_id_DF = Mapdf[["discharge_disposition_id", "description.1"]]
 discharge_disposition_id_DF = discharge_disposition_id_DF[discharge_disposition_id_DF['description.1'].str.contains('Hospice') | discharge_disposition_id_DF['description.1'].str.contains('Expired')]
 df = df[~df['discharge_disposition_id'].isin(discharge_disposition_id_DF ['discharge_disposition_id'])]
-
 #%%
 display_all(df.info())
 
