@@ -54,6 +54,9 @@ df = Maindf
 #Removing non-diabetes diagnosis should be before starting EDA
 Subset_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
 df = Subset_df
+
+#%%
+
 df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
 df= df.reset_index(drop= True)
 #%%
@@ -88,13 +91,15 @@ sns.despine(f)
 sns.barplot(x=compare_props.index, y="Strat. %error", data=compare_props, palette='magma')
 
 #%%
-def drop_duplicates_fromDF(df,subset_col):
-    NumberOf_patient_nbr_substract= len(df) - len(df.drop_duplicates(subset=subset_col, keep="first"))
-    df= df.drop_duplicates(subset=subset_col, keep="first")
-    df= df.reset_index(drop=True)
-    return df , NumberOf_patient_nbr_substract
+#def drop_duplicates_fromDF(df,subset_col):
+#    NumberOf_patient_nbr_substract= len(df) - len(df.drop_duplicates(subset=subset_col, keep="first"))
+#    df= df.drop_duplicates(subset=subset_col, keep="first")
+#    df= df.reset_index(drop=True)
+#    return df , NumberOf_patient_nbr_substract
 
-df = drop_duplicates_fromDF(strat_train_set,"patient_nbr") [0]
+#df = drop_duplicates_fromDF(strat_train_set,"patient_nbr") [0]
+df[df['patient_nbr'].duplicated()].shape
+df = df.drop_duplicates(subset = 'patient_nbr', keep = 'first')
 
 # print(len(Maindf.duplicated(subset="patient_nbr", keep='first')))
 # NumberOf_patient_nbr_substract= len(Maindf) - len(Maindf.drop_duplicates(subset='patient_nbr', keep="first"))
@@ -145,14 +150,21 @@ df = df.drop(['weight', 'medical_specialty', 'payer_code'], axis=1)
 #Checking for columns with just one kind of values,
 #can adjust for more values (change the 2 in range function)
 unique_dict = {}
+col_list = []
 for col in df.columns:
     if np.dtype(df[col]) == 'object':
         for i in range(1,2):
             vals = pd.unique(df[col])
             unique_dict[col] = vals
             if len(vals) <= i :
+                col_list.append(col)
                 print(f'column {col} has {i} unique values', unique_dict[col])
                 break
+
+#%%
+
+#Dropping cols with 1 kind of value:
+df = df.drop(col_list, axis = 1)
 #%%
 columns_to_plot = ['admission_type_id', 'discharge_disposition_id', 'admission_source_id']
 
@@ -174,8 +186,8 @@ plt.show()
 #Cleaning IDS_mapping variables:
 #These columns have a lot many NA data if different values:
 df['admission_type_id'] = df['admission_type_id'].replace([8,6],5)
-df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([11,18,26],25)
-df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([21,20,17,15],9)
+df['discharge_disposition_id'] = df['discharge_disposition_id'].replace([18,26],25)
+df['admission_source_id'] = df['admission_source_id'].replace([21,20,17,15],9)
 
 # %%
 #Grouping diseases by the ID:
@@ -225,50 +237,21 @@ for col in diag_columns:
 
 #%%
 
-df_melted = pd.melt(df1.loc[:,'diag_1':'diag_3'])
+df_melted = pd.melt(df.loc[:,'diag_1':'diag_3'])
 plt.figure(figsize=(15,8))
 
 ax = sns.countplot(x='value', hue='variable', data=df_melted)
 
 #%%
 listy= []
-listy.append(df1["diag_1"].value_counts()["Diabetes"])
-listy.append(df1["diag_2"].value_counts()["Diabetes"])
-listy.append(df1["diag_3"].value_counts()["Diabetes"])
+listy.append(df["diag_1"].value_counts()["Diabetes"])
+listy.append(df["diag_2"].value_counts()["Diabetes"])
+listy.append(df["diag_3"].value_counts()["Diabetes"])
 
 sum(listy)
 
 #%%
-df['readmitted'].unique()
-
-#%%
-from sklearn.model_selection import train_test_split
-
-train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
-
-# %%
-fig, ax = plt.subplots(1,3,figsize = (10,8))
-
-ax[0].hist(df['insulin'])
-ax[1].hist(train_set['insulin'])
-ax[2].hist(test_set['insulin'])
-
-# %%
-def income_cat_proportions(data):
-    return data["income_cat"].value_counts() / len(data)
-
-train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
-
-compare_props = pd.DataFrame({
-    "Overall": income_cat_proportions(housing),
-    "Stratified": income_cat_proportions(strat_test_set),
-    "Random": income_cat_proportions(test_set),
-}).sort_index()
-compare_props["Rand. %error"] = 100 * compare_props["Random"] / compare_props["Overall"] - 100
-compare_props["Strat. %error"] = 100 * compare_props["Stratified"] / compare_props["Overall"] - 100
-#%%
 df['A1Cresult'].unique()
-
 
 ##We considered four groups of encounters: (1) no HbA1c
 #est performed, (2) HbA1c performed and in normal range,
@@ -277,10 +260,6 @@ df['A1Cresult'].unique()
 #performed, result is greater than 8%, and diabetic medication
 ##was changed.
 
-df.columns
-df['change'].unique()
-
-
 # %%
 cond1 = df['A1Cresult'] == 'None'
 cond2 = (df['A1Cresult'] == 'Norm')
@@ -288,9 +267,6 @@ cond3 = (df['A1Cresult'] == '>7') & (df['change'] == "No")
 cond4 = (df['A1Cresult'] == '>7') & (df['change'] == "Ch")
 cond5 = (df['A1Cresult'] == '>8') & (df['change'] == "No")
 cond6 = (df['A1Cresult'] == '>8') & (df['change'] == "Ch")
-# %%
-
-
 
 # %%
 df.loc[cond1, 'A1Cresult'] = 'No HbA1c test performed'
@@ -302,4 +278,4 @@ df.loc[cond6, 'A1Cresult'] = 'HbA1c greater than 8%, with med change'
 # %%
 df['A1Cresult'].unique()
 
-# %%
+
