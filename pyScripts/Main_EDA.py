@@ -27,6 +27,7 @@ path_to_add = "/c/Users/barc/Dropbox (Weizmann Institute)/MSc_Weizmann/FGS_ML/ML
 # Add the path to sys.path if it's not already there
 if path_to_add not in sys.path:
     sys.path.append(path_to_add)
+#add classes files from this dir 
 from SeeTheData import SeeTheData
 
 #%% importing data
