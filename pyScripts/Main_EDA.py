@@ -22,11 +22,11 @@ def display_all(data):
         display(data)
 #%%
 # Define the path you want to add
-path_to_add = "/c/Users/barc/Dropbox (Weizmann Institute)/MSc_Weizmann/FGS_ML/ML_Project/pyScripts/"
+GETCWD = os.getcwd()
 
 # Add the path to sys.path if it's not already there
-if path_to_add not in sys.path:
-    sys.path.append(path_to_add)
+if GETCWD not in sys.path:
+    sys.path.append(GETCWD)
 #add classes files from this dir 
 from SeeTheData import SeeTheData
 
@@ -92,15 +92,15 @@ sns.despine(f)
 sns.barplot(x=compare_props.index, y="Strat. %error", data=compare_props, palette='magma')
 
 #%%
-#def drop_duplicates_fromDF(df,subset_col):
-#    NumberOf_patient_nbr_substract= len(df) - len(df.drop_duplicates(subset=subset_col, keep="first"))
-#    df= df.drop_duplicates(subset=subset_col, keep="first")
-#    df= df.reset_index(drop=True)
-#    return df , NumberOf_patient_nbr_substract
+def drop_duplicates_fromDF(df,subset_col):
+   NumberOf_patient_nbr_substract= df.shape[0] - df.drop_duplicates(subset=subset_col, keep="first").shape[0]
+   df= df.drop_duplicates(subset=subset_col, keep="first")
+   df= df.reset_index(drop=True)
+   return df , NumberOf_patient_nbr_substract
 
-#df = drop_duplicates_fromDF(strat_train_set,"patient_nbr") [0]
-df[df['patient_nbr'].duplicated()].shape
-df = df.drop_duplicates(subset = 'patient_nbr', keep = 'first')
+drop_duplicates_fromDF(strat_train_set,"patient_nbr") [0]
+# df[df['patient_nbr'].duplicated()].shape
+# df = df.drop_duplicates(subset = 'patient_nbr', keep = 'first')
 
 # print(len(Maindf.duplicated(subset="patient_nbr", keep='first')))
 # NumberOf_patient_nbr_substract= len(Maindf) - len(Maindf.drop_duplicates(subset='patient_nbr', keep="first"))
