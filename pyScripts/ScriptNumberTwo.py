@@ -36,5 +36,32 @@ train_set = drop_duplicates_fromDF(train_set,"patient_nbr") [0]
 #it was >>> [25727 rows x 51 columns]
 discharge_disposition_id_DF = Mapdf[["discharge_disposition_id", "description.1"]]
 discharge_disposition_id_DF = discharge_disposition_id_DF[discharge_disposition_id_DF['description.1'].str.contains('Hospice') | discharge_disposition_id_DF['description.1'].str.contains('Expired')]
-train_set[~train_set['discharge_disposition_id'].isin(discharge_disposition_id_DF ['discharge_disposition_id'])]
+train_set = train_set[~train_set['discharge_disposition_id'].isin(discharge_disposition_id_DF ['discharge_disposition_id'])]
 ################################################################################################################################################################
+#Dropping columns with ALOT of missing values: base on the EDA 
+# [25727 rows x 48 columns]
+train_set = train_set.drop(['weight', 'medical_specialty', 'payer_code'], axis=1)
+################################################################################################################################################################
+#Checking for columns with just one kind of values,
+#can adjust for more values (change the 2 in range function)
+# [25468 rows x 43 columns]
+# we drop ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone'] from 
+# the train 
+def some (df):
+    unique_dict = {}
+    col_list = []
+    for col in df.columns:
+        if np.dtype(df[col]) == 'object':
+            for i in range(1,2):
+                vals = pd.unique(df[col])
+                unique_dict[col] = vals
+                if len(vals) <= i :
+                    col_list.append(col)
+                    # print(f'column {col} has {i} unique values', unique_dict[col])
+                    break
+    return (col_list)
+
+#Dropping cols with 1 kind of value:
+train_set.drop(some(train_set), axis = 1)
+################################################################################################################################################################
+
