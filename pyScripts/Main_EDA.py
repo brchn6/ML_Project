@@ -28,7 +28,7 @@ GETCWD = os.getcwd()
 if GETCWD not in sys.path:
     sys.path.append(GETCWD)
 #add classes files from this dir 
-from SeeTheData import SeeTheData
+from pyScripts.classes.SeeTheData import SeeTheData
 
 #%% importing data
 #path to data file
