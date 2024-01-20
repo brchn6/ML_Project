@@ -66,11 +66,12 @@ def some (df):
 train_set = train_set.drop(some(train_set), axis = 1)
 ################################################################################################################################################################
 #Grouping diseases by the ID:
-diseases = ['Circulatory', 'Respiratory', 'Digestive', 'Diabetes', 'Injury', 'Musculoskeletal', 'Genitourinary', 'Neoplasms', 'Other']
+poooodiseases = ['Circulatory', 'Respiratory', 'Digestive', 'Diabetes','Diabetes Uncontrolled', 'Injury', 'Musculoskeletal', 'Genitourinary', 'Neoplasms', 'Other']
 ids = ids = [
     (list(range(390, 460)) + [785]),
     (list(range(460, 520)) + [786]),
     (list(range(520, 580)) + [787]),
+    ([250.00, 250.01]),
     np.round(np.arange(250.02, 251.00, 0.01), 2).tolist(),
     (list(range(800, 1000))),
     (list(range(710, 740))),
@@ -90,7 +91,10 @@ ids = ids = [
     list(range(1,140)))
 ]
 diag_columns = ['diag_1', 'diag_2', 'diag_3']
-            
+
+len(ids)
+len(diseases)
+
 # Function to convert values in the 'Value' column based on the ranges
 def convert_values(value):
     if value == '?':
@@ -98,7 +102,7 @@ def convert_values(value):
     try:
         numeric_value = float(value)
     except ValueError:
-        return diseases[8]  # Skip non-numeric values
+        return diseases[9]  # Skip non-numeric values
 
     for id, disease in zip(ids, diseases):
         if numeric_value in id:
@@ -114,4 +118,4 @@ plt.figure(figsize=(15,8))
 ax = sns.countplot(x='value', hue='variable', data=train_set_melted)
 plt.show()
 
-
+train_set["diag_1"].unique()
