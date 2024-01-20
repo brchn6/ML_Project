@@ -65,6 +65,3 @@ for train_index, test_index in split.split(df, df[ColName]):
 def Ratio_cat_proportions(data):
     return data["categoricalValue"].value_counts() / len(data)
 ################################################################################################################################################################
-#out sourcing the train set:
-def pullDF ():
-    return(strat_train_set)
