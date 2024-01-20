@@ -28,14 +28,12 @@ GETCWD = os.getcwd()
 if GETCWD not in sys.path:
     sys.path.append(GETCWD)
 #add classes files from this dir 
-from pyScripts.classes.SeeTheData import SeeTheData
 
 #%% importing data
 #path to data file
 GETCWD = os.getcwd()
-PathToData = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years+1999-2008/diabetic_data.csv" )
-PathToMap = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years+1999-2008/IDS_mapping.csv")
-
+PathToData = os.path.join(GETCWD + "\\data/diabetic_data.csv" )
+PathToMap = os.path.join(GETCWD + "\\data/IDS_mapping.csv" )
 #assing df
 Maindf = pd.read_csv(PathToData)
 Mapdf = pd.read_csv(PathToMap)
