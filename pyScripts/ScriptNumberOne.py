@@ -32,16 +32,8 @@ if GETCWD not in sys.path:
 ################################################################################################################################################################ importing data
 #path to data file
 GETCWD = os.getcwd()
-PathToData = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years+1999-2008/diabetic_data.csv" )
-PathToMap = os.path.join(GETCWD + "/.." + "\\diabetes+130-us+hospitals+for+years+1999-2008/IDS_mapping.csv")
-PathToMap = os.path.join(GETCWD + ".." + "diabetes+130-us+hospitals+for+years+1999-2008/IDS_mapping.csv")
-PathToData = os.path.join(GETCWD, "..", "diabetes+130-us+hospitals+for+years+1999-2008", "diabetic_data.csv")
-
-cwd = os.getcwd()
-PathToData = os.path.join(cwd, relative_path)
-Maindf = pd.read_csv(PathToData)
-
-
+PathToData = os.path.join(GETCWD + "\\data/diabetic_data.csv" )
+PathToMap = os.path.join(GETCWD + "\\data/IDS_mapping.csv" )
 
 
 #assing df
@@ -67,9 +59,12 @@ df["categoricalValue"] = df[ColName]
 
 split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 for train_index, test_index in split.split(df, df[ColName]):
-    strat_train_set = df.loc[train_index]
-    strat_test_set = df.loc[test_index]
+    train_set = df.loc[train_index]
+    test_set = df.loc[test_index]
 
 def Ratio_cat_proportions(data):
     return data["categoricalValue"].value_counts() / len(data)
-
+################################################################################################################################################################
+#out sourcing the train set:
+def pullDF ():
+    return(strat_train_set)
