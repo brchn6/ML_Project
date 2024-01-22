@@ -18,6 +18,7 @@ if GETCWD not in sys.path:
 pd.set_option("display.max_row", 100) #add a option of pd
 pd.set_option("display.max_columns", 100) #add a option of pd
 
+#importnig the trainDS from script number 1
 from ScriptNumberOne import train_set
 from ScriptNumberOne import Mapdf
 
