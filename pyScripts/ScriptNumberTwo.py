@@ -74,8 +74,6 @@ train_set = train_set.drop(some(train_set), axis = 1)
 
 readmitted_labels = train_set['readmitted'].copy()
 train_set = train_set.drop('readmitted', axis=1) # drop labels for training set
-
-
 ################################################################################################################################################################
 #Grouping diseases by the ID:
 diseases = ['Circulatory', 'Respiratory', 'Digestive', 'Diabetes','Diabetes Uncontrolled', 'Injury', 'Musculoskeletal', 'Genitourinary', 'Neoplasms', 'Other']
@@ -105,6 +103,8 @@ ids = ids = [
 diag_columns = ['diag_1', 'diag_2', 'diag_3']
 ################################################################################################################################################################
 #%%
+# here guy took all the "diag" columns, tranformd it into catagorical values
+# 
 # Function to convert values in the 'Value' column based on the ranges
 def convert_values(value):
     if value == '?' or value == '789':
@@ -119,7 +119,7 @@ def convert_values(value):
             return disease  # Replace with the string of your choosing
     return value
 
-################################################################################################################################################################
+#ittarate ober the diag colums
 for col in diag_columns:
     train_set[col] = train_set[col].apply(convert_values)
 
