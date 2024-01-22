@@ -32,8 +32,8 @@ if GETCWD not in sys.path:
 ################################################################################################################################################################ importing data
 #path to data file
 GETCWD = os.getcwd()
-PathToData = os.path.join(GETCWD + "\\data/diabetic_data.csv" )
-PathToMap = os.path.join(GETCWD + "\\data/IDS_mapping.csv" )
+PathToData = os.path.join(GETCWD + "\..\data/diabetic_data.csv" )
+PathToMap = os.path.join(GETCWD + "\..\data/IDS_mapping.csv" )
 
 
 #assing df
