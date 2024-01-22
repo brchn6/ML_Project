@@ -14,7 +14,7 @@ import sys
 if GETCWD not in sys.path:
     sys.path.append(os.path.join(GETCWD, "FGS_ML/ML_Project/pyScripts"))
 
-
+# /home/labs/cssagi/barc/FGS_ML/ML_Project/data/diabetic_data.csv
 pd.set_option("display.max_row", 100) #add a option of pd
 pd.set_option("display.max_columns", 100) #add a option of pd
 
