@@ -11,7 +11,7 @@ import sys
 
 # Add the path to sys.path if it's not already there
 if GETCWD not in sys.path:
-    sys.path.append(os.path.join(GETCWD, "pyScripts"))
+    sys.path.append(os.path.join(GETCWD, "FGS_ML/ML_Project/pyScripts"))
 
 
 pd.set_option("display.max_row", 100) #add a option of pd
