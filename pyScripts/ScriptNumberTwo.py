@@ -1,5 +1,6 @@
 #Imports
 #%%
+#%%
 import pandas as pd
 import numpy as np
 import os
@@ -68,15 +69,6 @@ def some (df):
 #Dropping cols with 1 kind of value:
 train_set = train_set.drop(some(train_set), axis = 1)
 ################################################################################################################################################################
-#Splitting label from data:
-#This is the last drop of rows from our dataframe
-#Now we can split the label from the data and create a copy:
-
-readmitted_labels = train_set['readmitted'].copy()
-train_set = train_set.drop('readmitted', axis=1) # drop labels for training set
-
-
-################################################################################################################################################################
 #Grouping diseases by the ID:
 diseases = ['Circulatory', 'Respiratory', 'Digestive', 'Diabetes','Diabetes Uncontrolled', 'Injury', 'Musculoskeletal', 'Genitourinary', 'Neoplasms', 'Other']
 ids = ids = [
@@ -103,8 +95,10 @@ ids = ids = [
     list(range(1,140)))
 ]
 diag_columns = ['diag_1', 'diag_2', 'diag_3']
-################################################################################################################################################################
-#%%
+
+len(ids)
+len(diseases)
+
 # Function to convert values in the 'Value' column based on the ranges
 def convert_values(value):
     if value == '?' or value == '789':
@@ -119,7 +113,6 @@ def convert_values(value):
             return disease  # Replace with the string of your choosing
     return value
 
-################################################################################################################################################################
 for col in diag_columns:
     train_set[col] = train_set[col].apply(convert_values)
 
