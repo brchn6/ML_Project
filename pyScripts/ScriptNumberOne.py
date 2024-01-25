@@ -1,4 +1,4 @@
-#Imports
+#%%#Imports
 import pandas as pd
 import numpy as np
 import os
@@ -32,8 +32,8 @@ if GETCWD not in sys.path:
 ################################################################################################################################################################ importing data
 #path to data file
 GETCWD = os.getcwd()
-PathToData = os.path.join(GETCWD + "\\data/diabetic_data.csv" )
-PathToMap = os.path.join(GETCWD + "\\data/IDS_mapping.csv" )
+PathToData = os.path.join(GETCWD + "/FGS_ML/ML_Project/data/diabetic_data.csv" )
+PathToMap = os.path.join(GETCWD + "/../data/IDS_mapping.csv" )
 
 
 #assing df
@@ -65,3 +65,5 @@ for train_index, test_index in split.split(df, df[ColName]):
 def Ratio_cat_proportions(data):
     return data["categoricalValue"].value_counts() / len(data)
 ################################################################################################################################################################
+train_set.to_csv("/home/labs/cssagi/barc/FGS_ML/ML_Project/data/train_set.csv")
+train_set.to_csv(path_or_buf=None
