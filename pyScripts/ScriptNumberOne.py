@@ -32,7 +32,7 @@ if GETCWD not in sys.path:
 ################################################################################################################################################################ importing data
 #path to data file
 GETCWD = os.getcwd()
-PathToData = os.path.join(GETCWD + "/FGS_ML/ML_Project/data/diabetic_data.csv" )
+PathToData = os.path.join(GETCWD + "/../data/diabetic_data.csv" )
 PathToMap = os.path.join(GETCWD + "/../data/IDS_mapping.csv" )
 
 
@@ -55,7 +55,6 @@ df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
 df= df.reset_index(drop= True)
 ################################################################################################################################################################
 ColName= "readmitted"
-df["categoricalValue"] = df[ColName]
 
 split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 for train_index, test_index in split.split(df, df[ColName]):
@@ -65,5 +64,7 @@ for train_index, test_index in split.split(df, df[ColName]):
 def Ratio_cat_proportions(data):
     return data["categoricalValue"].value_counts() / len(data)
 ################################################################################################################################################################
-train_set.to_csv("/home/labs/cssagi/barc/FGS_ML/ML_Project/data/train_set.csv")
-train_set.to_csv(path_or_buf=None
+train_set.to_csv(os.getcwd() + "/../data/train_set_test.csv", index=False)
+train_set.to_csv(path_or_buf=None)
+
+# %%
