@@ -5,8 +5,7 @@ this script is for the first step in the project
 3- Saving the train set into a csv file
 """
 
-#%%
-#Imports
+#1%%#Imports
 import pandas as pd
 import numpy as np
 import os
@@ -78,6 +77,6 @@ def Ratio_cat_proportions(data):
 ################################################################################################################################################################
 #if we run this line : the train set will be difffrent from the one in the main file
 # train_set.to_csv(os.getcwd() + "/../data/train_set_test.csv", index=False)
-train_set.to_csv(path_or_buf=None)
+# train_set.to_csv(path_or_buf=None)
 
 # %%
