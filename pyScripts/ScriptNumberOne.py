@@ -1,3 +1,10 @@
+"""
+this script is for the first step in the project
+1- Importing the data
+2- Splitting the data into train and test set with the help of StratifiedShuffleSplit
+3- Saving the train set into a csv file
+"""
+
 #%%#Imports
 import pandas as pd
 import numpy as np
@@ -7,7 +14,7 @@ import matplotlib.pyplot as plt
 import warnings 
 warnings.filterwarnings("ignore")
 import sys 
-#%%
+
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import train_test_split
 
@@ -65,7 +72,8 @@ for train_index, test_index in split.split(df, df[ColName]):
 def Ratio_cat_proportions(data):
     return data["categoricalValue"].value_counts() / len(data)
 ################################################################################################################################################################
-train_set.to_csv(os.getcwd() + "/../data/train_set_test.csv", index=False)
+#if we run this line : the train set will be difffrent from the one in the main file
+# train_set.to_csv(os.getcwd() + "/../data/train_set_test.csv", index=False)
 train_set.to_csv(path_or_buf=None)
 
 # %%
