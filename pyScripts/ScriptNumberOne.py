@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import warnings 
 warnings.filterwarnings("ignore")
 import sys 
-
+#%%
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import train_test_split
 
@@ -21,6 +21,7 @@ def display_all(data):
         display(data)
 ################################################################################################################################################################
 # Define the path you want to add
+# if your pwd in located at pyscripts this foll 
 GETCWD = os.getcwd()
 
 # Add the path to sys.path if it's not already there
