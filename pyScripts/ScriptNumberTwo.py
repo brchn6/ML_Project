@@ -247,6 +247,10 @@ def numDiag(value):
     else:
         return '>=9'
 
-train_set['number_diagnoses'] = train_set['number_diagnoses'].apply(numDiag)     
+train_set['number_diagnoses'] = train_set['number_diagnoses'].apply(numDiag)   
+
+def to_categorical(data):
+    object_columns = data.select_dtypes(include=['object']).columns
+    data[object_columns] = data[object_columns].astype('category')  
 
 # %%
