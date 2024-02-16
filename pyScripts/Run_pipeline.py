@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 
-from pipelineObject import *
+from PipeLineObject import *
 
 initial_pipeline = Pipeline([
         ('dropdup', DropDup(dropdup_col)),
