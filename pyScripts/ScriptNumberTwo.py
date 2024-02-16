@@ -13,8 +13,12 @@ warnings.filterwarnings("ignore")
 # Get the current working directory
 GETCWD = os.getcwd()
 
+#logistic Q to see where i am:
+if GETCWD == "/home/labs/cssagi/barc/FGS_ML/ML_Project":
+    path_to_add = os.path.join(GETCWD, "pyScripts")
+else:
 # Define the path to be added to sys.path
-path_to_add = os.path.join(GETCWD, "FGS_ML", "ML_Project", "pyScripts")
+    path_to_add = os.path.join(GETCWD, "FGS_ML", "ML_Project", "pyScripts")
 
 # Check if the path is already in sys.path
 if path_to_add not in sys.path:
@@ -33,7 +37,6 @@ pd.set_option("display.max_columns", 100) #add a option of pd
 #importnig the trainDS from script number 1
 from ScriptNumberOne import train_set
 from ScriptNumberOne import Mapdf
-
 
 ################################################################################################################################################################
 def drop_duplicates_fromDF(df,subset_col):
