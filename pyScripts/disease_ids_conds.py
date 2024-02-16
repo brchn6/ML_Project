@@ -33,7 +33,7 @@ ids = [
     list(range(740, 760)) +
     list(range(1,140)))]
 
-cond1 = train_set['A1Cresult'] == 'None'
+cond1 = train_set['A1Cresult'] == 'NaN'
 cond2 = (train_set['A1Cresult'] == 'Norm')
 cond4 = (train_set['A1Cresult'] == '>7') & (train_set['change'] == "Ch")
 cond3 = (train_set['A1Cresult'] == '>7') & (train_set['change'] == "No")

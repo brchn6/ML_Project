@@ -24,6 +24,10 @@ from ScriptNumberOne import Mapdf
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 4)
 
+#%%
+train_set_mod = train_set.copy()
+train_set_mod['A1Cresult'].value_counts()
+#%%
 
 ############################################################################
 #make a copy of the trainDS
@@ -62,7 +66,6 @@ class DropColumns(BaseEstimator, TransformerMixin):
         return X_transformed
 
 
-
 # DiseaseConverter
 class DiseaseConverter(BaseEstimator, TransformerMixin):
     def __init__(self):
@@ -90,9 +93,7 @@ class DiseaseConverter(BaseEstimator, TransformerMixin):
         X_transformed = X.copy()
         for col in diag_columns:
             X_transformed[col] = X_transformed[col].apply(self.convert_disease)
-        return X_transformed
-
-
+        return X_transformed\
 
 #IDS transformer
 class IDSTransformer(BaseEstimator, TransformerMixin):
@@ -150,70 +151,42 @@ class CustomTransformer(BaseEstimator, TransformerMixin):
     
 
 #%%
+train_set_mod = train_set.copy()
 dropdup_col = "patient_nbr"
+columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone']
+
+print(train_set_mod)
 dup_dropper = DropDup(dropdup_col)
-df_dropdup = dup_dropper.transform(train_set_mod)
-
-# Test DropColumns:
-# Create an instance of the DropColumns transformer, specifying columns to drop
-# Dropping columns found with large amount of missing values or one unique value
-# Dropping patient number column - uninformative
-# Should be explained in the EDA
-
-columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone']
+train_set_mod = dup_dropper.fit_transform(train_set_mod)
+print(train_set_mod)
 column_dropper = DropColumns(columns_to_drop)
-
-# Transform the DataFrame using the custom transformer
-df_dropped = column_dropper.transform(df_dropdup)
-
-#Label column should be dropped after ther dimensions of the df is set.
-
-
-
-# Test DiseaseConverter:
-# Create an instance of the DiseaseConverter transformer
+train_set_mod = column_dropper.fit_transform(train_set_mod)
+print(train_set_mod)
 converter = DiseaseConverter()
-
-# Transform the DataFrame using the custom transformer
-df_transformed = converter.transform(df_dropped)
-
-
-
-
+train_set_mod = converter.fit_transform(train_set_mod)
+print(train_set_mod)
 ids_change = IDSTransformer()
-
-df_ids = ids_change.transform(df_transformed)
-
-    
+train_set_mod = ids_change.fit_transform(train_set_mod)
+print(train_set_mod)
 a1c_change = A1CTransformer()
-#%#
-
-df_a1c = a1c_change.transform(df_ids)
-df_a1c
-
-
-# Create an instance of the CustomTransformer with the functions dictionary
-custom_transformer = CustomTransformer(functions)
-
-# Apply the transformer to the DataFrame
-df_regroup = custom_transformer.transform(df_a1c)
-
-
-
+train_set_mod = a1c_change.fit_transform(train_set_mod)
+print(train_set_mod)
 #%%
-dropdup_col = "patient_nbr"
-columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone']
+custom_transformer = CustomTransformer(functions)
+train_set_mod = custom_transformer.fit_transform(train_set_mod)
+print(train_set_mod)
+#%%
+
+
+
 
 ##debuging the pipeline
-
 initial_pipeline = Pipeline([
         ('dropdup', DropDup(dropdup_col)),
         ('dropcols', DropColumns(columns_to_drop)),
-
         ('convertdisease', DiseaseConverter()),
         ('idstransform', IDSTransformer()),
         ('a1ctransform',A1CTransformer()),
         ('customcols', CustomTransformer(functions)),
     ])
-diabetes_test = initial_pipeline.fit_transform(train_set_mod)
 
