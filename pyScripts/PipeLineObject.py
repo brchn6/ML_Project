@@ -20,6 +20,11 @@ from ScriptNumberOne import train_set
 from ScriptNumberOne import Mapdf
 
 
+#setting up display style
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', 4)
+
+
 ############################################################################
 #make a copy of the trainDS
 train_set_mod = train_set.copy()
@@ -128,7 +133,7 @@ class A1CTransformer(TransformerMixin):
         X_transformed.loc[cond6, 'A1Cresult'] = 'HbA1c greater than 8%, with med change'
         return X_transformed
 
-
+    
 #Genral colomn regrouping:
 class CustomTransformer(BaseEstimator, TransformerMixin):
     def __init__(self, functions):
@@ -142,8 +147,7 @@ class CustomTransformer(BaseEstimator, TransformerMixin):
         for col, func in self.functions.items():
             X_transformed[col] = X_transformed[col].apply(func)
         return X_transformed
-
-
+    
 
 #%%
 dropdup_col = "patient_nbr"
@@ -189,15 +193,19 @@ df_a1c
 
 
 # Create an instance of the CustomTransformer with the functions dictionary
-#custom_transformer = CustomTransformer(functions)
+custom_transformer = CustomTransformer(functions)
 
 # Apply the transformer to the DataFrame
-# df_regroup = custom_transformer.transform(df_a1c)
+df_regroup = custom_transformer.transform(df_a1c)
 
+
+
+#%%
 dropdup_col = "patient_nbr"
-
+columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone']
 
 ##debuging the pipeline
+
 initial_pipeline = Pipeline([
         ('dropdup', DropDup(dropdup_col)),
         ('dropcols', DropColumns(columns_to_drop)),
