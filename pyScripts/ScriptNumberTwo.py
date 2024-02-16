@@ -1,19 +1,30 @@
+#%%
 #Imports
-#%%
-#%%
 import pandas as pd
 import numpy as np
 import os
 import seaborn as sns
 import matplotlib.pyplot as plt
 import warnings 
-warnings.filterwarnings("ignore")
-GETCWD = os.getcwd()
 import sys 
+warnings.filterwarnings("ignore")
 
-# Add the path to sys.path if it's not already there
-if GETCWD not in sys.path:
-    sys.path.append(os.path.join(GETCWD, "FGS_ML/ML_Project/pyScripts"))
+
+# Get the current working directory
+GETCWD = os.getcwd()
+
+# Define the path to be added to sys.path
+path_to_add = os.path.join(GETCWD, "FGS_ML", "ML_Project", "pyScripts")
+
+# Check if the path is already in sys.path
+if path_to_add not in sys.path:
+    # Add the path to sys.path
+    sys.path.append(path_to_add)
+
+# Check if the path is now in sys.path
+result = path_to_add in sys.path
+# print(result)
+
 
 # /home/labs/cssagi/barc/FGS_ML/ML_Project/data/diabetic_data.csv
 pd.set_option("display.max_row", 100) #add a option of pd
@@ -22,6 +33,7 @@ pd.set_option("display.max_columns", 100) #add a option of pd
 #importnig the trainDS from script number 1
 from ScriptNumberOne import train_set
 from ScriptNumberOne import Mapdf
+
 
 ################################################################################################################################################################
 def drop_duplicates_fromDF(df,subset_col):
@@ -117,12 +129,27 @@ for col in diag_columns:
     train_set[col] = train_set[col].apply(convert_values)
 
 train_set_melted = pd.melt(train_set.loc[:,'diag_1':'diag_3'])
-plt.figure(figsize=(15,8))
 
-ax = sns.countplot(x='value', hue='variable', data=train_set_melted)
-plt.show()
+def plot_diag(train_set_melted):
+    plt.figure(figsize=(15,8))
+    ax = sns.countplot(x='value', hue='variable', data=train_set_melted)
+    print(train_set["diag_1"].unique())
+    plt.show()
 
-train_set["diag_1"].unique()
+
+#if you want to see the plot just remove the comment "#" from the second next line
+def main():
+    # plot_diag(train_set_melted)
+    return()
+
+if __name__ == "__main__":
+    main()
+
+
+# all the cell above is to group the diseases by the ID
+# print(train_set["diag_1"].unique()) bar plot of the diseases
+################################################################################################################################################################
+#this upcoming cell is to group the diseases by the ID
 
 #Ended up with 10 categories for each diag column,
 #Diabetes is plitted to uncontrolled dibetes and diabetes
@@ -130,6 +157,8 @@ train_set["diag_1"].unique()
 # %%
 #Creating 6 features for A1Cresult column which describes the results of the HbA1c test
 #if one was done on the patient.
+
+#create 6 conditions for the 6 new values
 cond1 = train_set['A1Cresult'] == 'None'
 cond2 = (train_set['A1Cresult'] == 'Norm')
 cond4 = (train_set['A1Cresult'] == '>7') & (train_set['change'] == "Ch")
@@ -137,7 +166,7 @@ cond3 = (train_set['A1Cresult'] == '>7') & (train_set['change'] == "No")
 cond5 = (train_set['A1Cresult'] == '>8') & (train_set['change'] == "No")
 cond6 = (train_set['A1Cresult'] == '>8') & (train_set['change'] == "Ch")
 
-# %%
+#assing the new values to the conditions
 train_set.loc[cond1, 'A1Cresult'] = 'No HbA1c test performed'
 train_set.loc[cond2, 'A1Cresult'] = 'HbA1c in normal range'
 train_set.loc[cond3, 'A1Cresult'] = 'HbA1c greater than 7%, but no med change'
@@ -145,30 +174,33 @@ train_set.loc[cond4, 'A1Cresult'] = 'HbA1c greater than 7%, with med change'
 train_set.loc[cond5, 'A1Cresult'] = 'HbA1c greater than 8%, but no med change'
 train_set.loc[cond6, 'A1Cresult'] = 'HbA1c greater than 8%, with med change'
 ################################################################################################################################################################
-# %%
+
+#this upcoming cell is to make cataegorical values to numerical values (but there are still categorical)
+
 #Regrouping columns from Mapdf:
 train_set['admission_type_id'] = train_set['admission_type_id'].replace([8,6],5).replace([7],6)
-
 train_set['discharge_disposition_id'] = train_set['discharge_disposition_id'].replace([list(range(3,6)) + [10,15,9,23,24,22]+ list(range(27,31))],2).replace([6,8],3).replace(7,4).replace(12,5).replace([16,17],6).replace([25,26,18],7)
+train_set['admission_source_id'] = train_set['admission_source_id'].replace([2,3],1).replace([25,22,18,19,10,5,6,7,4],2).replace(8,3).replace([19,20,17,15,9],4).replace([23,24,11,12,13,14],5)    
 
-train_set['admission_source_id'] = train_set['admission_source_id'].replace([2,3],1).replace([25,22,18,19,10,5,6,7,4],2).replace(8,3).replace([19,20,17,15,9],4).replace([23,24,11,12,13,14],5)
-
-# %%
 #Regrouping Age column:
 train_set['age'] = train_set['age'].replace(['[0-10)'],1).replace(['[10-20)'],2).replace(['[20-30)','[30-40)','[40-50)','[50-60)','[60-70)'],3).replace(['[70-80)','[80-90)','[90-100)'],4)
-# %%
+
 ################################################################################################################################################################
-#Convering continious values to categorial: 
+# %%
+#Covering continuous values to categorical: 
 def replaceNumEmergency(value):
-    if value == 0:
+    if value == "0":
         return str(value)
-    elif (value > 0) & (value < 5):
-        return '<5'
+    elif value == "<5": 
+        return '1-5'
     else:
         return '>=5'
-
+    
 train_set['number_emergency'] = train_set['number_emergency'].apply(replaceNumEmergency)
 
+
+
+#%%
 def timeInHosp(value):
     if (value >= 1) & (value <= 4):
         return '1-4'
@@ -178,7 +210,15 @@ def timeInHosp(value):
         return '>8'
 
 train_set['time_in_hospital'] = train_set['time_in_hospital'].apply(timeInHosp)
-
+#%%
+# see the column number_emergency
+x =train_set['time_in_hospital']
+pd.set_option('display.max_rows', None)
+x.value_counts()
+# train_set['number_emergency'].value_counts().dtype()
+# get the class of the values in column number_emergency
+x.value_counts().index
+#%%
 def numProcedures(value):
     if value == 0:
         return str(value)

@@ -1,4 +1,11 @@
-#%%#Imports
+"""
+this script is for the first step in the project
+1- Importing the data
+2- Splitting the data into train and test set with the help of StratifiedShuffleSplit
+3- Saving the train set into a csv file
+"""
+
+#1%%#Imports
 import pandas as pd
 import numpy as np
 import os
@@ -31,10 +38,14 @@ if GETCWD not in sys.path:
 
 ################################################################################################################################################################ importing data
 #path to data file
-GETCWD = os.getcwd()
-PathToData = os.path.join(GETCWD + "/../data/diabetic_data.csv" )
-PathToMap = os.path.join(GETCWD + "/../data/IDS_mapping.csv" )
-
+    
+if os.path.basename(GETCWD) == "pyScripts":
+    PathToData = os.path.join(GETCWD + "/../data/diabetic_data.csv" )
+    PathToMap = os.path.join(GETCWD + "/../data/IDS_mapping.csv" )
+#adding a logic to the path of the data file do i could work from any dir
+elif os.path.basename(GETCWD) == "barc":
+    PathToData = os.path.join(GETCWD + "/FGS_ML/ML_Project/data/diabetic_data.csv" )
+    PathToMap = os.path.join(GETCWD + "/FGS_ML/ML_Project/data/IDS_mapping.csv" )
 
 #assing df
 Maindf = pd.read_csv(PathToData)
@@ -64,7 +75,8 @@ for train_index, test_index in split.split(df, df[ColName]):
 def Ratio_cat_proportions(data):
     return data["categoricalValue"].value_counts() / len(data)
 ################################################################################################################################################################
-train_set.to_csv(os.getcwd() + "/../data/train_set_test.csv", index=False)
-train_set.to_csv(path_or_buf=None)
+#if we run this line : the train set will be difffrent from the one in the main file
+# train_set.to_csv(os.getcwd() + "/../data/train_set_test.csv", index=False)
+# train_set.to_csv(path_or_buf=None)
 
 # %%
