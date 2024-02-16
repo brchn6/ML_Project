@@ -26,6 +26,9 @@ initial_pipeline = Pipeline([
 
 diabetes_test = initial_pipeline.fit_transform(train_set_mod)
 
+#see the diabetes_test as display not as df
+#pd.DataFrame(diabetes_test)
+
 
 num_cols = ['num_medications', 'num_lab_procedures']
 df_num = diabetes_test.drop(num_cols, axis = 1)
@@ -39,6 +42,6 @@ full_pipeline = ColumnTransformer([
 
 diabetes_prepared = full_pipeline.fit_transform(diabetes_test)
 
-#see the shape of the transformed data
-# print(diabetes_prepared.shape) #(25468, 178)
+#see the diabetes_prepared array as display not as <25468x178 sparse matrix of type '<class 'numpy.float64'>' with 993252 stored elements in Compressed Sparse Row format>
+# pd.DataFrame(diabetes_prepared.toarray())
 

@@ -38,6 +38,14 @@ diabetes_labels = train_set['readmitted'].copy()
 
 #Drop duplicates
 class DropDup(BaseEstimator, TransformerMixin):
+    """Transformer class to drop duplicate rows based on a subset of columns.
+
+    Parameters:
+    subset_col (list): List of column names to consider for identifying duplicates.
+
+    Returns:
+    pandas.DataFrame: Transformed DataFrame with duplicate rows dropped.
+    """
     def __init__(self, subset_col):
         self.subset_col = subset_col
 
@@ -51,6 +59,14 @@ class DropDup(BaseEstimator, TransformerMixin):
 
 # Drop columns 
 class DropColumns(BaseEstimator, TransformerMixin):
+    """Transformer class to drop specified columns from a DataFrame.
+
+    Parameters:
+    columns_to_drop (list): List of column names to drop.
+
+    Returns:
+    pandas.DataFrame: Transformed DataFrame with specified columns dropped.
+    """
     def __init__(self, columns_to_drop=None):
         self.columns_to_drop = columns_to_drop
     
@@ -64,6 +80,11 @@ class DropColumns(BaseEstimator, TransformerMixin):
 
 # DiseaseConverter
 class DiseaseConverter(BaseEstimator, TransformerMixin):
+    """Transformer class to convert disease codes to their corresponding names.
+
+    Returns:
+    pandas.DataFrame: Transformed DataFrame with disease codes converted to names.
+    """
     def __init__(self):
         pass
     
@@ -71,7 +92,6 @@ class DiseaseConverter(BaseEstimator, TransformerMixin):
         return self
     
     def convert_disease(self, value):
-
         if value == '?' or value == '789':
             return diseases[9]
         try:
@@ -93,6 +113,11 @@ class DiseaseConverter(BaseEstimator, TransformerMixin):
 
 #IDS transformer
 class IDSTransformer(BaseEstimator, TransformerMixin):
+    """Transformer class to transform IDS columns.
+
+    Returns:
+    pandas.DataFrame: Transformed DataFrame with IDS columns transformed.
+    """
     def __init__(self):
         pass
 
@@ -111,8 +136,14 @@ class IDSTransformer(BaseEstimator, TransformerMixin):
         return X_transformed
     
 
-#Regrouping A1Cresult transformer
+#Regrouping A1Cresult transformer 
+#
 class A1CTransformer(TransformerMixin):
+    """Transformer class to regroup A1Cresult values.
+
+    Returns:
+    pandas.DataFrame: Transformed DataFrame with regrouped A1Cresult values.
+    """
     def __init__(self):
         pass
 
@@ -144,6 +175,14 @@ class A1CTransformer(TransformerMixin):
 
 #Genral colomn regrouping:
 class CustomTransformer(BaseEstimator, TransformerMixin):
+    """Transformer class to apply custom functions to specified columns.
+
+    Parameters:
+    functions (dict): Dictionary mapping column names to corresponding functions.
+
+    Returns:
+    pandas.DataFrame: Transformed DataFrame with custom functions applied to specified columns.
+    """
     def __init__(self, functions):
         self.functions = functions
 
