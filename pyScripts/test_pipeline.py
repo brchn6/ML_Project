@@ -1,13 +1,19 @@
+#%%
+# Description: This script is used to test the pipeline created in the pipelineObject.py
+
 import pandas as pd
 import numpy as np
 import os
 import matplotlib as plt
+import sys
+from AddRootDirectoriesToSysPath import add_directories_to_sys
+add_directories_to_sys(os.getcwd())
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 
-from test import *
+from pipelineObject import *
 
 initial_pipeline = Pipeline([
         ('dropdup', DropDup(dropdup_col)),
@@ -19,7 +25,6 @@ initial_pipeline = Pipeline([
     ])
 
 diabetes_test = initial_pipeline.fit_transform(train_set_mod)
-
 
 
 num_cols = ['num_medications', 'num_lab_procedures']

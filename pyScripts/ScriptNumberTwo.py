@@ -38,6 +38,8 @@ pd.set_option("display.max_columns", 100) #add a option of pd
 from ScriptNumberOne import train_set
 from ScriptNumberOne import Mapdf
 
+
+
 ################################################################################################################################################################
 def drop_duplicates_fromDF(df,subset_col):
    NumberOf_patient_nbr_substract= df.shape[0] - df.drop_duplicates(subset=subset_col, keep="first").shape[0]
@@ -83,6 +85,7 @@ def some (df):
 
 #Dropping cols with 1 kind of value:
 train_set = train_set.drop(some(train_set), axis = 1)
+
 ################################################################################################################################################################
 #Grouping diseases by the ID:
 diseases = ['Circulatory', 'Respiratory', 'Digestive', 'Diabetes','Diabetes Uncontrolled', 'Injury', 'Musculoskeletal', 'Genitourinary', 'Neoplasms', 'Other']
@@ -157,7 +160,7 @@ if __name__ == "__main__":
 #Ended up with 10 categories for each diag column,
 #Diabetes is plitted to uncontrolled dibetes and diabetes
 ################################################################################################################################################################
-# %%
+
 #Creating 6 features for A1Cresult column which describes the results of the HbA1c test
 #if one was done on the patient.
 
@@ -189,7 +192,7 @@ train_set['admission_source_id'] = train_set['admission_source_id'].replace([2,3
 train_set['age'] = train_set['age'].replace(['[0-10)'],1).replace(['[10-20)'],2).replace(['[20-30)','[30-40)','[40-50)','[50-60)','[60-70)'],3).replace(['[70-80)','[80-90)','[90-100)'],4)
 
 ################################################################################################################################################################
-# %%
+
 #Covering continuous values to categorical: 
 def replaceNumEmergency(value):
     if value == "0":
@@ -201,9 +204,6 @@ def replaceNumEmergency(value):
     
 train_set['number_emergency'] = train_set['number_emergency'].apply(replaceNumEmergency)
 
-
-
-#%%
 def timeInHosp(value):
     if (value >= 1) & (value <= 4):
         return '1-4'
@@ -213,7 +213,7 @@ def timeInHosp(value):
         return '>8'
 
 train_set['time_in_hospital'] = train_set['time_in_hospital'].apply(timeInHosp)
-#%%
+
 # see the column number_emergency
 x =train_set['time_in_hospital']
 pd.set_option('display.max_rows', None)
@@ -221,7 +221,7 @@ x.value_counts()
 # train_set['number_emergency'].value_counts().dtype()
 # get the class of the values in column number_emergency
 x.value_counts().index
-#%%
+
 def numProcedures(value):
     if value == 0:
         return str(value)
@@ -256,4 +256,4 @@ def to_categorical(data):
     object_columns = data.select_dtypes(include=['object']).columns
     data[object_columns] = data[object_columns].astype('category')  
 
-# %%
+
