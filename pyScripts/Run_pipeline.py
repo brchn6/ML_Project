@@ -39,3 +39,6 @@ full_pipeline = ColumnTransformer([
 
 diabetes_prepared = full_pipeline.fit_transform(diabetes_test)
 
+#see the shape of the transformed data
+# print(diabetes_prepared.shape) #(25468, 178)
+

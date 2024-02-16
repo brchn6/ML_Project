@@ -24,10 +24,6 @@ from ScriptNumberOne import Mapdf
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 4)
 
-#%%
-train_set_mod = train_set.copy()
-train_set_mod['A1Cresult'].value_counts()
-#%%
 
 ############################################################################
 #make a copy of the trainDS
@@ -120,21 +116,32 @@ class A1CTransformer(TransformerMixin):
     def __init__(self):
         pass
 
-    def fit(self, X, y = None):
+    def fit(self, X, y=None):
         return self
     
     def transform(self, X):
+        # Define your conditions here or make sure they are accessible
+        cond1 = X['A1Cresult'].isin(['None'])
+        cond2 = X['A1Cresult'].isin(['Norm'])
+        cond3 = (X['A1Cresult'].isin(['>7'])) & (X['change'] == "No")
+        cond4 = (X['A1Cresult'].isin(['>7'])) & (X['change'] == "Ch")
+        cond5 = (X['A1Cresult'].isin(['>8'])) & (X['change'] == "No")
+        cond6 = (X['A1Cresult'].isin(['>8'])) & (X['change'] == "Ch")
+
+        # Create a copy of the DataFrame to modify
         X_transformed = X.copy()
 
+        # Update values based on conditions
         X_transformed.loc[cond1, 'A1Cresult'] = 'No HbA1c test performed'
         X_transformed.loc[cond2, 'A1Cresult'] = 'HbA1c in normal range'
         X_transformed.loc[cond3, 'A1Cresult'] = 'HbA1c greater than 7%, but no med change'
         X_transformed.loc[cond4, 'A1Cresult'] = 'HbA1c greater than 7%, with med change'
         X_transformed.loc[cond5, 'A1Cresult'] = 'HbA1c greater than 8%, but no med change'
         X_transformed.loc[cond6, 'A1Cresult'] = 'HbA1c greater than 8%, with med change'
+        
         return X_transformed
 
-    
+
 #Genral colomn regrouping:
 class CustomTransformer(BaseEstimator, TransformerMixin):
     def __init__(self, functions):
@@ -150,43 +157,9 @@ class CustomTransformer(BaseEstimator, TransformerMixin):
         return X_transformed
     
 
-#%%
-train_set_mod = train_set.copy()
+
 dropdup_col = "patient_nbr"
 columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone']
 
-print(train_set_mod)
-dup_dropper = DropDup(dropdup_col)
-train_set_mod = dup_dropper.fit_transform(train_set_mod)
-print(train_set_mod)
-column_dropper = DropColumns(columns_to_drop)
-train_set_mod = column_dropper.fit_transform(train_set_mod)
-print(train_set_mod)
-converter = DiseaseConverter()
-train_set_mod = converter.fit_transform(train_set_mod)
-print(train_set_mod)
-ids_change = IDSTransformer()
-train_set_mod = ids_change.fit_transform(train_set_mod)
-print(train_set_mod)
-a1c_change = A1CTransformer()
-train_set_mod = a1c_change.fit_transform(train_set_mod)
-print(train_set_mod)
-#%%
-custom_transformer = CustomTransformer(functions)
-train_set_mod = custom_transformer.fit_transform(train_set_mod)
-print(train_set_mod)
-#%%
 
-
-
-
-##debuging the pipeline
-initial_pipeline = Pipeline([
-        ('dropdup', DropDup(dropdup_col)),
-        ('dropcols', DropColumns(columns_to_drop)),
-        ('convertdisease', DiseaseConverter()),
-        ('idstransform', IDSTransformer()),
-        ('a1ctransform',A1CTransformer()),
-        ('customcols', CustomTransformer(functions)),
-    ])
-
+# %%

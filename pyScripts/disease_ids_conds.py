@@ -33,10 +33,13 @@ ids = [
     list(range(740, 760)) +
     list(range(1,140)))]
 
-cond1 = train_set['A1Cresult'] == 'NaN'
+# Correct the condition to match "None" instead of "none"
+cond1 = train_set['A1Cresult'] == 'None'  # Updated from "none" to "None"
+
+# Now you can use these conditions as before
 cond2 = (train_set['A1Cresult'] == 'Norm')
-cond4 = (train_set['A1Cresult'] == '>7') & (train_set['change'] == "Ch")
 cond3 = (train_set['A1Cresult'] == '>7') & (train_set['change'] == "No")
+cond4 = (train_set['A1Cresult'] == '>7') & (train_set['change'] == "Ch")
 cond5 = (train_set['A1Cresult'] == '>8') & (train_set['change'] == "No")
 cond6 = (train_set['A1Cresult'] == '>8') & (train_set['change'] == "Ch")
 
