@@ -15,23 +15,19 @@ from sklearn.preprocessing import OneHotEncoder
 
 from PipeLineObject import *
 
+# Create the first pipeline
 preprocess_pipeline = Pipeline([
     ('dropdup', DropDup(dropdup_col)),
     ('dropcols', DropColumns(columns_to_drop)),
+    ('idstransform', IDSTransformer()),
     ('labe', LabelFetcher()),
-])
+],memory = None)
 
-# Assuming train_set is your training data
-b, a = preprocess_pipeline.fit_transform(train_set)
-
-
-#%%
+# Fit and transform the pipeline on the training data
+diabetes_labels, train_set_mod = preprocess_pipeline.fit_transform(train_set)
 
 initial_pipeline = Pipeline([
-        ('dropdup', DropDup(dropdup_col)),
-        ('dropcols', DropColumns(columns_to_drop)),
         ('convertdisease', DiseaseConverter()),
-        ('idstransform', IDSTransformer()),
         ('a1ctransform',A1CTransformer()),
         ('customcols', CustomTransformer(functions)),
     ])
@@ -39,13 +35,17 @@ initial_pipeline = Pipeline([
 diabetes_test = initial_pipeline.fit_transform(train_set_mod)
 
 #see the diabetes_test as display not as df
-#pd.DataFrame(diabetes_test)
+pd.DataFrame(diabetes_test)
 
+#%%
+pd.set_option('display.max_rows', 100)
+diabetes_test.iloc[:, -1]
 
-#seeting colums that are numerical and not categorical
+#%%
+#seeting columns that are numerical and not categorical
 num_cols = ['num_medications', 'num_lab_procedures']
-#droping the numerical columns from the dataframe
-df_num = diabetes_test.drop(num_cols, axis = 1)
+#dropping the numerical columns from the DataFrame
+df_num = diabetes_test.drop(num_cols, axis=1)
 
 #setting the categorical columns
 cat_cols = list(df_num)
