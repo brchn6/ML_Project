@@ -25,15 +25,6 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 4)
 
 
-# ############################################################################
-# #make a copy of the trainDS
-# train_set_mod = train_set.copy()
-# #drop the label column
-# train_set_mod = train_set_mod.drop('readmitted', axis=1)
-# #getting the label column as vector
-# diabetes_labels = train_set['readmitted'].copy()
-
-############################################################################
 #start with the pipeline classes
 
 #Drop duplicates
@@ -210,3 +201,6 @@ class CustomTransformer(BaseEstimator, TransformerMixin):
     
 
 
+
+dropdup_col = "patient_nbr"
+columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']
