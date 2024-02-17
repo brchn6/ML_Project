@@ -25,13 +25,13 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 4)
 
 
-############################################################################
-#make a copy of the trainDS
-train_set_mod = train_set.copy()
-#drop the label column
-train_set_mod = train_set_mod.drop('readmitted', axis=1)
-#getting the label column as vector
-diabetes_labels = train_set['readmitted'].copy()
+# ############################################################################
+# #make a copy of the trainDS
+# train_set_mod = train_set.copy()
+# #drop the label column
+# train_set_mod = train_set_mod.drop('readmitted', axis=1)
+# #getting the label column as vector
+# diabetes_labels = train_set['readmitted'].copy()
 
 ############################################################################
 #start with the pipeline classes
@@ -56,7 +56,6 @@ class DropDup(BaseEstimator, TransformerMixin):
         X_transformed = X.drop_duplicates(subset=self.subset_col, keep="first").reset_index(drop=True)
         return X_transformed 
 
-
 # Drop columns 
 class DropColumns(BaseEstimator, TransformerMixin):
     """Transformer class to drop specified columns from a DataFrame.
@@ -78,6 +77,23 @@ class DropColumns(BaseEstimator, TransformerMixin):
         return X_transformed
 
 
+#add calss to grev the lables of the df
+class LabelFetcher(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        self.diabetes_labels = None  # Initialize diabetes_labels outside transform
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        if self.diabetes_labels is None:
+            # Assuming 'readmitted' is the label column to be fetched
+            self.diabetes_labels = X['readmitted']  # Set diabetes_labels if not already set
+        # Drop the label column
+        train_set_mod = X.drop('readmitted', axis=1)
+        return self.diabetes_labels, train_set_mod
+
+        
 # DiseaseConverter
 class DiseaseConverter(BaseEstimator, TransformerMixin):
     """Transformer class to convert disease codes to their corresponding names.
@@ -109,7 +125,7 @@ class DiseaseConverter(BaseEstimator, TransformerMixin):
         X_transformed = X.copy()
         for col in diag_columns:
             X_transformed[col] = X_transformed[col].apply(self.convert_disease)
-        return X_transformed\
+        return X_transformed
 
 #IDS transformer
 class IDSTransformer(BaseEstimator, TransformerMixin):
@@ -200,5 +216,3 @@ class CustomTransformer(BaseEstimator, TransformerMixin):
 dropdup_col = "patient_nbr"
 columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone']
 
-
-# %%
