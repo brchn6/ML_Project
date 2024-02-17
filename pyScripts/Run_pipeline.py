@@ -34,14 +34,6 @@ initial_pipeline = Pipeline([
 
 diabetes_test = initial_pipeline.fit_transform(train_set_mod)
 
-#see the diabetes_test as display not as df
-pd.DataFrame(diabetes_test)
-
-#%%
-pd.set_option('display.max_rows', 100)
-diabetes_test.iloc[:, -1]
-
-#%%
 #seeting columns that are numerical and not categorical
 num_cols = ['num_medications', 'num_lab_procedures']
 #dropping the numerical columns from the DataFrame
@@ -58,12 +50,3 @@ full_pipeline = ColumnTransformer([
 
 #calling the fit_transform method to transform the diabetes_test dataframe
 diabetes_prepared = full_pipeline.fit_transform(diabetes_test)
-
-
-#%%
-#see the diabetes_prepared array as display not as <25468x178 sparse matrix of type '<class 'numpy.float64'>' with 993252 stored elements in Compressed Sparse Row format>
-pd.DataFrame(diabetes_prepared.toarray())
-
-#%%
-diabetes_labels.shape
-diabetes_prepared.shape

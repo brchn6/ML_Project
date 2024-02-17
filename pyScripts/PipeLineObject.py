@@ -210,6 +210,3 @@ class CustomTransformer(BaseEstimator, TransformerMixin):
     
 
 
-dropdup_col = "patient_nbr"
-columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone']
-
