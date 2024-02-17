@@ -77,23 +77,20 @@ class DropColumns(BaseEstimator, TransformerMixin):
         return X_transformed
 
 
-#add calss to grev the lables of the df
 class LabelFetcher(BaseEstimator, TransformerMixin):
-    def __init__(self):
-        self.diabetes_labels = None  # Initialize diabetes_labels outside transform
-
+    def __init__ (self):
+        pass
     def fit(self, X, y=None):
         return self
 
     def transform(self, X):
-        if self.diabetes_labels is None:
-            # Assuming 'readmitted' is the label column to be fetched
-            self.diabetes_labels = X['readmitted']  # Set diabetes_labels if not already set
+        # get the lables column
+        diabetes_labels = X['readmitted']
         # Drop the label column
         train_set_mod = X.drop('readmitted', axis=1)
-        return self.diabetes_labels, train_set_mod
+        return diabetes_labels, train_set_mod
 
-        
+
 # DiseaseConverter
 class DiseaseConverter(BaseEstimator, TransformerMixin):
     """Transformer class to convert disease codes to their corresponding names.
@@ -168,7 +165,7 @@ class A1CTransformer(TransformerMixin):
     
     def transform(self, X):
         # Define your conditions here or make sure they are accessible
-        cond1 = X['A1Cresult'].isin(['None'])
+        cond1 = X['A1Cresult'].isna()
         cond2 = X['A1Cresult'].isin(['Norm'])
         cond3 = (X['A1Cresult'].isin(['>7'])) & (X['change'] == "No")
         cond4 = (X['A1Cresult'].isin(['>7'])) & (X['change'] == "Ch")
