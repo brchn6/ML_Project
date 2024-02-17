@@ -6,7 +6,7 @@ import numpy as np
 import os
 import matplotlib as plt
 import sys
-from ML_Project.AddRootDirectoriesToSysPath import add_directories_to_sys
+from AddRootDirectoriesToSysPath import add_directories_to_sys
 add_directories_to_sys(os.getcwd())
 sys.path.append(os.path.join(os.getcwd(),'ML_Project', 'pyScripts'))
 from sklearn.pipeline import Pipeline
@@ -44,22 +44,5 @@ full_pipeline = ColumnTransformer([
 diabetes_prepared = full_pipeline.fit_transform(diabetes_test)
 
 #see the diabetes_prepared array as display not as <25468x178 sparse matrix of type '<class 'numpy.float64'>' with 993252 stored elements in Compressed Sparse Row format>
-# pd.DataFrame(diabetes_prepared.toarray())
+pd.DataFrame(diabetes_prepared.toarray())
 
-
-
-
-#%%
-# genarate random data 6D
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.datasets import make_blobs
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
-
-# Create a random dataset
-X, y = make_blobs(n_samples=100, n_features=6, centers=3)
-
-# Plot the data
-plt.scatter(X[:, 0], X[:, 1], c=y)
