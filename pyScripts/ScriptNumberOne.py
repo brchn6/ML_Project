@@ -1,3 +1,4 @@
+#%%
 """
 this script is for the first step in the project
 1- Importing the data
@@ -47,6 +48,9 @@ elif os.path.basename(GETCWD) == "barc":
     PathToData = os.path.join(GETCWD + "/FGS_ML/ML_Project/data/diabetic_data.csv" )
     PathToMap = os.path.join(GETCWD + "/FGS_ML/ML_Project/data/IDS_mapping.csv" )
 elif os.path.basename(GETCWD) == "ML_Project":
+    PathToData = os.path.join(GETCWD + "/data/diabetic_data.csv" )
+    PathToMap = os.path.join(GETCWD + "/data/IDS_mapping.csv" )
+elif os.path.basename(GETCWD) == "FGS_ML":
     PathToData = os.path.join(GETCWD + "/data/diabetic_data.csv" )
     PathToMap = os.path.join(GETCWD + "/data/IDS_mapping.csv" )
 
