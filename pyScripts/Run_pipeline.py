@@ -6,8 +6,9 @@ import numpy as np
 import os
 import matplotlib as plt
 import sys
-from AddRootDirectoriesToSysPath import add_directories_to_sys
+from ML_Project.AddRootDirectoriesToSysPath import add_directories_to_sys
 add_directories_to_sys(os.getcwd())
+sys.path.append(os.path.join(os.getcwd(),'ML_Project', 'pyScripts'))
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
