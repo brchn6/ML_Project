@@ -1,5 +1,9 @@
 #%%
 # ------------------------------ code ------------------------------ #
+import sys
+import os
+from AddRootDirectoriesToSysPath import add_directories_to_sys
+add_directories_to_sys(os.getcwd())
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
 from imblearn.over_sampling import SMOTENC
@@ -24,7 +28,6 @@ X_train = diabetes_test
 # Assuming 'NO' and '<30' are negative outcomes, and '>=30' is a positive outcome
 y_train = y_train = y_train.map({'NO': 0, '<30': 1})
 # print(y_train.value_counts())
-#%%
 
 
 # Define the classifiers to be evaluated
