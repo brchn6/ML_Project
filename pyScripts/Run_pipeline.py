@@ -45,7 +45,7 @@ initial_pipeline = Pipeline([
         ('smoting', SmoteUp(diabetes_labels, sm)),
     ])
 
-diabetes_test = initial_pipeline.fit_transform(train_set_mod)
+diabetes_test, diabetes_labels = initial_pipeline.fit_transform(train_set_mod)
 
 # Define preprocessing steps for numerical and categorical columns
 num_transformer = Pipeline(steps=[

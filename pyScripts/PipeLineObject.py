@@ -202,7 +202,7 @@ class CustomTransformer(BaseEstimator, TransformerMixin):
  #Smoting:   
 class SmoteUp(BaseEstimator, TransformerMixin):
 
-    def __init__(self, smote, labels):
+    def __init__(self, labels, smote):
         self.labels = labels
         self.smote = smote
 
