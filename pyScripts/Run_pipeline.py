@@ -33,7 +33,8 @@ initial_pipeline = Pipeline([
     ])
 
 diabetes_test = initial_pipeline.fit_transform(train_set_mod)
-
+#%%
+# ----------------------------------- * pipeline for numerical and categorical columns * -----------------------------------    
 #seeting columns that are numerical and not categorical
 num_cols = ['num_medications', 'num_lab_procedures']
 #dropping the numerical columns from the DataFrame
@@ -45,8 +46,11 @@ cat_cols = list(df_num)
 #running the pipeline
 full_pipeline = ColumnTransformer([
         ("num", StandardScaler(), num_cols),
-        ("cat", OneHotEncoder(), cat_cols),
+        # ("cat", OneHotEncoder(categories='auto', drop=None, sparse=True), cat_cols),
     ])
 
 #calling the fit_transform method to transform the diabetes_test dataframe
 diabetes_prepared = full_pipeline.fit_transform(diabetes_test)
+diabetes_prepared
+# ----------------------------------- * end of pipeline for numerical and categorical columns * -----------------------------------    
+# diabetes_prepare = pd.DataFrame(diabetes_prepared.toarray())
