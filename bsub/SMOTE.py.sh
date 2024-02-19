@@ -11,7 +11,7 @@ module load python  # Adjust based on your environment
 module load miniconda
 
 # Set up your environment
-conda activate ml
+conda activate mlproject
 
 # set directory to your working directory
 cd /home/labs/cssagi/barc/FGS_ML/ML_Project
