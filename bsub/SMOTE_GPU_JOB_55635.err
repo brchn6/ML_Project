@@ -1,0 +1,41 @@
+
+CondaError: Run 'conda init' before 'conda deactivate'
+
+grep: color=auto: No such file or directory
+grep: csh: No such file or directory
+grep: color=auto: No such file or directory
+grep: csh: No such file or directory
+grep: color=auto: No such file or directory
+grep: csh: No such file or directory
+Traceback (most recent call last):
+  File "/home/labs/cssagi/barc/FGS_ML/ML_Project/pyScripts/SMOTE.py", line 48, in <module>
+    cross_val_scores = cross_val_score(pipeline, X_train, y_train, cv=cv, scoring=s)
+  File "/home/labs/cssagi/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/model_selection/_validation.py", line 562, in cross_val_score
+    cv_results = cross_validate(
+  File "/home/labs/cssagi/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/utils/_param_validation.py", line 211, in wrapper
+    return func(*args, **kwargs)
+  File "/home/labs/cssagi/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/model_selection/_validation.py", line 328, in cross_validate
+    _warn_or_raise_about_fit_failures(results, error_score)
+  File "/home/labs/cssagi/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/model_selection/_validation.py", line 414, in _warn_or_raise_about_fit_failures
+    raise ValueError(all_fits_failed_message)
+ValueError: 
+All the 10 fits failed.
+It is very likely that your model is misconfigured.
+You can try to debug the error by setting error_score='raise'.
+
+Below are more details about the failures:
+--------------------------------------------------------------------------------
+10 fits failed with the following error:
+Traceback (most recent call last):
+  File "/home/labs/cssagi/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/model_selection/_validation.py", line 732, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "/home/labs/cssagi/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/base.py", line 1151, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+  File "/home/labs/cssagi/barc/.conda/envs/ml/lib/python3.9/site-packages/imblearn/pipeline.py", line 326, in fit
+    self._final_estimator.fit(Xt, yt, **last_step_params["fit"])
+  File "/home/labs/cssagi/barc/.conda/envs/ml/lib/python3.9/site-packages/xgboost/core.py", line 620, in inner_f
+    return func(**kwargs)
+  File "/home/labs/cssagi/barc/.conda/envs/ml/lib/python3.9/site-packages/xgboost/sklearn.py", line 1440, in fit
+    raise ValueError(
+ValueError: Invalid classes inferred from unique values of `y`.  Expected: [0 1], got ['<30' 'NO']
+

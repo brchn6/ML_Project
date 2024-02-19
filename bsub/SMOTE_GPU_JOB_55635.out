@@ -1,0 +1,68 @@
+unloading ...
+loading ...
+loaded conda.sh
+sh shell detected
+
+------------------------------------------------------------
+Sender: LSF System <DoNotReply>
+Subject: Job 55635: <SMOTE_GPU_JOB> in cluster <wexac> Exited
+
+Job <SMOTE_GPU_JOB> was submitted from host <access4> by user <barc> in cluster <wexac> at Mon Feb 19 06:37:02 2024
+Job was executed on host(s) <cn305>, in queue <new-short>, as user <barc> in cluster <wexac> at Mon Feb 19 06:37:04 2024
+</home/labs/cssagi/barc> was used as the home directory.
+</home/labs/cssagi/barc/FGS_ML/ML_Project/bsub> was used as the working directory.
+Started at Mon Feb 19 06:37:04 2024
+Terminated at Mon Feb 19 06:38:32 2024
+Results reported at Mon Feb 19 06:38:32 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -q new-short               # Queue name
+#BSUB -R "rusage[mem=16000]"     # Requested memory
+#BSUB -J SMOTE_GPU_JOB           # Job name
+#BSUB -o SMOTE_GPU_JOB_%J.out    # Output file
+#BSUB -e SMOTE_GPU_JOB_%J.err    # Error file
+
+
+# Load necessary modules
+module load python  # Adjust based on your environment
+module load miniconda
+
+# Set up your environment
+conda activate ml
+
+# set directory to your working directory
+cd /home/labs/cssagi/barc/FGS_ML/ML_Project
+
+# Run your Python script
+python /home/labs/cssagi/barc/FGS_ML/ML_Project/pyScripts/SMOTE.py
+
+
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   88.01 sec.
+    Max Memory :                                 492 MB
+    Average Memory :                             380.80 MB
+    Total Requested Memory :                     16000.00 MB
+    Delta Memory :                               15508.00 MB
+    Max Swap :                                   -
+    Max Processes :                              4
+    Max Threads :                                13
+    Run time :                                   89 sec.
+    Turnaround time :                            90 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <SMOTE_GPU_JOB_55635.err> for stderr output of this job.
+
