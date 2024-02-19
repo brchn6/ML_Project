@@ -13,21 +13,21 @@ from catboost import CatBoostClassifier
 from sklearn.svm import SVC
 from imblearn.ensemble import BalancedRandomForestClassifier
 from imblearn.pipeline import Pipeline as imbpipeline
-
-# Import variables from Run_pipeline module
-from Run_pipeline import *
 from imblearn.pipeline import Pipeline
-cat_cols = cat_cols
 
-# Define your data
-# Ensure that diabetes_labels and diabetes_test are defined earlier in your code
+# Import all from Run_pipeline module
+from Run_pipeline import *
+
+# Load the dataset
 X_train = diabetes_test
 y_train = diabetes_labels
 
+# def function to convert object columns to categorical
 def to_categorical(data):
     object_columns = data.select_dtypes(include=['object']).columns
     data[object_columns] = data[object_columns].astype('category')  
     return data
+#%%
 
 X_train= to_categorical(X_train)
 
@@ -78,3 +78,59 @@ import pandas as pd
 df = pd.DataFrame(cv_scores)
 df.to_csv('cv_scores.csv')
 # ------------------------------ end ------------------------------ #
+#%%
+import os
+from AddRootDirectoriesToSysPath import add_directories_to_sys
+add_directories_to_sys(os.getcwd())
+
+# Import all from Run_pipeline module
+from Run_pipeline import *
+
+# Load the dataset
+X = diabetes_test
+y = diabetes_labels
+
+
+# def function to convert object columns to categorical
+def to_categorical(data):
+    object_columns = data.select_dtypes(include=['object']).columns
+    data[object_columns] = data[object_columns].astype('category')  
+    return data
+
+X = to_categorical(X)
+
+from collections import Counter
+from imblearn.over_sampling import SMOTENC
+print(f'Original dataset shape {X.shape}')
+print(f'Original dataset samples per class {Counter(y)}')
+sm = SMOTENC(random_state=42, categorical_features='auto')
+X_res, y_res = sm.fit_resample(X, y)
+print(f'Resampled dataset samples per class {Counter(y_res)}')
+
+
+#%%
+
+#plot pie chart of before
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+# Pie chart, where the slices will be ordered and plotted counter-clockwise:
+data = Counter(y)
+labels = list(data.keys())
+plt.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+        shadow=True, startangle=90)
+plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+plt.title('Original dataset samples per class')
+plt.show()
+
+
+# #plot pie chart of after
+# labels = ['NO', '<30', '>30']
+# sizes = [54864, 11357, 35545]
+# explode = (0, 0, 0.1)  # only "explode" the 3rd slice (i.e. '>=30')
+# plt.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+#         shadow=True, startangle=90)
+# plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+# plt.title('Original dataset samples per class')
+# plt.show()
