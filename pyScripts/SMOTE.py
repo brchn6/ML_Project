@@ -21,14 +21,20 @@ cat_cols = cat_cols
 
 # Define your data
 # Ensure that diabetes_labels and diabetes_test are defined earlier in your code
-y_train = diabetes_labels
 X_train = diabetes_test
+y_train = diabetes_labels
+
+def to_categorical(data):
+    object_columns = data.select_dtypes(include=['object']).columns
+    data[object_columns] = data[object_columns].astype('category')  
+    return data
+
+X_train= to_categorical(X_train)
 
 # print(y_train.value_counts())
 # Assuming 'NO' and '<30' are negative outcomes, and '>=30' is a positive outcome
 y_train = y_train = y_train.map({'NO': 0, '<30': 1})
 # print(y_train.value_counts())
-
 
 # Define the classifiers to be evaluated
 classifiers = [XGBClassifier, LGBMClassifier, CatBoostClassifier, SVC, BalancedRandomForestClassifier]
@@ -37,7 +43,7 @@ classifiers = [XGBClassifier, LGBMClassifier, CatBoostClassifier, SVC, BalancedR
 score = ['neg_log_loss', 'accuracy', 'precision', 'recall', 'f1', 'roc_auc']
 
 # Initialize SMOTENC for handling categorical features
-sm = SMOTENC(random_state=42, categorical_features=cat_cols)
+sm = SMOTENC(random_state=42, categorical_features='auto')
 
 # Initialize cross-validation
 cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
