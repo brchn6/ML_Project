@@ -12,6 +12,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.impute import SimpleImputer
 
 
 from PipeLineObject import *
@@ -34,7 +35,6 @@ initial_pipeline = Pipeline([
     ])
 
 diabetes_test = initial_pipeline.fit_transform(train_set_mod)
-#%%
 
 # Set numerical columns
 num_cols = ['num_medications', 'num_lab_procedures']
