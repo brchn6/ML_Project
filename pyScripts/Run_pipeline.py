@@ -13,6 +13,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
+from imblearn.over_sampling import SMOTENC
 
 
 from PipeLineObject import *
@@ -28,19 +29,23 @@ preprocess_pipeline = Pipeline([
 # Fit and transform the pipeline on the training data
 diabetes_labels, train_set_mod = preprocess_pipeline.fit_transform(train_set)
 
-initial_pipeline = Pipeline([
-        ('convertdisease', DiseaseConverter()),
-        ('a1ctransform',A1CTransformer()),
-        ('customcols', CustomTransformer(functions)),
-    ])
-
-diabetes_test = initial_pipeline.fit_transform(train_set_mod)
-
 # Set numerical columns
 num_cols = ['num_medications', 'num_lab_procedures']
 
 # Set categorical columns
-cat_cols = [col for col in diabetes_test.columns if col not in num_cols]
+cat_cols = [col for col in train_set_mod.columns if col not in num_cols]
+
+#Smote class:
+sm = SMOTENC(random_state=42, categorical_features=cat_cols)
+
+initial_pipeline = Pipeline([
+        ('convertdisease', DiseaseConverter()),
+        ('a1ctransform',A1CTransformer()),
+        ('customcols', CustomTransformer(functions)),
+        ('smoting', SmoteUp(diabetes_labels, sm)),
+    ])
+
+diabetes_test = initial_pipeline.fit_transform(train_set_mod)
 
 # Define preprocessing steps for numerical and categorical columns
 num_transformer = Pipeline(steps=[
