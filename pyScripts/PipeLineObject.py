@@ -25,15 +25,6 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 4)
 
 
-############################################################################
-#make a copy of the trainDS
-train_set_mod = train_set.copy()
-#drop the label column
-train_set_mod = train_set_mod.drop('readmitted', axis=1)
-#getting the label column as vector
-diabetes_labels = train_set['readmitted'].copy()
-
-############################################################################
 #start with the pipeline classes
 
 #Drop duplicates
@@ -56,7 +47,6 @@ class DropDup(BaseEstimator, TransformerMixin):
         X_transformed = X.drop_duplicates(subset=self.subset_col, keep="first").reset_index(drop=True)
         return X_transformed 
 
-
 # Drop columns 
 class DropColumns(BaseEstimator, TransformerMixin):
     """Transformer class to drop specified columns from a DataFrame.
@@ -76,6 +66,20 @@ class DropColumns(BaseEstimator, TransformerMixin):
     def transform(self, X):
         X_transformed = X.drop(columns=self.columns_to_drop, errors='ignore')
         return X_transformed
+
+
+class LabelFetcher(BaseEstimator, TransformerMixin):
+    def __init__ (self):
+        pass
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        # get the lables column
+        diabetes_labels = X['readmitted']
+        # Drop the label column
+        train_set_mod = X.drop('readmitted', axis=1)
+        return diabetes_labels, train_set_mod
 
 
 # DiseaseConverter
@@ -109,7 +113,7 @@ class DiseaseConverter(BaseEstimator, TransformerMixin):
         X_transformed = X.copy()
         for col in diag_columns:
             X_transformed[col] = X_transformed[col].apply(self.convert_disease)
-        return X_transformed\
+        return X_transformed
 
 #IDS transformer
 class IDSTransformer(BaseEstimator, TransformerMixin):
@@ -152,7 +156,7 @@ class A1CTransformer(TransformerMixin):
     
     def transform(self, X):
         # Define your conditions here or make sure they are accessible
-        cond1 = X['A1Cresult'].isin(['None'])
+        cond1 = X['A1Cresult'].isna()
         cond2 = X['A1Cresult'].isin(['Norm'])
         cond3 = (X['A1Cresult'].isin(['>7'])) & (X['change'] == "No")
         cond4 = (X['A1Cresult'].isin(['>7'])) & (X['change'] == "Ch")
@@ -197,8 +201,6 @@ class CustomTransformer(BaseEstimator, TransformerMixin):
     
 
 
+
 dropdup_col = "patient_nbr"
-columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone']
-
-
-# %%
+columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']
