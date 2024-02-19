@@ -55,4 +55,9 @@ for classifier in classifiers:
 
 # Now, cv_scores dictionary contains cross-validation scores for each classifier and each scoring metric
 # You can analyze or further process these scores as needed
+        
+#data output as tbl
+import pandas as pd
+df = pd.DataFrame(cv_scores)
+df.to_csv('cv_scores.csv')
 # ------------------------------ end ------------------------------ #
