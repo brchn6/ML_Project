@@ -13,6 +13,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 
+
 from PipeLineObject import *
 
 # Create the first pipeline
@@ -34,14 +35,45 @@ initial_pipeline = Pipeline([
 
 diabetes_test = initial_pipeline.fit_transform(train_set_mod)
 #%%
-# ----------------------------------- * pipeline for numerical and categorical columns * -----------------------------------    
-#seeting columns that are numerical and not categorical
+
+# Set numerical columns
 num_cols = ['num_medications', 'num_lab_procedures']
-#dropping the numerical columns from the DataFrame
-df_num = diabetes_test.drop(num_cols, axis=1)
-#setting the categorical columns
-cat_cols = list(df_num)
-diabetes_prepared = pd.get_dummies(diabetes_test, columns=cat_cols)
-diabetes_prepared[num_cols] = standard_scaler.fit_transform(diabetes_test[num_cols])
-# ----------------------------------- * end of pipeline for numerical and categorical columns * -----------------------------------    
-# diabetes_prepare = pd.DataFrame(diabetes_prepared.toarray())
+
+# Set categorical columns
+cat_cols = [col for col in diabetes_test.columns if col not in num_cols]
+
+# Define preprocessing steps for numerical and categorical columns
+num_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='mean')),
+    ('scaler', StandardScaler())])
+
+cat_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))])
+
+# Combine preprocessing steps for numerical and categorical columns
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', num_transformer, num_cols),
+        ('cat', cat_transformer, cat_cols)])
+
+# Create a pipeline with preprocessing and mapping
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor)])
+
+# Fit and transform the data
+diabetes_prepared = pipeline.fit_transform(diabetes_test)
+
+#see the transformed data
+pd.DataFrame(diabetes_prepared.toarray())
+
+# Get the feature names after one-hot encoding
+feature_names = preprocessor.named_transformers_['cat'].named_steps['onehot'].get_feature_names_out(cat_cols)
+
+# Create a dictionary mapping feature names to their indices
+feature_indices = {feature_names[i]: i for i in range(len(feature_names))}
+
+#start count from the length of the numerical columns
+for k, v in feature_indices.items():   
+    feature_indices[k] = v + len(num_cols)
+
