@@ -1,3 +1,4 @@
+#%%
 # ------------------------------ code ------------------------------ #
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
@@ -18,6 +19,13 @@ cat_cols = cat_cols
 # Ensure that diabetes_labels and diabetes_test are defined earlier in your code
 y_train = diabetes_labels
 X_train = diabetes_test
+
+# print(y_train.value_counts())
+# Assuming 'NO' and '<30' are negative outcomes, and '>=30' is a positive outcome
+y_train = y_train = y_train.map({'NO': 0, '<30': 1})
+# print(y_train.value_counts())
+#%%
+
 
 # Define the classifiers to be evaluated
 classifiers = [XGBClassifier, LGBMClassifier, CatBoostClassifier, SVC, BalancedRandomForestClassifier]
