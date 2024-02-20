@@ -199,7 +199,19 @@ class CustomTransformer(BaseEstimator, TransformerMixin):
             X_transformed[col] = X_transformed[col].apply(func)
         return X_transformed
     
+ #Smoting:   
+class SmoteUp(BaseEstimator, TransformerMixin):
 
+    def __init__(self, labels, smote):
+        self.labels = labels
+        self.smote = smote
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        X_res, y_res = self.smote.fit_resample(X, self.labels)
+        return X_res, y_res
 
 
 dropdup_col = "patient_nbr"
