@@ -84,6 +84,12 @@ pd.set_option('display.max_columns', None)
 # %%
 #data output as tbl
 import pandas as pd
-df = pd.DataFrame(cv_scores)
-df.to_csv('cv_scores.csv')
+df = models_test_table
+df.to_csv('cv_scores.csv', index=True)
+
+#%%
+cv_df = pd.read_csv('cv_scores.csv').set_index('Unnamed: 0').rename_axis('Classifier')
 # ------------------------------ end ------------------------------ #
+
+
+# %%
