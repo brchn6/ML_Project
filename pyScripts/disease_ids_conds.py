@@ -1,8 +1,12 @@
+#%%
 import pandas as pd
 import numpy as np
 import os 
+import sys
+from AddRootDirectoriesToSysPath import add_directories_to_sys
+add_directories_to_sys(os.getcwd())
 
-train_set = pd.read_csv(os.getcwd() + '/../data/train_set_test.csv')
+from ScriptNumberOne import train_set
 train_set = train_set.copy()
 
 diseases = ['Circulatory', 'Respiratory', 'Digestive', 'Diabetes','Diabetes Uncontrolled', 'Injury', 'Musculoskeletal', 'Genitourinary', 'Neoplasms', 'Other']
@@ -29,12 +33,6 @@ ids = [
     list(range(740, 760)) +
     list(range(1,140)))]
 
-cond1 = train_set['A1Cresult'] == 'None'
-cond2 = (train_set['A1Cresult'] == 'Norm')
-cond4 = (train_set['A1Cresult'] == '>7') & (train_set['change'] == "Ch")
-cond3 = (train_set['A1Cresult'] == '>7') & (train_set['change'] == "No")
-cond5 = (train_set['A1Cresult'] == '>8') & (train_set['change'] == "No")
-cond6 = (train_set['A1Cresult'] == '>8') & (train_set['change'] == "Ch")
 
 def replaceNumEmergency(value):
     if value == 0:
