@@ -16,7 +16,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.impute import SimpleImputer
 from imblearn.over_sampling import SMOTENC
 from sklearn.compose import make_column_transformer
-from PipeLineObject_V2 import *
+from pyScripts.PipeLineObject import *
 
 
 smote = SMOTENC(random_state=42,categorical_features=cat_cols)
