@@ -25,9 +25,7 @@ catboost_clf = CatBoostClassifier(random_state=42)
 logistic_reg = LogisticRegression(random_state=42)
 
 #Makeing classifiers list:
-#classifiers = [rnd_clf, xgb_clf, lgbm_clf, catboost_clf, logistic_reg]
-classifiers = [logistic_reg]
-
+classifiers = [rnd_clf, xgb_clf, lgbm_clf, catboost_clf, logistic_reg]
 
 # Define the scoring metrics (perofrmance measure (pm))
 scoring = {
@@ -43,7 +41,7 @@ X_train = processed.copy()
 y_train = processed['readmitted'].astype('category')
 X_train = X_train.drop(columns='readmitted')
 
-cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
 smote = SMOTENC(random_state=42,categorical_features=cat_cols)
 
 #Initialize dictionary to store cross-validation scores
