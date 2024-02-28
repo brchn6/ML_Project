@@ -1,0 +1,7 @@
+
+EnvironmentNameNotFound: Could not find conda environment: ml
+You can list all discoverable environments with `conda info --envs`.
+
+
+/scratch/1708354064.92138.shell: line 17: cd: /home/labs/cssagi/barc/FGS_ML/ML_Project: Permission denied
+python: can't open file '/home/labs/cssagi/barc/FGS_ML/ML_Project/pyScripts/SMOTE.py': [Errno 13] Permission denied
