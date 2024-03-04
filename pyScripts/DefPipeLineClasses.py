@@ -234,7 +234,6 @@ class CategoricalConverter(BaseEstimator, TransformerMixin):
             X[object_columns] = X[object_columns].astype('object')
             return X
 
-<<<<<<< HEAD:pyScripts/PipeLineObject_V2.py
 class BooleanConverter(BaseEstimator, TransformerMixin):
     def __init__(self):
         pass
@@ -264,7 +263,6 @@ cat_cols = [col for col in cols if col not in num_cols and col not in columns_to
 
 
 
-=======
 
 # Define preprocessing steps for numerical and categorical columns
 num_transformer = make_pipeline(
@@ -289,4 +287,3 @@ col_processor = make_column_transformer(
 #hardcoded values for the pipeline
 dropdup_col = "patient_nbr"
 columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']
->>>>>>> test3:pyScripts/DefPipeLineClasses.py
