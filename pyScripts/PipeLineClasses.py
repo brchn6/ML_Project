@@ -17,6 +17,9 @@ from AddRootDirectoriesToSysPath import add_directories_to_sys
 add_directories_to_sys(os.getcwd())
 from sklearn.base import BaseEstimator, TransformerMixin
 from deadendscript.disease_ids_conds import *
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import make_pipeline
 
 #importnig the DFs from script number (afterslit)
 from prepare_data import train_set
@@ -28,7 +31,7 @@ pd.set_option('display.max_rows', 4)
 
 #start with the pipeline classes
 
-#Drop duplicates
+#defining the DropDup class
 class DropDup(BaseEstimator, TransformerMixin):
     """Transformer class to drop duplicate rows based on a subset of columns.
 
@@ -213,6 +216,18 @@ class CategoricalConverter(BaseEstimator, TransformerMixin):
         else:
             X[object_columns] = X[object_columns].astype('object')
             return X
+
+
+# Define preprocessing steps for numerical and categorical columns
+num_transformer = make_pipeline(
+    SimpleImputer(strategy='mean'),
+    StandardScaler()
+)
+
+cat_transformer = make_pipeline(
+    SimpleImputer(strategy='most_frequent'),
+    OneHotEncoder(handle_unknown='ignore', drop='if_binary')
+)
 
 #hardcoded values for the pipeline
 dropdup_col = "patient_nbr"

@@ -1,29 +1,13 @@
 #%%
-import pandas as pd
-import numpy as np
-import os
+"""
+this script is used to define the pipeline object and run it
+the output of this script is the transformed data
+"""
 import sys
-from AddRootDirectoriesToSysPath import add_directories_to_sys
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from imblearn.over_sampling import SMOTENC
 from sklearn.compose import make_column_transformer
-from sklearn.pipeline import make_pipeline
 from sklearn.compose import make_column_selector
-from PipeLineObject import *
+from PipeLineClasses import *
 import matplotlib.pyplot as plt
-
-
-# Define preprocessing steps for numerical and categorical columns
-num_transformer = make_pipeline(
-    SimpleImputer(strategy='mean'),
-    StandardScaler()
-)
-
-cat_transformer = make_pipeline(
-    SimpleImputer(strategy='most_frequent'),
-    OneHotEncoder(handle_unknown='ignore', drop='if_binary')
-)
 
 # Define column processor
 col_processor = make_column_transformer(
@@ -31,7 +15,6 @@ col_processor = make_column_transformer(
     (cat_transformer, make_column_selector(dtype_include="object")),
     remainder='passthrough'
 )
-
 
 # Define data processor pipeline
 data_processor = make_pipeline(
