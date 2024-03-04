@@ -1,5 +1,8 @@
 #%%
-# Description: this script is the pipeline for the data cleaning and preprocessing ,using sklearn pipeline class
+"""
+This script is non callable (no main) and is used to create a pipeline object for the data preparation.
+in this script we will create a pipeline objects and define the hard coded values we will use in the pipeline.
+"""
 #importing libraries
 import pandas as pd
 import numpy as np
@@ -221,5 +224,3 @@ num_cols = ['num_medications', 'num_lab_procedures']
 cols = train_set.columns
 label = 'readmitted'
 cat_cols = [col for col in cols if col not in num_cols and col not in columns_to_drop and col not in label]
-
-
