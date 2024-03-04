@@ -3,6 +3,7 @@
 This script is non callable (no main) and is used to create a pipeline object for the data preparation.
 in this script we will create a pipeline objects and define the hard coded values we will use in the pipeline.
 """
+#---------------------------------Libraries--------------------------------
 #importing libraries
 import pandas as pd
 import numpy as np
@@ -21,10 +22,10 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import make_pipeline
 
-#importnig the DFs from script number (afterslit)
+# ---------------------------------Imports--------------------------------
 from prepare_data import train_set
 from prepare_data import Mapdf
-
+#%%
 #setting up display style
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 4)
