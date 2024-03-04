@@ -13,7 +13,7 @@ from AddRootDirectoriesToSysPath import add_directories_to_sys
 #adding the root directories to sys.path
 add_directories_to_sys(os.getcwd())
 from sklearn.base import BaseEstimator, TransformerMixin
-from disease_ids_conds import *
+from deadendscript.disease_ids_conds import *
 
 #importnig the DFs from script number (afterslit)
 from prepare_data import train_set
@@ -211,6 +211,7 @@ class CategoricalConverter(BaseEstimator, TransformerMixin):
             X[object_columns] = X[object_columns].astype('object')
             return X
 
+#hardcoded values for the pipeline
 dropdup_col = "patient_nbr"
 columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']
 
