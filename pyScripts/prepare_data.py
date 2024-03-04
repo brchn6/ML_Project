@@ -5,7 +5,6 @@ this script is for the first step in the project
 2- Splitting the data into train and test set with the help of StratifiedShuffleSplit
 3- Saving the train set into a csv file
 """
-
 #Imports
 import pandas as pd
 import numpy as np
@@ -23,6 +22,18 @@ le = LabelEncoder()
 
 pd.set_option("display.max_row", 100) #add a option of pd
 pd.set_option("display.max_columns", 100) #add a option of pd
+
+#set seed
+np.random.seed(42)
+
+#get the root dir "'y:\\barc\\FGS_ML\\ML_Project\
+ROOT_DIR = os.path.dirname(os.path.abspath('__file__'))
+ROOT_DIR = os.path.join(ROOT_DIR, "../")
+
+#add the script "AddRootDirectoriesToSysPath" and implament it
+sys.path.append(ROOT_DIR)
+from AddRootDirectoriesToSysPath import add_directories_to_sys
+add_directories_to_sys(ROOT_DIR)
 
 #display all data:
 def display_all(data):
