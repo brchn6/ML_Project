@@ -211,14 +211,32 @@ class CategoricalConverter(BaseEstimator, TransformerMixin):
             X[object_columns] = X[object_columns].astype('object')
             return X
 
+class BooleanConverter(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        pass
+    
+    def fit(self, X, y=None):
+        return self
+    
+    def transform(self, X, y=None):
+        for col in X.columns:
+            if X[col].dtype == 'bool':
+                X[col] = X[col].replace({'Yes': 1, 'Ch': 1, 'No': 0, 'Other': 0})
+        return X
+    
+    def get_feature_names_out(self, input_features=None):
+        return input_features
+
 dropdup_col = "patient_nbr"
 columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']
 
 # Set numerical columns
 num_cols = ['num_medications', 'num_lab_procedures']
+bin_cols = ['change', 'diabetesMed']
 # Set categorical columns
 cols = train_set.columns
 label = 'readmitted'
-cat_cols = [col for col in cols if col not in num_cols and col not in columns_to_drop and col not in label]
+cat_cols = [col for col in cols if col not in num_cols and col not in columns_to_drop and col not in label and col not in bin_cols]
+
 
 

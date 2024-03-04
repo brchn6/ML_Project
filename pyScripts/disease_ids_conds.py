@@ -80,6 +80,36 @@ def raceChange(value):
     else:
         return value
 
+def outPatiant(value):
+    if value == 0:
+        return str(value)
+    elif (value >= 1) & (value <= 5):
+        return '1-5'
+    else:
+        return '>5'  
+
+def changeCol(value):
+    if value == 'Ch':
+        return True
+    else:
+        return False
+    
+def diabMed(value):
+    if value == 'Yes':
+        return True
+    else:
+        return False
+    
+def ageFunc(value):
+    if value == '[0-10)':
+        return 'Children'
+    elif value == '[10-20)':
+        return 'Adolescents'
+    elif value in ['[70-80)','[80-90)','[90-100)']:
+        return 'Older_adults'
+    else:
+        return 'Adults'
+    
 # Define functions for each column
 functions = {
     'number_emergency': replaceNumEmergency,
@@ -87,5 +117,9 @@ functions = {
     'num_procedures': numProcedures,
     'number_inpatient': inPatiant,
     'number_diagnoses': numDiag,
-    'race' : raceChange
+    'race' : raceChange,
+    'number_outpatient' : outPatiant,
+    'change': changeCol,
+    'diabetesMed' : diabMed,
+    'age': ageFunc
 }
