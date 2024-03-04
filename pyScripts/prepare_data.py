@@ -5,8 +5,7 @@ this script is for the first step in the project
 2- Splitting the data into train and test set with the help of StratifiedShuffleSplit
 3- Saving the train set into a csv file
 """
-
-#Imports
+#------------------------------Imports---------------------------------
 import pandas as pd
 import numpy as np
 import os
@@ -20,27 +19,32 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
+#------------------------------settings--------------------------------
 
 pd.set_option("display.max_row", 100) #add a option of pd
 pd.set_option("display.max_columns", 100) #add a option of pd
 
-#display all data:
-def display_all(data):
-    with pd.option_context("display.max_row", 100, "display.max_columns", 100):
-        display(data)
-################################################################################################################################################################
+#set seed
+np.random.seed(42)
+
+#get the root dir "'y:\\barc\\FGS_ML\\ML_Project\
+ROOT_DIR = os.path.dirname(os.path.abspath('__file__'))
+ROOT_DIR = os.path.join(ROOT_DIR, "../")
+
+#add the script "AddRootDirectoriesToSysPath" and implament it
+sys.path.append(ROOT_DIR)
+from AddRootDirectoriesToSysPath import add_directories_to_sys
+from sklearn.preprocessing import LabelEncoder
+add_directories_to_sys(ROOT_DIR)
+
+#sns + plt option and settings
+sns.set_style("darkgrid")
+plt.style.use("dark_background")
+
 # Define the path you want to add
 GETCWD = os.getcwd()
 
-# Add the path to sys.path if it's not already there
-if GETCWD not in sys.path:
-    sys.path.append(GETCWD)
-#add classes files from this dir 
-# from SeeTheData import SeeTheData
-
-################################################################################################################################################################ importing data
-#path to data file
-    
+#------------------------------get the data file ----------------
 if os.path.basename(GETCWD) == "pyScripts":
     PathToData = os.path.join(GETCWD + "/../data/diabetic_data.csv" )
     PathToMap = os.path.join(GETCWD + "/../data/IDS_mapping.csv" )
@@ -55,52 +59,29 @@ elif os.path.basename(GETCWD) == "FGS_ML":
     PathToData = os.path.join(GETCWD + "/data/diabetic_data.csv" )
     PathToMap = os.path.join(GETCWD + "/data/IDS_mapping.csv" )
 
-#assing df
-Maindf = pd.read_csv(PathToData)
-Mapdf = pd.read_csv(PathToMap)
+# ---------------------------------Functions--------------------------------
 
-#sns + plt option and settings
-sns.set_style("darkgrid")
-plt.style.use("dark_background")
+def remove_unwanted_columns_and_rows(df):
+    Subset_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
+    df = Subset_df
+    df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
+    df = df.reset_index(drop= True)
+    df['readmitted'] = le.fit_transform(df[['readmitted']]) 
+    return df
 
-################################################################################################################################################################
-df = Maindf
-#Removing non-diabetes diagnosis should be before starting EDA
-Subset_df = df[df['diag_1'].str.contains('250') | df['diag_2'].str.contains('250') | df['diag_3'].str.contains('250')]
-df = Subset_df
+def split_data(df, ColName):
+    split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+    for train_index, test_index in split.split(df, df[ColName]):
+        train_set = df.loc[train_index]
+        test_set = df.loc[test_index]
+    return train_set, test_set
 
-################################################################################################################################################################
-df.loc[df["readmitted"] == ">30" , "readmitted"] = "NO"
-df = df.reset_index(drop= True)
-df['readmitted'] = le.fit_transform(df[['readmitted']]) 
-df['readmitted'] = df['readmitted'].astype('object')
-##########################################################################################
-#def to_categorical(data):
-#    object_columns = data.select_dtypes(include=['object']).columns
-#    if len(object_columns) == 0:
-#        return data
-#    else:
-#        data[object_columns] = data[object_columns].astype('category')  
-#df1 = to_categorical(df)
-################################################################################################################################################################
-ColName= "readmitted"
-
-split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
-for train_index, test_index in split.split(df, df[ColName]):
-    train_set = df.loc[train_index]
-    test_set = df.loc[test_index]
-
-def Ratio_cat_proportions(data):
-    return data["categoricalValue"].value_counts() / len(data)
-################################################################################################################################################################
-print(train_set.columns)
-
-#train_label = train_set['readmitted']
-#train_set = train_set.drop(columns=['readmitted'])
-#############################
-#if we run this line : the train set will be difffrent from the one in the main file
-# train_set.to_csv(os.getcwd() + "/../data/train_set_test.csv", index=False)
-# train_set.to_csv(path_or_buf=None)
-
-#####
-#train_set.to_csv('saar.csv')
+#---------------------------------Main--------------------------------
+#main function to run the script
+def prepare_data_main():
+    ColName= "readmitted"
+    Maindf = pd.read_csv(PathToData)
+    Mapdf = pd.read_csv(PathToMap)
+    Maindf = remove_unwanted_columns_and_rows(Maindf)
+    train_set, test_set = split_data(Maindf, ColName)
+    return train_set, test_set ,Mapdf
