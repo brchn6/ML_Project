@@ -14,7 +14,7 @@ from sklearn.metrics import make_scorer, f1_score, roc_auc_score, precision_scor
 from sklearn.linear_model import LogisticRegression
 
 # Import variables from Run_pipeline module
-from preprocessing_pipe import *
+from pyScripts.RunPipe import *
 
 # Define the classifiers to be evaluated, with default parameters
 

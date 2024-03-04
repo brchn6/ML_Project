@@ -78,14 +78,10 @@ def split_data(df, ColName):
 
 #---------------------------------Main--------------------------------
 #main function to run the script
-def main():
+def prepare_data_main():
     ColName= "readmitted"
     Maindf = pd.read_csv(PathToData)
     Mapdf = pd.read_csv(PathToMap)
     Maindf = remove_unwanted_columns_and_rows(Maindf)
     train_set, test_set = split_data(Maindf, ColName)
     return train_set, test_set ,Mapdf
-
-if __name__ == "__main__":
-    train_set, test_set ,Mapdf= main()
-    print("Data has been processed and now we can continue to the next step")

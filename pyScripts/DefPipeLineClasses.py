@@ -2,32 +2,23 @@
 """
 This script is non callable (no main) and is used to create a pipeline object for the data preparation.
 in this script we will create a pipeline objects and define the hard coded values we will use in the pipeline.
+becuase the pipeline is not callable, we dont need to define the df as a parameter.
 """
 #---------------------------------Libraries--------------------------------
 #importing libraries
 import pandas as pd
-import numpy as np
-import os
-import matplotlib as plt
-import sys
-from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from sklearn.compose import ColumnTransformer
-from AddRootDirectoriesToSysPath import add_directories_to_sys
-#adding the root directories to sys.path
-add_directories_to_sys(os.getcwd())
+from sklearn.compose import make_column_transformer
+from sklearn.compose import make_column_selector
 from sklearn.base import BaseEstimator, TransformerMixin
 from deadendscript.disease_ids_conds import *
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import make_pipeline
 from prepare_data import *
+train_set, test_set ,Mapdf= prepare_data_main()
 
-if __name__ == "__main__":
-    train_set, test_set, Mapdf = prepare_data.main()
-    print("Data has been processed and now we can continue to the next step")
-# ---------------------------------Imports--------------------------------
-#%%
+
 #setting up display style
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 4)
@@ -76,13 +67,37 @@ class DropColumns(BaseEstimator, TransformerMixin):
 
 
 class LabelFetcher(BaseEstimator, TransformerMixin):
+    """
+    A custom transformer class that fetches the labels column from the input data and returns the modified dataset without the labels column.
+    """
+
     def __init__ (self):
         pass
+
     def fit(self, X, y=None):
+        """
+        Fit method required by scikit-learn's BaseEstimator.
+
+        Parameters:
+        - X: Input data (pandas DataFrame)
+
+        Returns:
+        - self: Returns the instance of the transformer
+        """
         return self
 
     def transform(self, X):
-        # get the lables column
+        """
+        Transform method required by scikit-learn's TransformerMixin.
+
+        Parameters:
+        - X: Input data (pandas DataFrame)
+
+        Returns:
+        - diabetes_labels: The labels column extracted from the input data
+        - train_set_mod: The modified dataset without the labels column
+        """
+        # get the labels column
         diabetes_labels = X['readmitted']
         # Drop the label column
         train_set_mod = X.drop('readmitted', axis=1)
@@ -133,8 +148,7 @@ class IDSTransformer(BaseEstimator, TransformerMixin):
         pass
 
     def fit(self, X, y = None):
-        return self
-    
+        return self    
     def transform(self, X):
         #Removing Dead patients:
         discharge_disposition_id_DF = Mapdf[["discharge_disposition_id", "description.1"]]
@@ -232,13 +246,15 @@ cat_transformer = make_pipeline(
     OneHotEncoder(handle_unknown='ignore', drop='if_binary')
 )
 
+
+#---------------------------------Define column processor--------------------------------
+col_processor = make_column_transformer(
+    (num_transformer, make_column_selector(dtype_include="number")),
+    (cat_transformer, make_column_selector(dtype_include="object")),
+    remainder='passthrough'
+)
+
+
 #hardcoded values for the pipeline
 dropdup_col = "patient_nbr"
 columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']
-
-# Set numerical columns
-num_cols = ['num_medications', 'num_lab_procedures']
-# Set categorical columns
-cols = train_set.columns
-label = 'readmitted'
-cat_cols = [col for col in cols if col not in num_cols and col not in columns_to_drop and col not in label]
