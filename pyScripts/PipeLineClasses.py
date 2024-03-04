@@ -21,10 +21,12 @@ from deadendscript.disease_ids_conds import *
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import make_pipeline
+from prepare_data import *
 
+if __name__ == "__main__":
+    train_set, test_set, Mapdf = prepare_data.main()
+    print("Data has been processed and now we can continue to the next step")
 # ---------------------------------Imports--------------------------------
-from prepare_data import train_set
-from prepare_data import Mapdf
 #%%
 #setting up display style
 pd.set_option('display.max_columns', None)

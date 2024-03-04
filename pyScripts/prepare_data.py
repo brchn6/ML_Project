@@ -84,8 +84,8 @@ def main():
     Mapdf = pd.read_csv(PathToMap)
     Maindf = remove_unwanted_columns_and_rows(Maindf)
     train_set, test_set = split_data(Maindf, ColName)
-    return train_set, test_set
+    return train_set, test_set ,Mapdf
 
 if __name__ == "__main__":
-    train_set, test_set = main()
+    train_set, test_set ,Mapdf= main()
     print("Data has been processed and now we can continue to the next step")

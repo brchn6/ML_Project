@@ -3,11 +3,6 @@ import pandas as pd
 import numpy as np
 import os 
 import sys
-from AddRootDirectoriesToSysPath import add_directories_to_sys
-add_directories_to_sys(os.getcwd())
-
-from prepare_data import train_set
-train_set = train_set.copy()
 
 diseases = ['Circulatory', 'Respiratory', 'Digestive', 'Diabetes','Diabetes Uncontrolled', 'Injury', 'Musculoskeletal', 'Genitourinary', 'Neoplasms', 'Other']
 ids = [
