@@ -9,7 +9,7 @@ import pandas as pd
 from DefPipeLineClasses import *
 from prepare_data import *
 import matplotlib.pyplot as plt
-
+from sklearn.compose import make_column_selector as selector
 #---------------------------------getting the data--------------------------------
 train_set, test_set ,Mapdf= prepare_data_main()
 
@@ -25,9 +25,10 @@ preprocessing = make_pipeline(
 )
 #---------------------------------Define column processor--------------------------------
 col_processor = make_column_transformer(
-    (num_transformer, make_column_selector(dtype_include="number")),
-    (cat_transformer, make_column_selector(dtype_include="object")),
-    remainder='passthrough'
+    (num_transformer, selector(dtype_include="number")),
+    (bool_transformer, selector(dtype_include="bool")),
+    (cat_transformer, selector(dtype_include="object")),
+    n_jobs=3,
 )
 #---------------------------------get the X train and y train--------------------------------
 #in a df mode not a numpy array
@@ -66,3 +67,8 @@ def main():
 
 #to call the main function remove the comment from the next line
 # main()
+
+
+#%%
+
+col_processor.get_feature_names_out()

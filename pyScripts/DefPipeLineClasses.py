@@ -15,6 +15,7 @@ from deadendscript.disease_ids_conds import *
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import make_pipeline
+from sklearn.pipeline import Pipeline
 from prepare_data import *
 train_set, test_set ,Mapdf= prepare_data_main()
 
@@ -265,15 +266,16 @@ cat_cols = [col for col in cols if col not in num_cols and col not in columns_to
 
 
 # Define preprocessing steps for numerical and categorical columns
-num_transformer = make_pipeline(
-    SimpleImputer(strategy='mean'),
-    StandardScaler()
-)
+num_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='mean')),
+    ('scaler', StandardScaler())])
 
-cat_transformer = make_pipeline(
-    SimpleImputer(strategy='most_frequent'),
-    OneHotEncoder(handle_unknown='ignore', drop='if_binary')
-)
+bool_transformer = Pipeline(steps=[
+    ('booltransform', BooleanConverter())])
+
+cat_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore',drop='if_binary'))])
 
 
 
