@@ -4,6 +4,14 @@ description:
 2. The script is used to compare the performance of the classifiers on the original data and the synthetic data
 3. the output of this script is preformance of the classifiers on the original data and the synthetic data
 4. another output is the synthetic data together with the original data to a csv file called balanced_train_set.csv
+
+total output:
+1. score_table.csv
+2. balanced_train_set.
+3. ctgan_score.txt
+4. myfig.png
+
+Author: Guy Ilan
 """
 
 #-------------------------------------------imports-------------------------------------------
