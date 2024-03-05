@@ -3,7 +3,6 @@
 this script is for the first step in the project
 1- Importing the data
 2- Splitting the data into train and test set with the help of StratifiedShuffleSplit
-3- Saving the train set into a csv file
 """
 #------------------------------Imports---------------------------------
 import pandas as pd
