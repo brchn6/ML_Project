@@ -276,13 +276,6 @@ cat_transformer = make_pipeline(
 )
 
 
-#---------------------------------Define column processor--------------------------------
-col_processor = make_column_transformer(
-    (num_transformer, make_column_selector(dtype_include="number")),
-    (cat_transformer, make_column_selector(dtype_include="object")),
-    remainder='passthrough'
-)
-
 
 #hardcoded values for the pipeline
 dropdup_col = "patient_nbr"

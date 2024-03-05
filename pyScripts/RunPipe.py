@@ -23,6 +23,12 @@ preprocessing = make_pipeline(
     A1CTransformer(),
     CustomTransformer(functions),
 )
+#---------------------------------Define column processor--------------------------------
+col_processor = make_column_transformer(
+    (num_transformer, make_column_selector(dtype_include="number")),
+    (cat_transformer, make_column_selector(dtype_include="object")),
+    remainder='passthrough'
+)
 #---------------------------------get the X train and y train--------------------------------
 #in a df mode not a numpy array
 df = preprocessing.fit_transform(train_set)
