@@ -24,15 +24,36 @@ preprocessing = make_pipeline(
     CustomTransformer(functions),
 )
 #---------------------------------Define column processor--------------------------------
+"""
+this pipeline is used to
+make the data ready to be used in the ML model
+output: X_train_np, y_train_np (np array)
+"""
 col_processor = make_column_transformer(
     (num_transformer, selector(dtype_include="number")),
     (bool_transformer, selector(dtype_include="bool")),
     (cat_transformer, selector(dtype_include="object")),
     n_jobs=3,
 )
-#---------------------------------get the X train and y train--------------------------------
+#---------------------------------make the df var as a dataframe afrer the preprocessing pipeline--------------------------------
+"""
+train_set --> preprocessing --> df
+"""
 #in a df mode not a numpy array
 df = preprocessing.fit_transform(train_set)
+"""
+We need to change something in the initial transformations, 
+leave it like this for now.
+now its hardcode but we will change it to be dynamic in the future
+"""
+def randomfun(x):
+    processed = x
+    for col in ['admission_type_id', 'discharge_disposition_id', 'admission_source_id']:
+        processed[col] = processed[col].astype(object)
+    return processed
+df = randomfun(df)
+
+#---------------------------------get the X train and y train--------------------------------
 X_train = df.drop("readmitted", axis=1)
 y_train = df["readmitted"].copy() 
 
@@ -41,6 +62,11 @@ y_train = df["readmitted"].copy()
 df = preprocessing.transform(test_set)
 X_test = df.drop("readmitted", axis=1)
 y_test = df["readmitted"].copy()
+
+
+
+X_train = randomfun(X_train)
+X_test = randomfun(X_test)
 
 """
 In order to implament the data into ML model, we need to convert the data into
