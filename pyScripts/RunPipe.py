@@ -40,7 +40,7 @@ col_processor = make_column_transformer(
 train_set --> preprocessing --> df
 """
 #in a df mode not a numpy array
-df = preprocessing.fit_transform(train_set)
+prepro_train = preprocessing.fit_transform(train_set)
 """
 We need to change something in the initial transformations, 
 leave it like this for now.
@@ -51,19 +51,17 @@ def randomfun(x):
     for col in ['admission_type_id', 'discharge_disposition_id', 'admission_source_id']:
         processed[col] = processed[col].astype(object)
     return processed
-df = randomfun(df)
+prepro_train = randomfun(prepro_train)
 
 #---------------------------------get the X train and y train--------------------------------
-X_train = df.drop("readmitted", axis=1)
-y_train = df["readmitted"].copy() 
+X_train = prepro_train.drop("readmitted", axis=1)
+y_train = prepro_train["readmitted"].copy() 
 
 #---------------------------------get the X test and y test--------------------------------
 #in a df mode not a numpy array
-df = preprocessing.transform(test_set)
-X_test = df.drop("readmitted", axis=1)
-y_test = df["readmitted"].copy()
-
-
+prepro_test = preprocessing.transform(test_set)
+X_test = prepro_test.drop("readmitted", axis=1)
+y_test = prepro_test["readmitted"].copy()
 
 X_train = randomfun(X_train)
 X_test = randomfun(X_test)

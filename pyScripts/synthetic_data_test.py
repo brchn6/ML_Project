@@ -19,11 +19,8 @@ import os
 from sdv.single_table import CTGANSynthesizer
 from sklearn.model_selection import train_test_split
 from sdv.metadata import SingleTableMetadata
-import matplotlib.pyplot as plt
 from sdv.evaluation.single_table import evaluate_quality, run_diagnostic
-from sklearn.metrics import make_scorer, f1_score, roc_auc_score, precision_score, recall_score, accuracy_score, log_loss
 from xgboost import XGBClassifier
-from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
 from imblearn.over_sampling import SMOTENC
 from lightgbm import LGBMClassifier
@@ -46,11 +43,6 @@ classifiers = [rnd_clf, xgb_clf, lgbm_clf, catboost_clf, logistic_reg]
 
 # Define the scoring metrics (perofrmance measure (pm))
 scorers = ['roc_auc', 'f1', 'recall', 'neg_log_loss', 'precision', 'accuracy']
-#%%
-# Initialize cross-validation
-X_train = processed.copy()
-y_train = processed['readmitted'].astype('category')
-X_train = X_train.drop(columns='readmitted')
 
 cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
 smote = SMOTENC(random_state=42,categorical_features=cat_cols)
@@ -85,12 +77,12 @@ for defs in [None, smote]:
 
 ###############3Generating Synthetic data with GAN:##############
 #Separating majority and minority classes:
-maj_class = processed[processed['readmitted'] == 1]
-min_class = processed[processed['readmitted'] == 0]
+maj_class = prepro_train[prepro_train['readmitted'] == 1]
+min_class = prepro_train[prepro_train['readmitted'] == 0]
 
 #Creating metadata (done with builtin SDV class), using processed data before column transformation:
 metadata = SingleTableMetadata()
-metadata.detect_from_dataframe(processed)
+metadata.detect_from_dataframe(prepro_train)
 
 metadata.update_column(
     column_name='diabetesMed',
@@ -144,9 +136,9 @@ fig = get_column_pair_plot(
 fig.write_image('myfig.png')
 
 #Creating and exporting balanced df:
-balanced_train_set = pd.concat([processed, synthetic_samples_ct])
+balanced_train_set = pd.concat([prepro_train, synthetic_samples_ct])
 
-df_synthetic = pd.DataFrame(balanced_train_set, columns=processed.columns)
+df_synthetic = pd.DataFrame(balanced_train_set, columns=prepro_train.columns)
 
 df_synthetic.to_csv('balanced_train_set.csv', index=False)
 
