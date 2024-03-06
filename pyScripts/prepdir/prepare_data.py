@@ -13,12 +13,22 @@ import warnings
 warnings.filterwarnings("ignore")
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.preprocessing import LabelEncoder
+import sys
+import os
 le = LabelEncoder()
 
+#-----------------------set the working directory--------------------------
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, '..'))
+if sys.path[0] != parent_dir:
+    sys.path.insert(0, parent_dir)
+# ---------- add the path to the config file --------------------------
+from prepdir import Config
+from Config import *
+Config.EnvPrepa_main()
+
 #------------------------------get the path from the EnvPrepa.py file ----------------
-import sys
-sys.path
-from EnvPrepa import *
+
 PathToData, PathToMap = define_data_paths()
 
 #------------------------------settings---------------------------------

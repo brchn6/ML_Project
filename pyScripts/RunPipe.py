@@ -14,7 +14,7 @@ from sklearn.compose import make_column_selector as selector
 #---------------------------------Import the prepdir script and implement the functions--------------------------------
 here = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(here, ".."))
-from prepdir.EnvPrepa import EnvPrepa_main
+from pyScripts.prepdir.Config import EnvPrepa_main
 EnvPrepa_main()
 #---------------------------------Import the classes from the classes script--------------------------------
 from pyScripts.classes.DefPipeLineClasses import *

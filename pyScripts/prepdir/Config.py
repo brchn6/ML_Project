@@ -30,6 +30,7 @@ def define_data_paths():
     GETCWD = os.getcwd()
 
     #------------------------------get the data file ----------------
+
     if os.path.basename(GETCWD) == "pyScripts":
         PathToData = os.path.join(GETCWD + "/../data/diabetic_data.csv" )
         PathToMap = os.path.join(GETCWD + "/../data/IDS_mapping.csv" )
