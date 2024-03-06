@@ -16,7 +16,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
-from prepare_data import *
+from pyScripts.classes.prepare_data import *
 train_set, test_set ,Mapdf= prepare_data_main()
 
 
