@@ -5,10 +5,21 @@ the output of this script is the transformed data
 """
 #---------------------------------Imports--------------------------------
 import pandas as pd
-from pyScripts.classes.DefPipeLineClasses import *
-from pyScripts.classes.prepare_data import *
-import matplotlib.pyplot as plt
+import os
+import sys
+from sklearn.compose import make_column_transformer
 from sklearn.compose import make_column_selector as selector
+from sklearn.pipeline import make_pipeline
+from sklearn.compose import make_column_selector as selector
+#---------------------------------Import the prepdir script and implement the functions--------------------------------
+here = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(here, ".."))
+from prepdir.EnvPrepa import EnvPrepa_main
+EnvPrepa_main()
+#---------------------------------Import the classes from the classes script--------------------------------
+from pyScripts.classes.DefPipeLineClasses import *
+from pyScripts.prepdir.prepare_data import *
+
 #---------------------------------getting the data--------------------------------
 train_set, test_set ,Mapdf= prepare_data_main()
 #---------------------------------and preprocessing pipeline--------------------------------

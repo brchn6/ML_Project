@@ -1,0 +1,2 @@
+Path to Data: y:\barc\FGS_ML\ML_Project\pyScripts\prepdir/../data/diabetic_data.csv
+Path to Map: y:\barc\FGS_ML\ML_Project\pyScripts\prepdir/../data/IDS_mapping.csv

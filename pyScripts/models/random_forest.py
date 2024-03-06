@@ -10,8 +10,9 @@ Date: 2024-03-06
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
-
-
+import sys
+sys.path.append("../")
+#%%
 #---load the data---
 from RunPipe import X_train, X_test, y_train, y_test
 

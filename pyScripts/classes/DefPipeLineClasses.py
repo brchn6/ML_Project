@@ -8,15 +8,12 @@ becuase the pipeline is not callable, we dont need to define the df as a paramet
 #importing libraries
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-from sklearn.compose import make_column_transformer
-from sklearn.compose import make_column_selector
 from sklearn.base import BaseEstimator, TransformerMixin
 from deadendscript.disease_ids_conds import *
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
-from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
-from pyScripts.classes.prepare_data import *
+from pyScripts.prepdir.prepare_data import *
 train_set, test_set ,Mapdf= prepare_data_main()
 
 
