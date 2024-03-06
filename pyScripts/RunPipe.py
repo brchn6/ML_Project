@@ -69,6 +69,7 @@ data that can goes into onehotencoder and standard scaler for the categorical an
 standard scaler for the numerical data
 to do that we will use the col_processor pipeline which we wrote in the DefPipeLineClasses.py
 on the X_train and y_train to get the X_train_np and y_train_np
+
 """
 # --------------------------------- get the X train and y train --------------------------------
 # in a numpy array mode not a df
