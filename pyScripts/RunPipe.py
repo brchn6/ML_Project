@@ -5,12 +5,15 @@ the output of this script is the transformed data
 """
 #---------------------------------Imports--------------------------------
 import pandas as pd
-from pyScripts.classes.DefPipeLineClasses import *
-from pyScripts.classes.prepare_data import *
+from sklearn.pipeline import make_pipeline
+from classes.DefPreprocessing_PipeLineClasses import *
+from classes.disease_ids_conds import *
+from classes.DefTreanformer_PipeLineClasses import *
 import matplotlib.pyplot as plt
 from sklearn.compose import make_column_selector as selector
-#---------------------------------getting the data--------------------------------
-train_set, test_set ,Mapdf= prepare_data_main()
+#---------------------------------Define the Hardcoded variables--------------------------------
+dropdup_col = "patient_nbr"
+columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']
 #---------------------------------and preprocessing pipeline--------------------------------
 preprocessing = make_pipeline(
     DropDup(dropdup_col),

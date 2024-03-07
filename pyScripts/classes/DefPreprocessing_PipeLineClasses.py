@@ -8,23 +8,10 @@ becuase the pipeline is not callable, we dont need to define the df as a paramet
 #importing libraries
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-from sklearn.compose import make_column_transformer
-from sklearn.compose import make_column_selector
 from sklearn.base import BaseEstimator, TransformerMixin
-from deadendscript.disease_ids_conds import *
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
-from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
-from pyScripts.classes.prepare_data import *
-train_set, test_set ,Mapdf= prepare_data_main()
-
-
-#setting up display style
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', 4)
-
-#start with the pipeline classes
 
 #defining the DropDup class
 class DropDup(BaseEstimator, TransformerMixin):
@@ -251,20 +238,6 @@ class BooleanConverter(BaseEstimator, TransformerMixin):
     def get_feature_names_out(self, input_features=None):
         return input_features
 
-dropdup_col = "patient_nbr"
-columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']
-
-# Set numerical columns
-num_cols = ['num_medications', 'num_lab_procedures']
-bin_cols = ['change', 'diabetesMed']
-# Set categorical columns
-cols = train_set.columns
-label = 'readmitted'
-cat_cols = [col for col in cols if col not in num_cols and col not in columns_to_drop and col not in label and col not in bin_cols]
-
-
-
-
 # ---------------------------------Define the object for the colprocessor pipeline--------------------------------
 """
 this object is used to in the script RunPipe.py to make the data ready to be used in the ML model
@@ -281,9 +254,3 @@ bool_transformer = Pipeline(steps=[
 cat_transformer = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='most_frequent')),
     ('onehot', OneHotEncoder(handle_unknown='ignore',drop='if_binary'))])
-
-
-#---------------------------------Define hard coded values for the pipeline--------------------------------
-"""#hardcoded values for the pipeline"""
-dropdup_col = "patient_nbr"
-columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']
