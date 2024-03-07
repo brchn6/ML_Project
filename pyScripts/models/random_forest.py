@@ -11,7 +11,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
 #---load the data---
-from RunPipe import X_train, X_test, y_train, y_test
+from pyScripts.Classes.RunPipe import X_train, X_test, y_train, y_test
 
 #---create the model---
 model = RandomForestClassifier(n_estimators=100, random_state=0)

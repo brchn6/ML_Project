@@ -13,6 +13,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 
+#%%
 #defining the DropDup class
 class DropDup(BaseEstimator, TransformerMixin):
     """Transformer class to drop duplicate rows based on a subset of columns.
@@ -238,19 +239,3 @@ class BooleanConverter(BaseEstimator, TransformerMixin):
     def get_feature_names_out(self, input_features=None):
         return input_features
 
-# ---------------------------------Define the object for the colprocessor pipeline--------------------------------
-"""
-this object is used to in the script RunPipe.py to make the data ready to be used in the ML model
-"""
-
-# Define preprocessing steps for numerical and categorical columns
-num_transformer = Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy='mean')),
-    ('scaler', StandardScaler())])
-
-bool_transformer = Pipeline(steps=[
-    ('booltransform', BooleanConverter())])
-
-cat_transformer = Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy='most_frequent')),
-    ('onehot', OneHotEncoder(handle_unknown='ignore',drop='if_binary'))])

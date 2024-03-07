@@ -30,7 +30,7 @@ from imblearn.pipeline import Pipeline as imbipipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_validate
 
-from RunPipe import *
+from pyScripts.Classes.RunPipe import *
 
 # Define the classifiers to be evaluated, with default parameters
 rnd_clf = BalancedRandomForestClassifier(random_state=42)
