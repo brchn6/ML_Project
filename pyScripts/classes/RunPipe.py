@@ -6,6 +6,9 @@ the output of this script is the transformed data
 #---------------------------------Imports--------------------------------
 import pandas as pd
 from sklearn.pipeline import make_pipeline
+from pyScripts.__main__ import *
+
+#%%
 from .DefPreprocessing_PipeLineClasses import * #this is the file that contains the classes for the preprocessor pipeline
 from .DefTreanformer_PipeLineClasses import * #this is the file that contains the classes for the col_processor pipeline
 from .disease_ids_conds import * #this is the file that contains the functions for the CustomTransformer
