@@ -31,40 +31,6 @@ def random_forest_script():
 #---------------------------------------Importing the necessary libraries---------------------------------------
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 
-# --------------------------------------Rendom_forest regression--------------------------------------
-def build_RandomForestRegressor (train_features,train_labels):
-    # Create a random forest regressor object 
-    # Instantiate model with 1 decision trees
-    regressor = RandomForestRegressor(n_estimators=1, random_state=42)
-    
-    # Train the model on training data
-    regressor = regressor.fit(train_features, train_labels)
-    return regressor
-
-def predict_RandomForestRegressor (regressor, test_features):
-    # Use the forest's predict method on the test data
-    predictions = regressor.predict(test_features)
-    return predictions
-
-
-# --------------------------------------Rendom_forest classification--------------------------------------
-def build_RandomForestClassifier (train_features,train_labels):
-    # Create a random forest classifier object
-    # Instantiate model with 10 decision trees
-    classifier = RandomForestClassifier(n_estimators=10, random_state=42)
-    
-    # Train the model on training data
-    classifier_fit = classifier.fit(train_features, train_labels)
-    return classifier_fit
-
-
-def predict_RandomForestClassifier (classifier, test_features):
-    # Use the forest's predict method on the test data
-    predictions = classifier.predict(test_features)
-    return predictions
-
-
-
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
 class Rendom_forest_regression_BC:
     def __init__(self, train_features,train_labels,test_features,test_labels):
@@ -84,4 +50,26 @@ class Rendom_forest_regression_BC:
     def predict_RandomForestRegressor (self, regressor):
         # Use the forest's predict method on the test data
         predictions = regressor.predict(self.test_features)
+        return predictions
+    
+# --------------------------------------Rendom_forest Classification Class--------------------------------------
+class Rendom_forest_classification_BC:
+    def __init__(self, train_features,train_labels,test_features,test_labels):
+        self.train_features = train_features
+        self.train_labels = train_labels
+        self.test_features = test_features
+        self.test_labels = test_labels
+    def build_RandomForestClassifier (self):
+        # Create a random forest classifier object
+        # Instantiate model with 10 decision trees
+        classifier = RandomForestClassifier(n_estimators=10, random_state=42)
+        
+        # Train the model on training data
+        classifier_fit = classifier.fit(self.train_features, self.train_labels)
+        return classifier_fit
+    
+    
+    def predict_RandomForestClassifier (self, classifier):
+        # Use the forest's predict method on the test data
+        predictions = classifier.predict(self.test_features)
         return predictions
