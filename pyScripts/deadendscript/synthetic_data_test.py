@@ -29,6 +29,7 @@ from imblearn.ensemble import BalancedRandomForestClassifier
 from imblearn.pipeline import Pipeline as imbipipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_validate
+from imblearn.pipeline import make_pipeline as make_impipe
 
 from RunPipe import *
 
@@ -54,9 +55,9 @@ score_table = pd.DataFrame()
 # Create a function to make the pipeline
 def make_cv_pipe(classifier, smote=None):
     if smote:
-        cv_pipe = make_impipe(smote, col_processor_s, classifier)
+        cv_pipe = make_impipe(smote, col_processor, classifier)
     else:
-        cv_pipe = make_impipe(col_processor_s, classifier)
+        cv_pipe = make_impipe(col_processor, classifier)
     return cv_pipe
 
 for defs in [None, smote]:
@@ -66,7 +67,7 @@ for defs in [None, smote]:
 
         cross_val_scores = cross_validate(cv_pipe, X_train, y_train, cv=cv, scoring=scorers)
         
-        for scoring_metric, scores in cross_val_scores.items():
+        for scoring_metric, scores in cross_val_scores['test_score']:
             if scoring_metric not in ['fit_time', 'score_time']:  # Exclude fit_time and score_time
                 if scoring_metric.startswith('test_'):
                     scoring_metric = scoring_metric[5:]  # Remove the 'test_' prefix
