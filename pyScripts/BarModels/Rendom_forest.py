@@ -33,24 +33,24 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
 class Rendom_forest_regression_BC:
-    def __init__(self, train_features,train_labels,test_features,test_labels):
+    def __init__(self, train_features, train_labels, test_features, test_labels):
         self.train_features = train_features
         self.train_labels = train_labels
         self.test_features = test_features
         self.test_labels = test_labels
     
-    def build_RandomForestRegressor (self):
+    def build_RandomForestRegressor(self):
         # Create a random forest regressor object 
-        # Instantiate model with 1 decision trees
+        # Instantiate model with 1 decision tree
         regressor = RandomForestRegressor(n_estimators=1, random_state=42)
         
         # Train the model on training data
         regressor = regressor.fit(self.train_features, self.train_labels)
         return regressor
     
-    def predict_RandomForestRegressor (regressor, test_features):
+    def predict_RandomForestRegressor(self, regressor):
         # Use the forest's predict method on the test data
-        predictions = regressor.predict(test_features)
+        predictions = regressor.predict(self.test_features)
         return predictions
     
 # --------------------------------------Rendom_forest Classification Class--------------------------------------
