@@ -13,24 +13,17 @@ total output:
 
 Author: Guy Ilan
 """
-
-#-------------------------------------------imports-------------------------------------------
-import os
-from sdv.single_table import CTGANSynthesizer
-from sklearn.model_selection import train_test_split
-from sdv.metadata import SingleTableMetadata
-from sdv.evaluation.single_table import evaluate_quality, run_diagnostic
-from xgboost import XGBClassifier
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import cross_validate, StratifiedKFold
+from imblearn.pipeline import make_pipeline as make_impipe
 from imblearn.over_sampling import SMOTENC
+import pandas as pd
+import os
+
 from lightgbm import LGBMClassifier
 from catboost import CatBoostClassifier
 from imblearn.ensemble import BalancedRandomForestClassifier
-from imblearn.pipeline import Pipeline as imbipipeline
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_validate
-
-from RunPipe import *
+from xgboost import XGBClassifier
 
 # Define the classifiers to be evaluated, with default parameters
 rnd_clf = BalancedRandomForestClassifier(random_state=42)
@@ -44,101 +37,84 @@ classifiers = [rnd_clf, xgb_clf, lgbm_clf, catboost_clf, logistic_reg]
 # Define the scoring metrics (perofrmance measure (pm))
 scorers = ['roc_auc', 'f1', 'recall', 'neg_log_loss', 'precision', 'accuracy']
 
-cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
-smote = SMOTENC(random_state=42,categorical_features=cat_cols)
+cat_cols = ['race', 'gender', 'age', 'admission_type_id',
+       'discharge_disposition_id', 'admission_source_id',
+       'time_in_hospital', 'num_procedures', 'number_outpatient',
+       'number_emergency', 'number_inpatient', 'diag_1', 'diag_2',
+       'diag_3', 'number_diagnoses', 'A1Cresult', 'metformin',
+       'repaglinide', 'nateglinide', 'chlorpropamide', 'glimepiride',
+       'glipizide', 'glyburide', 'tolbutamide', 'pioglitazone',
+       'rosiglitazone', 'acarbose', 'miglitol', 'tolazamide', 'insulin',
+       'glyburide-metformin', 'glipizide-metformin',
+       'glimepiride-pioglitazone', 'metformin-pioglitazone']
 
-###########Run with and without SMOTE:###########
-
-score_table = pd.DataFrame()
-
-# Create a function to make the pipeline
-def make_cv_pipe(classifier, smote=None):
-    if smote:
-        cv_pipe = make_impipe(smote, col_processor_s, classifier)
-    else:
-        cv_pipe = make_impipe(col_processor_s, classifier)
-    return cv_pipe
-
-for defs in [None, smote]:
-    for classifier in classifiers:
-        classifier_name = type(classifier).__name__
-        cv_pipe = make_cv_pipe(classifier, smote=defs)
-
-        cross_val_scores = cross_validate(cv_pipe, X_train, y_train, cv=cv, scoring=scorers)
-        
-        for scoring_metric, scores in cross_val_scores.items():
-            if scoring_metric not in ['fit_time', 'score_time']:  # Exclude fit_time and score_time
-                if scoring_metric.startswith('test_'):
-                    scoring_metric = scoring_metric[5:]  # Remove the 'test_' prefix
-                if defs is None:
-                    score_table.loc[classifier_name, scoring_metric] = scores.mean()
-                else:
-                    score_table.loc[classifier_name + '_sm', scoring_metric] = scores.mean()
-
-
-#############Run balanced df through classifiers:###########
-for classifier in classifiers:
-        classifier_name = type(classifier).__name__
-        cv_pipe = make_cv_pipe(classifier)
-        cross_val_scores = cross_validate(cv_pipe, X_train_bal, y_train_bal, cv=cv, scoring=scorers)
-        
-        for scoring_metric, scores in cross_val_scores.items():
-            if scoring_metric not in ['fit_time', 'score_time']:  # Exclude fit_time and score_time
-                if scoring_metric.startswith('test_'):
-                    scoring_metric = scoring_metric[5:]  # Remove the 'test_' prefix
-                    score_table.loc[classifier_name+'_gan', scoring_metric] = scores.mean()    
-
-#Export finished table:
-score_table.to_csv('score_table.csv')
-
-#%%
-
-from sklearn.model_selection import cross_validate, StratifiedKFold
-from sklearn.impute import SimpleImputer
-from imblearn.pipeline import Pipeline
-from imblearn.over_sampling import SMOTENC
-import pandas as pd
+smote = SMOTENC(random_state=42, categorical_features=cat_cols)
 
 class ClassifierEvaluator:
-    def __init__(self, classifiers, scorers):
+    def __init__(self, classifier, score, col_processor, scorers = [], classifiers = []):
+        self.classifier = classifier
+        self.scorer = score
+        self.scores = scorers
         self.classifiers = classifiers
-        self.scorers = scorers
-    
-    def evaluate(self, X_train, y_train, balanced=False, smote=None):
-        score_table = pd.DataFrame()
-        cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
+        self.col_processor = col_processor
+
+    def cv_evaluate(self, X_train = None, y_train = None, X_train_bal = None, y_train_bal = None,balanced=False, smote=False, normal = True, splits=10):
+        #Check if X_train and y_train are None:
+        if (X_train is None) & (y_train is None):
+        #If both are None, check if X_train_bal and y_train_bal are None:
+            if (X_train_bal is None) & (y_train_bal is None):
+                raise ValueError('Enter training data')
+
+        cv = StratifiedKFold(n_splits=splits, shuffle=True, random_state=42)
         smote = SMOTENC(random_state=42, categorical_features=cat_cols)
-        
-        for classifier in self.classifiers:
-            classifier_name = type(classifier).__name__
-            cv_pipe = self.make_impipe(col_processor, classifier)
+        cv_pipe = make_impipe(self.col_processor, self.classifier)
+
+        if normal:
+            X_train_data = X_train
+            y_train_data = y_train 
+            suffix = ''
             
-            if balanced:
-                X_train_data = X_train
-                y_train_data = y_train
+        elif balanced:
+            X_train_data = X_train_bal
+            y_train_data = y_train_bal
+            suffix = '_gan'
 
-            else:
-                X_train_data = X_train
-                y_train_data = y_train
-                
-                if not smote:  # Apply SMOTE if data is unbalanced
-                    X_train_data, y_train_data = smote.fit_resample(X_train_data, y_train_data)
+        elif smote:
+            X_train_data = X_train
+            y_train_data = y_train
+            cv_pipe = make_impipe(smote, self.col_processor, self.classifier)
+            suffix = '_sm'
 
-            cross_val_scores = cross_validate(cv_pipe, X_train_data, y_train_data, cv=cv, scoring=self.scorers)
+        cross_val_scores = cross_validate(cv_pipe, X_train_data, y_train_data, cv=cv, scoring=self.scorer)
+        return cross_val_scores['test_score'].mean(), suffix
 
-            for scoring_metric, scores in cross_val_scores.items():
-                if scoring_metric not in ['fit_time', 'score_time']:  # Exclude fit_time and score_time
-                    if scoring_metric.startswith('test_'):
-                        scoring_metric = scoring_metric[5:]  # Remove the 'test_' prefix
-                    if balanced:
-                        score_table.loc[classifier_name, scoring_metric] = scores.mean()
-                    else:
-                        score_table.loc[classifier_name + '_sm', scoring_metric] = scores.mean()
+    def generate_score_table(self, X_train = None, y_train = None, X_train_bal = None, y_train_bal = None, smote=False, balanced=False, normal=False):
+        score_table = pd.DataFrame()
+    
+        if normal:
+            for classifier in classifiers:
+                classifier_name = type(classifier).__name__
+                for scorer in scorers:
+                    score, suffix= self.cv_evaluate(X_train, y_train, balanced=False, smote=False, normal=True, score=scorer)
+                    score_table.loc[classifier_name + suffix, scorer] = score
+
+        #Check if balanced is True and X_train_bal and y_train_bal are not None:
+
+        if balanced & X_train_bal is not None & y_train_bal is not None:
+            for classifier in classifiers:
+                classifier_name = type(classifier).__name__
+                for scorer in scorers:
+                    score, suffix= self.cv_evaluate(X_train_bal, y_train_bal, balanced=False, smote=False, normal=True, score=scorer)
+                    score_table.loc[classifier_name + suffix, scorer] = score
+
+        if smote:
+            for classifier in classifiers:
+                classifier_name = type(classifier).__name__
+                for scorer in scorers:
+                    score, suffix= self.cv_evaluate(X_train=X_train, y_train=y_train, balanced=False, smote=False, normal=True, score=scorer)
+                    score_table.loc[classifier_name + suffix, scorer] = score
 
         return score_table
 
-# Usage example:
-# Define classifiers and scorers as before
-classifier_evaluator = ClassifierEvaluator(classifiers, scorers)
-score_table = classifier_evaluator.evaluate(X_train, y_train)
-score_table.to_csv('score_table.csv')
+
+    
