@@ -75,81 +75,6 @@ for defs in [None, smote]:
                 else:
                     score_table.loc[classifier_name + '_sm', scoring_metric] = scores.mean()
 
-###############3Generating Synthetic data with GAN:##############
-#Importing                     
-
-#Separating majority and minority classes:
-maj_class = prepro_train[prepro_train['readmitted'] == 1]
-min_class = prepro_train[prepro_train['readmitted'] == 0]
-
-#Creating metadata (done with builtin SDV class), using processed data before column transformation:
-metadata = SingleTableMetadata()
-metadata.detect_from_dataframe(prepro_train)
-
-metadata.update_column(
-    column_name='diabetesMed',
-    sdtype='boolean'
-)
-
-metadata.update_column(
-    column_name='change',
-    sdtype='boolean'
-)
-
-#Seting CTGAN and fitting data:
-cop_gan = CopulaGANSynthesizer(
-    metadata,
-    epochs = 200,
-    enforce_min_max_values=True,
-    )
-
-ct_gan.fit(min_class)
-
-#Generating synthetic samples:
-synthetic_samples_ct = ct_gan.sample(len(maj_class)-len(min_class))
-
-#Evaluate model:
-quality_report = evaluate_quality(
-    real_data=min_class,
-    synthetic_data=synthetic_samples_ct,
-    metadata=metadata)
-
-diagnostic_report = run_diagnostic(
-    real_data=min_class,
-    synthetic_data=synthetic_samples_ct,
-    metadata=metadata)
-
-ctgan_diag = diagnostic_report.get_score()
-ctgan_score = quality_report.get_score()
-
-with open('ctgan_score.txt', 'w') as f:
-    f.write(str(ctgan_score) + '\n' + str(ctgan_diag))
-
-#Visualize comparison to the original data:
-from sdv.evaluation.single_table import get_column_pair_plot
-
-fig = get_column_pair_plot(
-    real_data=min_class,
-    synthetic_data=synthetic_samples_ct,
-    metadata=metadata,
-    column_names=['num_medications', 'num_lab_procedures'],
-    )
-
-fig.write_image('myfig.png')
-
-#Creating and exporting balanced df:
-balanced_train_set = pd.concat([prepro_train, synthetic_samples_ct])
-
-df_synthetic = pd.DataFrame(balanced_train_set, columns=prepro_train.columns)
-
-df_synthetic.to_csv('balanced_train_set.csv', index=False)
-
-#Use balanced df to test model:
-balanced_train_set = pd.read_csv('balanced_train_set.csv')
-
-#Transform balanced df:
-y_train_bal = balanced_train_set['readmitted'].copy().astype('category')
-X_train_bal = balanced_train_set.drop(columns='readmitted')
 
 #############Run balanced df through classifiers:###########
 for classifier in classifiers:
@@ -167,3 +92,53 @@ for classifier in classifiers:
 score_table.to_csv('score_table.csv')
 
 #%%
+
+from sklearn.model_selection import cross_validate, StratifiedKFold
+from sklearn.impute import SimpleImputer
+from imblearn.pipeline import Pipeline
+from imblearn.over_sampling import SMOTENC
+import pandas as pd
+
+class ClassifierEvaluator:
+    def __init__(self, classifiers, scorers):
+        self.classifiers = classifiers
+        self.scorers = scorers
+    
+    def evaluate(self, X_train, y_train, balanced=False, smote=None):
+        score_table = pd.DataFrame()
+        cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
+        smote = SMOTENC(random_state=42, categorical_features=cat_cols)
+        
+        for classifier in self.classifiers:
+            classifier_name = type(classifier).__name__
+            cv_pipe = self.make_impipe(col_processor, classifier)
+            
+            if balanced:
+                X_train_data = X_train
+                y_train_data = y_train
+
+            else:
+                X_train_data = X_train
+                y_train_data = y_train
+                
+                if not smote:  # Apply SMOTE if data is unbalanced
+                    X_train_data, y_train_data = smote.fit_resample(X_train_data, y_train_data)
+
+            cross_val_scores = cross_validate(cv_pipe, X_train_data, y_train_data, cv=cv, scoring=self.scorers)
+
+            for scoring_metric, scores in cross_val_scores.items():
+                if scoring_metric not in ['fit_time', 'score_time']:  # Exclude fit_time and score_time
+                    if scoring_metric.startswith('test_'):
+                        scoring_metric = scoring_metric[5:]  # Remove the 'test_' prefix
+                    if balanced:
+                        score_table.loc[classifier_name, scoring_metric] = scores.mean()
+                    else:
+                        score_table.loc[classifier_name + '_sm', scoring_metric] = scores.mean()
+
+        return score_table
+
+# Usage example:
+# Define classifiers and scorers as before
+classifier_evaluator = ClassifierEvaluator(classifiers, scorers)
+score_table = classifier_evaluator.evaluate(X_train, y_train)
+score_table.to_csv('score_table.csv')

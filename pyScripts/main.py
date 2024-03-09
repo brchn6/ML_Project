@@ -8,6 +8,7 @@ from RunPipe import * #get all the data from the RunPiple.py file
 from AddRootDirectoriesToSysPath import AddRootDirectoriesToSys #importing the funcrion htat add all path in the dir to sys
 AddRootDirectoriesToSys() #implament this function
 
+
 #%%
 # ------------------------------Run Rendom_forest.py script ------------------------------d
 #importing the classes and var from BarModels.Rendom_forest
@@ -32,9 +33,6 @@ plt.xlabel('Original Data')
 plt.ylabel('Error')
 plt.title('Error vs Original Data')
 plt.show()
-
-
-
 
 #%%
 from deadendscript.name import CopulaGANSyntheticDataGenerator
