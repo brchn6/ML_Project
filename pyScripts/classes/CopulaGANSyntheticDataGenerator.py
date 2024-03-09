@@ -41,4 +41,10 @@ class CopulaGANSyntheticDataGenerator:
         name = 'balanced_train_set.csv'
         path = os.path.join(os.getcwd(), '..', 'data')
         balanced_train_set.to_csv(os.path.join(path, name), index=False)
+
+
+
+
+
+#here im gona write the logical Q to ask if i want 
     
