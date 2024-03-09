@@ -13,9 +13,10 @@ AddRootDirectoriesToSys() #implament this function
 #importing the classes and var from BarModels.Rendom_forest
 from BarModels.Rendom_forest import *
 #creat an instence of the calss i build
-RF_instance  = Rendom_forest_regression_BC(X_train_np,y_train,X_test_np,y_test)
+RF_instance  = Rendom_forest_regression_BC(X_train_np, y_train, X_test_np, y_test)
 #make the regressor
 regressor = RF_instance.build_RandomForestRegressor()
+predictions = RF_instance.predict_RandomForestRegressor(self,regressor,y_test)
 
 # #%%
 # # ------------------------------Run Rendom_forest.py script ------------------------------d
