@@ -114,11 +114,9 @@ functions = {
     'number_diagnoses': numDiag,
     'race' : raceChange,
     'number_outpatient' : outPatiant,
-    'change': changeCol,
-    'diabetesMed' : diabMed,
     'age': ageFunc
 }
-second = {
+bool_functions = {
     'change': changeCol,
     'diabetesMed' : diabMed
 }

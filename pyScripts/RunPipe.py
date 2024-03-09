@@ -100,9 +100,8 @@ def build_preprocessing_pipe_withGANS():
     preprocessing1ST = make_pipeline(
         DropDup(dropdup_col),
         DropColumns(columns_to_drop),
-        CustomTransformer(second)
-        Gans()
-
+        CustomTransformer(bool_functions),
+        
     )
     return preprocessing1ST
 
@@ -143,7 +142,3 @@ def CombinePipeLine(data, use_gans=None):
         return preprocessing.fit_transform(data)
     
 # ask_use_gans()
-
-#%%
-a = CustomTransformer(second).fit_transform(train_set)
-a['change']

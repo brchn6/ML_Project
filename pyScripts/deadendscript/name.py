@@ -2,6 +2,7 @@
 from sdv.single_table import CopulaGANSynthesizer
 from sdv.metadata import SingleTableMetadata
 from sdv.evaluation.single_table import run_diagnostic, evaluate_quality
+import pandas as pd 
 import random
 
 #%%
@@ -31,4 +32,13 @@ class CopulaGANSyntheticDataGenerator:
         diagnostic_report = run_diagnostic(real_data=self.min_class, synthetic_data=synthetic_data, metadata=self.metadata)
         return diagnostic_report.get_score()
 
-# %%
+    def generate_balanced_df(self, synthetic_data, train_data):
+        balanced_train_set = pd.concat([train_data, synthetic_data])
+        return balanced_train_set
+    
+    def export_balanced_df(self, balanced_train_set):
+        import os
+        name = 'balanced_train_set.csv'
+        path = os.path.join(os.getcwd(), '..', 'data')
+        balanced_train_set.to_csv(os.path.join(path, name), index=False)
+    

@@ -76,6 +76,8 @@ for defs in [None, smote]:
                     score_table.loc[classifier_name + '_sm', scoring_metric] = scores.mean()
 
 ###############3Generating Synthetic data with GAN:##############
+#Importing                     
+
 #Separating majority and minority classes:
 maj_class = prepro_train[prepro_train['readmitted'] == 1]
 min_class = prepro_train[prepro_train['readmitted'] == 0]
@@ -95,7 +97,7 @@ metadata.update_column(
 )
 
 #Seting CTGAN and fitting data:
-ct_gan = CTGANSynthesizer(
+cop_gan = CopulaGANSynthesizer(
     metadata,
     epochs = 200,
     enforce_min_max_values=True,
@@ -164,4 +166,4 @@ for classifier in classifiers:
 #Export finished table:
 score_table.to_csv('score_table.csv')
 
-
+#%%
