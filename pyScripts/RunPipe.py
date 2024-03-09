@@ -101,7 +101,6 @@ def build_preprocessing_pipe_withGANS():
         DropDup(dropdup_col),
         DropColumns(columns_to_drop),
         CustomTransformer(second)
-        Gans()
 
     )
     return preprocessing1ST
