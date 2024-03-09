@@ -236,16 +236,17 @@ class CategoricalConverter(BaseEstimator, TransformerMixin):
             return X
 
 class BooleanConverter(BaseEstimator, TransformerMixin):
-    def __init__(self):
-        pass
+    def __init__(self, columns=None):
+        self.columns = columns
     
     def fit(self, X, y=None):
         return self
     
     def transform(self, X, y=None):
-        for col in X.columns:
-            if X[col].dtype == 'bool':
-                X[col] = X[col].replace({'Yes': 1, 'Ch': 1, 'No': 0, 'Other': 0})
+        if self.columns is None:
+            return X
+        for col in self.columns:
+            X[col] = X[col].replace({'Yes': 1, 'Ch': 1, 'No': 0, 'Other': 0})
         return X
     
     def get_feature_names_out(self, input_features=None):
