@@ -69,8 +69,8 @@ class Rendom_forest_classification_BC:
         classifier_fit = classifier.fit(self.train_features, self.train_labels)
         return classifier_fit
     
-    
-    def predict_RandomForestClassifier (self, classifier):
+    #set a prediction metho for the train data
+    def predict_RandomForestClassifierTrainData (self, classifier):
         # Use the forest's predict method on the test data
-        predictions = classifier.predict(self.test_features)
+        predictions = classifier.predict(self.train_features)
         return predictions

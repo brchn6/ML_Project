@@ -12,21 +12,29 @@ AddRootDirectoriesToSys() #implament this function
 # ------------------------------Run Rendom_forest.py script ------------------------------d
 #importing the classes and var from BarModels.Rendom_forest
 from BarModels.Rendom_forest import *
+
+#%%
 #creat an instence of the calss i build
 RF_instance  = Rendom_forest_regression_BC(X_train_np,y_train,X_test_np,y_test)
 #make the regressor
 regressor = RF_instance.build_RandomForestRegressor()
+# Predictions
+predictions = RF_instance.predict_RandomForestRegressor(regressor)
 
-# #%%
-# # ------------------------------Run Rendom_forest.py script ------------------------------d
-# from BarModels.Rendom_forest import *
-# regressor  = build_RandomForestRegressor(X_train_np,y_train)
-# predictions = predict_RandomForestRegressor(regressor,X_test_np)
+#%%
+errors = abs(predictions - y_test)
+errors 
+#plot
+import matplotlib.pyplot as plt
+
+plt.scatter(y_test, errors)
+plt.xlabel('Original Data')
+plt.ylabel('Error')
+plt.title('Error vs Original Data')
+plt.show()
 
 
-# #%%
-# errors = abs(predictions - y_test)
-# errors 
+
 
 #%%
 from deadendscript.name import CopulaGANSyntheticDataGenerator
@@ -44,3 +52,18 @@ quality_score = generator.evaluate_quality(synthetic_samples)
 diagnostic_score = generator.run_diagnostic(synthetic_samples)
 balanced_train_set = generator.generate_balanced_df(synthetic_samples, train_set)
 generator.export_balanced_df(balanced_train_set)
+"""
+This part we are implamenting the GANS pipeline
+"""
+ask_use_gans()
+pipe= CombinePipeLine(train_set,use_gans=None)
+
+
+#%%
+#create an instance of the claafication class
+CL_instance = Rendom_forest_classification_BC(X_train_np, y_train, X_test_np, y_test)
+#make the regressor
+classifier = CL_instance.build_RandomForestClassifier()
+# predictions
+CL_instance.predict_RandomForestClassifierTrainData(classifier)
+CL_instance
