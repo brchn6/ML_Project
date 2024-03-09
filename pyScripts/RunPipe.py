@@ -5,7 +5,6 @@ the output of this script is the transformed data
 """
 #---------------------------------Imports--------------------------------
 import pandas as pd
-
 from DefPipeLineClasses import *
 from prepare_data import *
 import matplotlib.pyplot as plt

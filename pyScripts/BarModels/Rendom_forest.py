@@ -38,6 +38,7 @@ class Rendom_forest_regression_BC:
         self.train_labels = train_labels
         self.test_features = test_features
         self.test_labels = test_labels
+    
     def build_RandomForestRegressor (self):
         # Create a random forest regressor object 
         # Instantiate model with 1 decision trees
@@ -47,9 +48,9 @@ class Rendom_forest_regression_BC:
         regressor = regressor.fit(self.train_features, self.train_labels)
         return regressor
     
-    def predict_RandomForestRegressor (self, regressor):
+    def predict_RandomForestRegressor (regressor, test_features):
         # Use the forest's predict method on the test data
-        predictions = regressor.predict(self.test_features)
+        predictions = regressor.predict(test_features)
         return predictions
     
 # --------------------------------------Rendom_forest Classification Class--------------------------------------
