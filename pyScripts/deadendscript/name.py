@@ -4,6 +4,7 @@ from sdv.metadata import SingleTableMetadata
 from sdv.evaluation.single_table import run_diagnostic, evaluate_quality
 import pandas as pd 
 import random
+import os
 
 #%%
 class CopulaGANSyntheticDataGenerator:
@@ -37,7 +38,6 @@ class CopulaGANSyntheticDataGenerator:
         return balanced_train_set
     
     def export_balanced_df(self, balanced_train_set):
-        import os
         name = 'balanced_train_set.csv'
         path = os.path.join(os.getcwd(), '..', 'data')
         balanced_train_set.to_csv(os.path.join(path, name), index=False)
