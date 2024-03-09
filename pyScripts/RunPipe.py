@@ -92,6 +92,58 @@ def main():
 # main()
 
 
-#%%
+"""
+The following function is used to create the preprocessing pipeline with and without the GANS
+by spliting the preprocessing pipeline into two parts and adding the GANS in the middle
+"""
+def build_preprocessing_pipe_withGANS():
+    preprocessing1ST = make_pipeline(
+        DropDup(dropdup_col),
+        DropColumns(columns_to_drop),
+        CustomTransformer(second)
+        Gans()
 
-col_processor.get_feature_names_out()
+    )
+    return preprocessing1ST
+
+def build_preprocessing_pipe_withGANS2ND():
+    preprocessing2ND = make_pipeline(
+        IDSTransformer(),
+        DiseaseConverter(),
+        A1CTransformer(),
+        CustomTransformer(functions),
+    )
+
+def ask_use_gans():
+    response = input("Do you want to use GANS? (True/False): ")
+    return response.strip().lower() == 'true'
+
+def CombinePipeLine(data, use_gans=None):
+    # If use_gans is None, ask the user; otherwise, use the provided argument
+    if use_gans is None:
+        use_gans = ask_use_gans()
+
+    if use_gans:
+        # Assuming build_preprocessing_pipe_withGANS and build_preprocessing_pipe_withGANS2ND are defined
+        preprocessingGans = make_pipeline(
+            build_preprocessing_pipe_withGANS(), 
+            build_preprocessing_pipe_withGANS2ND()
+        )
+        return preprocessingGans.fit_transform(data)
+    else:
+        # Assuming all other transformers are defined and 'dropdup_col', 'columns_to_drop', 'functions' are available
+        preprocessing = make_pipeline(
+            DropDup(dropdup_col),
+            DropColumns(columns_to_drop),
+            IDSTransformer(),
+            DiseaseConverter(),
+            A1CTransformer(),
+            CustomTransformer(functions),
+        )
+        return preprocessing.fit_transform(data)
+    
+# ask_use_gans()
+
+#%%
+a = CustomTransformer(second).fit_transform(train_set)
+a['change']

@@ -118,3 +118,7 @@ functions = {
     'diabetesMed' : diabMed,
     'age': ageFunc
 }
+second = {
+    'change': changeCol,
+    'diabetesMed' : diabMed
+}

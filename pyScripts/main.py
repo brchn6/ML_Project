@@ -8,15 +8,16 @@ from RunPipe import * #get all the data from the RunPiple.py file
 from AddRootDirectoriesToSysPath import AddRootDirectoriesToSys #importing the funcrion htat add all path in the dir to sys
 AddRootDirectoriesToSys() #implament this function
 
-#%%
 # ------------------------------Run Rendom_forest.py script ------------------------------d
 #importing the classes and var from BarModels.Rendom_forest
 from BarModels.Rendom_forest import *
 #creat an instence of the calss i build
-RF_instance  = Rendom_forest_regression_BC(X_train_np, y_train, X_test_np, y_test)
+RF_instance = Rendom_forest_regression_BC(X_train_np, y_train, X_test_np, y_test)
 #make the regressor
 regressor = RF_instance.build_RandomForestRegressor()
-predictions = RF_instance.predict_RandomForestRegressor(self,regressor,y_test)
+# Predictions
+# predictions = RF_instance.predict_RandomForestRegressor(regressor)
+
 
 # #%%
 # # ------------------------------Run Rendom_forest.py script ------------------------------d
@@ -29,3 +30,9 @@ predictions = RF_instance.predict_RandomForestRegressor(self,regressor,y_test)
 # errors = abs(predictions - y_test)
 # errors 
 
+#%%
+"""
+This part we are implamenting the GANS pipeline
+"""
+ask_use_gans()
+pipe= CombinePipeLine(train_set,use_gans=None)
