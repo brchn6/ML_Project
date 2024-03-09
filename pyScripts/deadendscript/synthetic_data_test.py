@@ -37,6 +37,7 @@ classifiers = [rnd_clf, xgb_clf, lgbm_clf, catboost_clf, logistic_reg]
 # Define the scoring metrics (perofrmance measure (pm))
 scorers = ['roc_auc', 'f1', 'recall', 'neg_log_loss', 'precision', 'accuracy']
 
+bool_cols = ['change', 'diabetesMed']
 cat_cols = ['race', 'gender', 'age', 'admission_type_id',
        'discharge_disposition_id', 'admission_source_id',
        'time_in_hospital', 'num_procedures', 'number_outpatient',
@@ -46,7 +47,7 @@ cat_cols = ['race', 'gender', 'age', 'admission_type_id',
        'glipizide', 'glyburide', 'tolbutamide', 'pioglitazone',
        'rosiglitazone', 'acarbose', 'miglitol', 'tolazamide', 'insulin',
        'glyburide-metformin', 'glipizide-metformin',
-       'glimepiride-pioglitazone', 'metformin-pioglitazone']
+       'glimepiride-pioglitazone', 'metformin-pioglitazone'] + bool_cols
 
 smote = SMOTENC(random_state=42, categorical_features=cat_cols)
 
