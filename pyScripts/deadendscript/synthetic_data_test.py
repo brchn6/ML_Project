@@ -32,12 +32,14 @@ lgbm_clf = LGBMClassifier(random_state=42)
 catboost_clf = CatBoostClassifier(random_state=42)
 logistic_reg = LogisticRegression(random_state=42)
 
-classifiers = [rnd_clf, xgb_clf, lgbm_clf, catboost_clf, logistic_reg]
+classifiers = [rnd_clf, xgb_clf, logistic_reg]
 
 # Define the scoring metrics (perofrmance measure (pm))
 scorers = ['roc_auc', 'f1', 'recall', 'neg_log_loss', 'precision', 'accuracy']
 
 bool_cols = ['change', 'diabetesMed']
+
+#Cant import from DefPipeLineClasses because of circular import, for now its like this:
 cat_cols = ['race', 'gender', 'age', 'admission_type_id',
        'discharge_disposition_id', 'admission_source_id',
        'time_in_hospital', 'num_procedures', 'number_outpatient',
@@ -52,68 +54,93 @@ cat_cols = ['race', 'gender', 'age', 'admission_type_id',
 smote = SMOTENC(random_state=42, categorical_features=cat_cols)
 
 class ClassifierEvaluator:
-    def __init__(self, classifier, score, col_processor, scorers = [], classifiers = []):
+    def __init__(self, col_processor, classifier=None, score=None, scorers = [], classifiers = [], splits=10):
         self.classifier = classifier
         self.scorer = score
-        self.scores = scorers
+        self.scorers = scorers
         self.classifiers = classifiers
         self.col_processor = col_processor
+        self.splits = splits
 
-    def cv_evaluate(self, X_train = None, y_train = None, X_train_bal = None, y_train_bal = None,balanced=False, smote=False, normal = True, splits=10):
+    def cv_evaluate(self, X_train = None, y_train = None, X_train_bal = None, y_train_bal = None, mode = 'normal', classifier = None, scorer = None , splits=None):
+        #Check if either one of classifier or scorer is None:
+        if (self.classifier is None) | (self.scorer is None):
+            if (self.classifiers is None) | (self.scorers is None):
+                raise ValueError('Enter classifier and score')
+        
         #Check if X_train and y_train are None:
         if (X_train is None) & (y_train is None):
         #If both are None, check if X_train_bal and y_train_bal are None:
             if (X_train_bal is None) & (y_train_bal is None):
                 raise ValueError('Enter training data')
+        
+        #Set default classifier if None:
+        if classifier is None:
+            classifier = self.classifier
+            
+         # Set default scorer if None
+        if scorer is None:
+            scorer = self.scorer
+
+        # Set default splits if None
+        if splits is None:
+            splits = self.splits
 
         cv = StratifiedKFold(n_splits=splits, shuffle=True, random_state=42)
         smote = SMOTENC(random_state=42, categorical_features=cat_cols)
-        cv_pipe = make_impipe(self.col_processor, self.classifier)
+        cv_pipe = make_impipe(self.col_processor, classifier)
 
-        if normal:
+        if  (mode == 'normal') | (mode == 'smote'):
             X_train_data = X_train
             y_train_data = y_train 
-            suffix = ''
+            if mode == 'smote':
+                cv_pipe = make_impipe(smote, self.col_processor, classifier)
+                suffix = '_sm'
+            else:
+                suffix = ''
             
-        elif balanced:
+        elif mode == 'balanced':
             X_train_data = X_train_bal
             y_train_data = y_train_bal
             suffix = '_gan'
 
-        elif smote:
-            X_train_data = X_train
-            y_train_data = y_train
-            cv_pipe = make_impipe(smote, self.col_processor, self.classifier)
-            suffix = '_sm'
+        cross_val_scores = cross_validate(cv_pipe, X_train_data, y_train_data, cv=cv, scoring=scorer)
+        if type(scorer) == list:
+            return cross_val_scores, suffix 
+        else:
+            return cross_val_scores['test_score'].mean(), suffix
 
-        cross_val_scores = cross_validate(cv_pipe, X_train_data, y_train_data, cv=cv, scoring=self.scorer)
-        return cross_val_scores['test_score'].mean(), suffix
-
-    def generate_score_table(self, X_train = None, y_train = None, X_train_bal = None, y_train_bal = None, smote=False, balanced=False, normal=False):
+    def generate_score_table(self, X_train = None, y_train = None, X_train_bal = None, y_train_bal = None, smote=False, balanced=False, normal=False, splits=None):
+        #Check if either classifiers or scorers are type list:
+        if (type(self.classifiers) != list) | (type(self.scorers) != list):
+            raise ValueError('Enter classifiers and scorers as lists')
+        
         score_table = pd.DataFrame()
     
         if normal:
-            for classifier in classifiers:
+            for classifier in self.classifiers:
                 classifier_name = type(classifier).__name__
-                for scorer in scorers:
-                    score, suffix= self.cv_evaluate(X_train, y_train, balanced=False, smote=False, normal=True, score=scorer)
-                    score_table.loc[classifier_name + suffix, scorer] = score
+                score_dict, suffix = self.cv_evaluate(X_train, y_train, mode='normal', classifier=classifier, scorer=self.scorers, splits=splits)
+                for k, v in score_dict.items():
+                    if k.startswith('test'):
+                        score_table.loc[classifier_name + suffix, k[5:]] = v.mean()
 
         #Check if balanced is True and X_train_bal and y_train_bal are not None:
-
-        if balanced & X_train_bal is not None & y_train_bal is not None:
+        if (balanced) and (X_train_bal != None) and (y_train_bal != None):
             for classifier in classifiers:
                 classifier_name = type(classifier).__name__
-                for scorer in scorers:
-                    score, suffix= self.cv_evaluate(X_train_bal, y_train_bal, balanced=False, smote=False, normal=True, score=scorer)
-                    score_table.loc[classifier_name + suffix, scorer] = score
+                score_dict, suffix= self.cv_evaluate(X_train_bal, y_train_bal, mode='balanced', classifier=classifier, scorer=self.scorers, splits=splits)
+                for k, v in score_dict.items():
+                    if k.startswith('test'):
+                        score_table.loc[classifier_name + suffix, k[5:]] = v.mean()
 
         if smote:
             for classifier in classifiers:
                 classifier_name = type(classifier).__name__
-                for scorer in scorers:
-                    score, suffix= self.cv_evaluate(X_train=X_train, y_train=y_train, balanced=False, smote=False, normal=True, score=scorer)
-                    score_table.loc[classifier_name + suffix, scorer] = score
+                score_dict, suffix= self.cv_evaluate(X_train=X_train, y_train=y_train, mode='smote', classifier=classifier, scorer=self.scorers, splits=splits)
+                for k, v in score_dict.items():
+                    if k.startswith('test'):
+                        score_table.loc[classifier_name + suffix, k[5:]] = v.mean()
 
         return score_table
 

@@ -35,11 +35,11 @@ plt.title('Error vs Original Data')
 plt.show()
 
 #%%
-from deadendscript.name import CopulaGANSyntheticDataGenerator
+from deadendscript.CopulaGenerator import CopulaGANSyntheticDataGenerator
 #%%
 # Specify columns to transform
 
-train_set = build_preprocessing_pipe_withGANS().fit_transform(train_set)
+#train_set = build_preprocessing_pipe_withGANS().fit_transform(train_set)
 
 boolean_columns = ['diabetesMed', 'change']
 label_column = 'readmitted'
@@ -50,6 +50,7 @@ quality_score = generator.evaluate_quality(synthetic_samples)
 diagnostic_score = generator.run_diagnostic(synthetic_samples)
 balanced_train_set = generator.generate_balanced_df(synthetic_samples, train_set)
 generator.export_balanced_df(balanced_train_set)
+#%%
 """
 This part we are implamenting the GANS pipeline
 """
