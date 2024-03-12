@@ -20,10 +20,12 @@ score
 # %%
 classifier_evaluation = ClassifierEvaluator(col_processor, classifiers=classifiers, scorers=scorers)
 
-st, s = classifier_evaluation.generate_score_table(X_train=X_train, y_train=y_train, X_train_bal=X_train_bal, y_train_bal=y_train_bal, smote=True, normal=True, splits=3)
+st = classifier_evaluation.generate_score_table(X_train=X_train, y_train=y_train, X_train_bal=X_train_bal, y_train_bal=y_train_bal, smote=False, normal=True, splits=3)
 
 
 
 
 
-j#%%
+#%%
+
+# %%

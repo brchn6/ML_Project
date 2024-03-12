@@ -74,37 +74,25 @@ class ClassifierEvaluator:
             if (X_train_bal is None) | (y_train_bal is None):
                 raise ValueError('Enter training data')
         
-        #Set default classifier if None:
         if classifier is None:
             classifier = self.classifier
-            
-         # Set default scorer if None
-        if scorer is None:
-            scorer = self.scorer
-
-        # Set default splits if None
-        if splits is None:
-            splits = self.splits
+        splits = splits or self.splits
+        scorer = scorer or self.scorer
 
         cv = StratifiedKFold(n_splits=splits, shuffle=True, random_state=42)
         smote = SMOTENC(random_state=42, categorical_features=cat_cols)
         cv_pipe = make_impipe(self.col_processor, classifier)
 
-        if  (mode == 'normal') | (mode == 'smote'):
-            X_train_data = X_train
-            y_train_data = y_train 
-            if mode == 'smote':
-                cv_pipe = make_impipe(smote, self.col_processor, classifier)
-                suffix = '_sm'
-            else:
-                suffix = ''
-            
+        if mode == 'smote':
+            cv_pipe = make_impipe(smote, self.col_processor, classifier)
+            suffix = '_sm'
         elif mode == 'balanced':
-            X_train_data = X_train_bal
-            y_train_data = y_train_bal
+            X_train, y_train = X_train_bal, y_train_bal
             suffix = '_gan'
+        else:
+            suffix = ''
 
-        cross_val_scores = cross_validate(cv_pipe, X_train_data, y_train_data, cv=cv, scoring=scorer)
+        cross_val_scores = cross_validate(cv_pipe, X_train, y_train, cv=cv, scoring=scorer)
         if type(scorer) == list:
             return cross_val_scores, suffix 
         else:
@@ -115,8 +103,7 @@ class ClassifierEvaluator:
         if not (isinstance(self.classifiers, list) and isinstance(self.scorers, list)):
             raise ValueError('Classifiers and scorers must be lists.')
         
-        if splits is None:
-            splits = self.splits
+        splits = splits or self.splits
         
         score_table = pd.DataFrame()
     
