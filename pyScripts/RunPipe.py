@@ -13,10 +13,7 @@ train_set, test_set ,Mapdf= prepare_data_main()
 preprocessing = make_pipeline(
     DropDup(dropdup_col),
     DropColumns(columns_to_drop),
-    IDSTransformer(),
-    DiseaseConverter(),
-    A1CTransformer(),
-    CustomTransformer(functions),
+    CustomTransformer(bool_functions)
 )
 #----
 """
