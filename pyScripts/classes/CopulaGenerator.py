@@ -33,7 +33,7 @@ class CopulaGANSyntheticDataGenerator(TransformerMixin):
         return self
 
     def fit_and_generate(self, epochs=100):
-        ct_gan = CopulaGANSynthesizer(metadata=self.metadata, epochs=epochs, *self.args, **self.kwargs)
+        ct_gan = CopulaGANSynthesizer(metadata=self.metadata, epochs=epochs)
         ct_gan.fit(self.min_class)
         random_number = random.randint(100, 1000)
         self.synthetic_samples = ct_gan.sample(len(self.maj_class) - (len(self.min_class) - random_number))
@@ -46,9 +46,9 @@ class CopulaGANSyntheticDataGenerator(TransformerMixin):
         self.balanced_train_set = pd.concat([X, self.synthetic_samples])
         return self.balanced_train_set
 
-    def fit_transform(self, X, y=None, export=False, **fit_params):
+    def fit_transform(self, X, y=None, export=False, epochs=100):
         self.fit(X, y)
-        self.fit_and_generate(**fit_params)
+        self.fit_and_generate(epochs = epochs)
         transformed_data = self.transform(X)
         if export:
             self.export_balanced_df()

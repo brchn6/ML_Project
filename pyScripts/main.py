@@ -35,7 +35,7 @@ plt.title('Error vs Original Data')
 plt.show()
 
 #%%
-from deadendscript.CopulaGenerator import CopulaGANSyntheticDataGenerator
+from classes.CopulaGenerator import CopulaGANSyntheticDataGenerator
 
 #%%
 # Specify columns to transform

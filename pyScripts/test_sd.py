@@ -1,7 +1,7 @@
 #%%
 from RunPipe import *
 #from deadendscript.synthetic_data_test import *
-from deadendscript.evaluation_classes import *
+from classes.evaluation_classes import *
 from DefPipeLineClasses import *
 from sklearn.model_selection import cross_validate, StratifiedKFold
 

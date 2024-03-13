@@ -18,3 +18,9 @@ class ConditionalTransformer(TransformerMixin):
             return self.transformer.transform(X)
         else:
             return X
+
+    def fit_transform(self, X, y=None):
+        if self.condition:
+            return self.transformer.fit_transform(X, y)
+        else:
+            return X
