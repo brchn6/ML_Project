@@ -10,8 +10,6 @@ from prepare_data import *
 from sklearn.compose import make_column_selector as selector
 #---------------------------------getting the data--------------------------------
 train_set, test_set ,Mapdf= prepare_data_main()
-#---------------------------------and preprocessing pipeline--------------------------------
-
 preprocessing = make_pipeline(
     DropDup(dropdup_col),
     DropColumns(columns_to_drop),
@@ -20,7 +18,7 @@ preprocessing = make_pipeline(
     A1CTransformer(),
     CustomTransformer(functions),
 )
-#---------------------------------Define column processor--------------------------------
+#----
 """
 this pipeline is used to
 make the data ready to be used in the ML model
