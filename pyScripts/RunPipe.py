@@ -21,7 +21,7 @@ If GANS is needed, the set condition atrribute to True inside ConditionalTransfo
 &
 set the transformer attributes to the GANS object
 """
-copula_gans = CopulaGANSyntheticDataGenerator('readmitted', 0, 1, ['change', 'diabetesMed'], epochs=50)
+copula_gans = CopulaGANSyntheticDataGenerator('readmitted', 0, 1, ['change', 'diabetesMed'], epochs=50, gans='copula')
 
 preprocessing = make_pipeline(
     DropDup(dropdup_col),

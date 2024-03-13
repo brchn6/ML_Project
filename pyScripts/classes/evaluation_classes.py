@@ -32,10 +32,10 @@ lgbm_clf = LGBMClassifier(random_state=42)
 catboost_clf = CatBoostClassifier(random_state=42)
 logistic_reg = LogisticRegression(random_state=42)
 
-classifiers = [rnd_clf, xgb_clf, logistic_reg]
+classifiers = [rnd_clf, xgb_clf, lgbm_clf]
 
 # Define the scoring metrics (perofrmance measure (pm))
-scorers = ['roc_auc', 'f1', 'recall', 'neg_log_loss', 'precision', 'accuracy']
+scorers = ['neg_log_loss', 'roc_auc']
 
 bool_cols = ['change', 'diabetesMed']
 
@@ -62,7 +62,7 @@ class ClassifierEvaluator:
         self.col_processor = col_processor
         self.splits = splits
 
-    def cv_evaluate(self, X_train = None, y_train = None, X_train_bal = None, y_train_bal = None, mode = 'normal', classifier = None, scorer = None , splits=None):
+    def cv_evaluate(self, X_train = None, y_train = None, X_train_cop = None, y_train_cop = None, X_train_ct = None, y_train_ct = None, mode = 'normal', classifier = None, scorer = None , splits=None):
         #Check if either one of classifier or scorer is None:
         if (self.classifier is None) | (self.scorer is None):
             if (self.classifiers is None) | (self.scorers is None):
@@ -70,9 +70,11 @@ class ClassifierEvaluator:
         
         #Check if X_train and y_train are None:
         if (X_train is None) | (y_train is None):
-        #If both are None, check if X_train_bal and y_train_bal are None:
-            if (X_train_bal is None) | (y_train_bal is None):
-                raise ValueError('Enter training data')
+        #If both are None, check if X_train_cop and y_train_cop are None:
+            if (X_train_cop is None) | (y_train_cop is None):
+                #If both are None, check if X_train_ct and y_train_ct are None:
+                if (X_train_ct is None) | (y_train_ct is None):
+                    raise ValueError('Enter training data')
         
         if classifier is None:
             classifier = self.classifier
@@ -86,9 +88,12 @@ class ClassifierEvaluator:
         if mode == 'smote':
             cv_pipe = make_impipe(smote, self.col_processor, classifier)
             suffix = '_sm'
-        elif mode == 'balanced':
-            X_train, y_train = X_train_bal, y_train_bal
-            suffix = '_gan'
+        elif mode == 'balanced_cop':
+            X_train, y_train = X_train_cop, y_train_cop
+            suffix = '_cop'
+        elif mode == 'balanced_ct':
+            X_train, y_train = X_train_ct, y_train_ct
+            suffix = '_ct'
         else:
             suffix = ''
 
@@ -98,7 +103,7 @@ class ClassifierEvaluator:
         else:
             return cross_val_scores['test_score'].mean(), suffix
 
-    def generate_score_table(self, X_train = None, y_train = None, X_train_bal = None, y_train_bal = None, smote=False, balanced=False, normal=False, splits=None):
+    def generate_score_table(self, X_train = None, y_train = None, X_train_cop = None, y_train_cop = None, X_train_ct = None, y_train_ct = None, smote=False, balanced=False, normal=False, splits=None):
         #Check if either classifiers or scorers are type list:
         if not (isinstance(self.classifiers, list) and isinstance(self.scorers, list)):
             raise ValueError('Classifiers and scorers must be lists.')
@@ -109,7 +114,7 @@ class ClassifierEvaluator:
     
         def process_classifier(classifier, mode):
             classifier_name = type(classifier).__name__
-            score_dict, suffix = self.cv_evaluate(X_train, y_train, mode=mode, classifier=classifier, scorer=self.scorers, splits=splits)
+            score_dict, suffix = self.cv_evaluate(X_train, y_train, X_train_cop, y_train_cop, X_train_ct, y_train_ct, mode=mode, classifier=classifier, scorer=self.scorers, splits=splits)
             for k, v in score_dict.items():
                 if k.startswith('test'):
                     score_table.loc[classifier_name + suffix, k[5:]] = v.mean()
@@ -118,9 +123,13 @@ class ClassifierEvaluator:
             for classifier in self.classifiers:
                 process_classifier(classifier, mode='normal')
 
-        if balanced and X_train_bal is not None and y_train_bal is not None:
+        if (balanced) and (X_train_cop is not None) and (y_train_cop is not None):
             for classifier in self.classifiers:
-                process_classifier(classifier, mode='balanced')
+                process_classifier(classifier, mode='balanced_cop')
+
+        if (balanced) and (X_train_ct is not None) and (y_train_ct is not None):
+            for classifier in self.classifiers:
+                process_classifier(classifier, mode='balanced_ct')
 
         if smote:
             for classifier in self.classifiers:
