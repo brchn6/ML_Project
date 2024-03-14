@@ -17,7 +17,7 @@ def add_directories_to_sys(root_directory):
 
 def BetterAddDirectoriesToSys(root_directory):
     # check if the root directory base na me is ML_Project:
-    if root_directory.split("\\")[-1] == "ML_Project":
+    if root_directory.split("/")[-1] == "ML_Project":
         # Get a list of all directories in the root directory
         directories = [os.path.join(root_directory, d) for d in os.listdir(root_directory) if os.path.isdir(os.path.join(root_directory, d))]
         

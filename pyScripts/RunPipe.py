@@ -10,12 +10,12 @@ from prepare_data import *
 from sklearn.compose import make_column_selector as selector
 #---------------------------------getting the data--------------------------------
 train_set, test_set ,Mapdf= prepare_data_main()
+#---------------------------------Define the preprocessing pipeline--------------------------------
 preprocessing = make_pipeline(
     DropDup(dropdup_col),
     DropColumns(columns_to_drop),
     CustomTransformer(bool_functions)
 )
-#----
 """
 this pipeline is used to
 make the data ready to be used in the ML model
@@ -65,7 +65,6 @@ def Convert_specified_columns_in_the_input_DataFrame_to_object_type(x):
     for col in ['admission_type_id', 'discharge_disposition_id', 'admission_source_id']:
         processed[col] = processed[col].astype(object)
     return processed
-prepro_train = Convert_specified_columns_in_the_input_DataFrame_to_object_type(prepro_train)
 
 #---------------------------------Define the main function - name - RunPipe--------------------------------
 def RunPipe(train_set, test_set, GANS=False):

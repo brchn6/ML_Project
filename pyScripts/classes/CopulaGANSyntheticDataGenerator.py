@@ -1,4 +1,3 @@
-
 from sdv.single_table import CopulaGANSynthesizer
 from sdv.metadata import SingleTableMetadata
 from sdv.evaluation.single_table import run_diagnostic, evaluate_quality
@@ -6,7 +5,6 @@ import pandas as pd
 import random
 import os
 
-#%%
 class CopulaGANSyntheticDataGenerator:
     def __init__(self, train_data, label_column,minority_class_label, majority_class_label, boolean_columns=[], *args, **kwargs):
         self.min_class = train_data[train_data[label_column] == minority_class_label]
@@ -41,10 +39,3 @@ class CopulaGANSyntheticDataGenerator:
         name = 'balanced_train_set.csv'
         path = os.path.join(os.getcwd(), '..', 'data')
         balanced_train_set.to_csv(os.path.join(path, name), index=False)
-
-
-
-
-
-#here im gona write the logical Q to ask if i want 
-    
