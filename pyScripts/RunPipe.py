@@ -34,7 +34,7 @@ preprocessing = make_pipeline(
     DropColumns(columns_to_drop),
     IDSTransformer(),
     CustomTransformer(bool_functions),
-    ConditionalTransformer(condition=True, transformer=copula_gans),
+    ConditionalTransformer(condition=False, transformer=copula_gans),
     DiseaseConverter(),
     A1CTransformer(),
     CustomTransformer(functions),
@@ -112,4 +112,3 @@ def show_data():
 # show_data()
 
 
-# %%
