@@ -32,7 +32,7 @@ lgbm_clf = LGBMClassifier(random_state=42)
 catboost_clf = CatBoostClassifier(random_state=42)
 logistic_reg = LogisticRegression(random_state=42)
 
-classifiers = [rnd_clf, xgb_clf, lgbm_clf]
+classifiers = [rnd_clf, xgb_clf, lgbm_clf, catboost_clf, logistic_reg]
 
 # Define the scoring metrics (perofrmance measure (pm))
 scorers = ['neg_log_loss', 'roc_auc']

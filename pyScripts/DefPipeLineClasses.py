@@ -17,9 +17,9 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
 from prepare_data import *
-train_set, test_set ,Mapdf= prepare_data_main()
+train_set, test_set ,Mapdf= prepare_data_main(method = 'group')
 
-
+#%%
 #setting up display style
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', 4)

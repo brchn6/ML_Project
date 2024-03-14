@@ -12,7 +12,10 @@ from sklearn.compose import make_column_selector as selector
 from classes.CopulaGenerator import *
 from classes.ConditionalTransformer import *
 #---------------------------------getting the data--------------------------------
-train_set, test_set ,Mapdf= prepare_data_main()
+train_set = train_set
+test_set = test_set 
+Mapdf = Mapdf
+
 #%%
 #---------------------------------Define the GANS preprocessing pipeline--------------------------------
 """
@@ -21,20 +24,23 @@ If GANS is needed, the set condition atrribute to True inside ConditionalTransfo
 &
 set the transformer attributes to the GANS object
 """
-copula_gans = CopulaGANSyntheticDataGenerator('readmitted', 0, 1, ['change', 'diabetesMed'], epochs=50, gans='copula')
+copula_gans = CopulaGANSyntheticDataGenerator(label_column='readmitted', minority_class_label=0,
+                                               majority_class_label=1, 
+                                               gans = 'ctgan',
+                                               boolean_columns=['change', 'diabetesMed'], 
+                                               epochs=50)
 
 preprocessing = make_pipeline(
-    DropDup(dropdup_col),
     DropColumns(columns_to_drop),
     IDSTransformer(),
     CustomTransformer(bool_functions),
-    ConditionalTransformer(condition=False, transformer=copula_gans),
+    ConditionalTransformer(condition=True, transformer=copula_gans),
     DiseaseConverter(),
     A1CTransformer(),
     CustomTransformer(functions),
 )
 
-
+prepro_train = preprocessing.fit_transform(train_set)
 #%%
 #----
 #Converts specific columns to object type:
@@ -105,3 +111,5 @@ def show_data():
     display(pd.DataFrame(X_test_np.toarray()))
 # show_data()
 
+
+# %%
