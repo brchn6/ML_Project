@@ -6,7 +6,7 @@
 from sklearn.base import TransformerMixin
 
 class ConditionalTransformer(TransformerMixin):
-    def __init__(self, condition, transformer):
+    def __init__(self, condition=False, transformer=None):
         self.condition = condition
         self.transformer = transformer
     

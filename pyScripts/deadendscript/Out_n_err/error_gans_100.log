@@ -1,0 +1,42 @@
+/home/labs/antebilab/guyilan/miniconda3/envs/mlproject/lib/python3.10/site-packages/sklearn/preprocessing/_encoders.py:241: UserWarning: Found unknown categories in columns [19] during transform. These unknown categories will be encoded as all zeros
+  warnings.warn(
+
+------------------------------------------------------------
+Sender: LSF System <DoNotReply>
+Subject: Job 488614: <gans_100> in cluster <wexac> Done
+
+Job <gans_100> was submitted from host <access4> by user <guyilan> in cluster <wexac> at Fri Mar 15 20:23:25 2024
+Job was executed on host(s) <1*cn191>, in queue <new-short>, as user <guyilan> in cluster <wexac> at Fri Mar 15 20:23:27 2024
+                            <1*cn671>
+                            <1*cn468>
+                            <1*cn383>
+</home/labs/antebilab/guyilan> was used as the home directory.
+</home/labs/antebilab/guyilan/ML project/ML_Project/pyScripts> was used as the working directory.
+Started at Fri Mar 15 20:23:27 2024
+Terminated at Fri Mar 15 20:35:12 2024
+Results reported at Fri Mar 15 20:35:12 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python test_sd.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   675.00 sec.
+    Max Memory :                                 1272 MB
+    Average Memory :                             980.62 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               31496.00 MB
+    Max Swap :                                   2 MB
+    Max Processes :                              8
+    Max Threads :                                20
+    Run time :                                   705 sec.
+    Turnaround time :                            707 sec.
+
+The output (if any) is above this job summary.
+

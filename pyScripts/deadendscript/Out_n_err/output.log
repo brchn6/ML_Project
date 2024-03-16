@@ -1,0 +1,43 @@
+
+------------------------------------------------------------
+Sender: LSF System <DoNotReply>
+Subject: Job 442937: <run_gans> in cluster <wexac> Done
+
+Job <run_gans> was submitted from host <access4> by user <guyilan> in cluster <wexac> at Thu Mar 14 17:20:28 2024
+Job was executed on host(s) <2*cn781>, in queue <new-short>, as user <guyilan> in cluster <wexac> at Thu Mar 14 17:20:29 2024
+</home/labs/antebilab/guyilan> was used as the home directory.
+</home/labs/antebilab/guyilan/ML project/ML_Project/pyScripts> was used as the working directory.
+Started at Thu Mar 14 17:20:29 2024
+Terminated at Thu Mar 14 17:28:41 2024
+Results reported at Thu Mar 14 17:28:41 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python test_sd.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   828.08 sec.
+    Max Memory :                                 1436 MB
+    Average Memory :                             1217.78 MB
+    Total Requested Memory :                     8192.00 MB
+    Delta Memory :                               6756.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                23
+    Run time :                                   492 sec.
+    Turnaround time :                            493 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <error.log> for stderr output of this job.
+

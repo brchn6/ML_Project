@@ -156,9 +156,9 @@ class IDSTransformer(BaseEstimator, TransformerMixin):
         discharge_disposition_id_DF = discharge_disposition_id_DF[discharge_disposition_id_DF['description.1'].str.contains('Hospice') | discharge_disposition_id_DF['description.1'].str.contains('Expired')]
         X_transformed = X[~X['discharge_disposition_id'].isin(discharge_disposition_id_DF ['discharge_disposition_id'])]
         #Regrouping IDS columns:
-        X_transformed.loc[:, 'admission_type_id'] = X['admission_type_id'].replace([8, 6], 5).replace([7], 6)
-        X_transformed.loc[:, 'discharge_disposition_id'] = X['discharge_disposition_id'].replace([list(range(3, 6)) + [10, 15, 9, 23, 24, 22] + list(range(27, 31))], 2).replace([6, 8], 3).replace(7, 4).replace(12, 5).replace([16, 17], 6).replace([25, 26, 18], 7)
-        X_transformed.loc[:, 'admission_source_id'] = X['admission_source_id'].replace([2, 3], 1).replace([25, 22, 18, 19, 10, 5, 6, 7, 4], 2).replace(8, 3).replace([19, 20, 17, 15, 9], 4).replace([23, 24, 11, 12, 13, 14], 5)
+        X_transformed.loc[:, 'admission_type_id'] = X['admission_type_id'].replace([8, 6, 5], 'other').replace([1], 'emergency').replace([2], 'urgent').replace([3], 'elective').replace([4], 'newborn').replace([7], 'trauma_center')
+        X_transformed.loc[:, 'discharge_disposition_id'] = X['discharge_disposition_id'].replace([1], 'discharged_home').replace(list(range(2, 6)) + [10, 15, 9, 23, 24, 22] + list(range(27, 31)), 'inpatient').replace([6, 8], 'home_care').replace([7], 'left_AMA').replace([12,16,17], 'outpatient').replace([25, 26, 18], 'other')
+        X_transformed.loc[:, 'admission_source_id'] = X['admission_source_id'].replace([1, 2, 3], 'clinical').replace([25, 22, 18, 19, 10, 5, 6, 7, 4], 'medical_care').replace([8], 'enforcement').replace([21, 20, 17, 15, 9], 'other').replace([23, 24, 11, 12, 13, 14], 'new_born')
         return X_transformed
     
 

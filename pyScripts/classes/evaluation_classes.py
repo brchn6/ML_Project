@@ -103,7 +103,7 @@ class ClassifierEvaluator:
         else:
             return cross_val_scores['test_score'].mean(), suffix
 
-    def generate_score_table(self, X_train = None, y_train = None, X_train_cop = None, y_train_cop = None, X_train_ct = None, y_train_ct = None, smote=False, balanced=False, normal=False, splits=None):
+    def generate_score_table(self, X_train = None, y_train = None, X_train_cop = None, y_train_cop = None, X_train_ct = None, y_train_ct = None, smote=False, bal_cop=False, bal_ct=False, normal=False, splits=None):
         #Check if either classifiers or scorers are type list:
         if not (isinstance(self.classifiers, list) and isinstance(self.scorers, list)):
             raise ValueError('Classifiers and scorers must be lists.')
@@ -123,11 +123,11 @@ class ClassifierEvaluator:
             for classifier in self.classifiers:
                 process_classifier(classifier, mode='normal')
 
-        if (balanced) and (X_train_cop is not None) and (y_train_cop is not None):
+        if (bal_cop) and (X_train_cop is not None) and (y_train_cop is not None):
             for classifier in self.classifiers:
                 process_classifier(classifier, mode='balanced_cop')
 
-        if (balanced) and (X_train_ct is not None) and (y_train_ct is not None):
+        if (bal_ct) and (X_train_ct is not None) and (y_train_ct is not None):
             for classifier in self.classifiers:
                 process_classifier(classifier, mode='balanced_ct')
 
@@ -135,7 +135,7 @@ class ClassifierEvaluator:
             for classifier in self.classifiers:
                 process_classifier(classifier, mode='smote')
 
-        return score_table , splits
+        return score_table
 
 
     
