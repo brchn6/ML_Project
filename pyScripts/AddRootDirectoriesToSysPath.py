@@ -17,7 +17,7 @@ def add_directories_to_sys(root_directory):
 
 def BetterAddDirectoriesToSys(root_directory):
     # check if the root directory base na me is ML_Project:
-    if root_directory.split("\\")[-1] == "ML_Project":
+    if root_directory.split("/")[-1] == "ML_Project":
         # Get a list of all directories in the root directory
         directories = [os.path.join(root_directory, d) for d in os.listdir(root_directory) if os.path.isdir(os.path.join(root_directory, d))]
         
@@ -27,6 +27,7 @@ def BetterAddDirectoriesToSys(root_directory):
                 sys.path.append(directory)
     else:
         print("Root directory does not exist.")
+    
 
 
 def AddRootDirectoriesToSys():
@@ -36,6 +37,7 @@ def AddRootDirectoriesToSys():
     # Add all directories within the root directory to sys.path
     # add_directories_to_sys(root_directory)
     BetterAddDirectoriesToSys(root_directory)
+    return root_directory
 
 if __name__ == "__main__":
     AddRootDirectoriesToSys()

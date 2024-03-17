@@ -9,8 +9,6 @@ from AddRootDirectoriesToSysPath import AddRootDirectoriesToSys #importing the f
 AddRootDirectoriesToSys() #implement this function
 import pandas as pd
 
-
-#%%
 # --------------------- Set up the X and y Train and Test value -----------------------
 #call the X_train from csv name copula_train_set.csv
 X_train = pd.read_csv('../data/copula_train_set.csv')
@@ -20,5 +18,3 @@ y_train = X_train['readmitted']
 X_train = X_train.drop('readmitted', axis=1)
 #run col_processor (pipeline from RunPipe.py) on X_train to get X_train_np
 X_train_np = col_processor.fit_transform(X_train)
-
-
