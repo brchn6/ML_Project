@@ -1,0 +1,10 @@
+/home/labs/antebilab/guyilan/miniconda3/envs/mlproject/lib/python3.10/site-packages/sklearn/preprocessing/_encoders.py:241: UserWarning: Found unknown categories in columns [19] during transform. These unknown categories will be encoded as all zeros
+  warnings.warn(
+Traceback (most recent call last):
+  File "/home/labs/antebilab/guyilan/ML project/ML_Project/pyScripts/test_sd.py", line 51, in <module>
+    X_train_cop=X_train_cop, y_train_cop=y_train_cop,
+NameError: name 'X_train_cop' is not defined. Did you mean: 'X_train_np'?
+/home/labs/antebilab/guyilan/miniconda3/envs/mlproject/lib/python3.10/site-packages/sklearn/preprocessing/_encoders.py:241: UserWarning: Found unknown categories in columns [19] during transform. These unknown categories will be encoded as all zeros
+  warnings.warn(
+TBB Warning: The number of workers is currently limited to 0. The request for 39 workers is ignored. Further requests for more workers will be silently ignored until the limit changes.
+

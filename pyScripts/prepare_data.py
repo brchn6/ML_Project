@@ -15,6 +15,7 @@ warnings.filterwarnings("ignore")
 import sys 
 
 from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import StratifiedGroupKFold
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 le = LabelEncoder()
@@ -75,12 +76,26 @@ def split_data(df, ColName):
         test_set = df.loc[test_index]
     return train_set, test_set
 
+def split_data_group(df, ColName):
+    split = StratifiedGroupKFold(n_splits=5)
+    for train_index, test_index in split.split(df, df[ColName], groups=df['patient_nbr']):
+        train_set = df.loc[train_index]
+        test_set = df.loc[test_index]
+    return train_set, test_set
+
 #---------------------------------Main--------------------------------
 #main function to run the script
-def prepare_data_main():
+def prepare_data_main(method = None):
     ColName= "readmitted"
     Maindf = pd.read_csv(PathToData)
     Mapdf = pd.read_csv(PathToMap)
     Maindf = remove_unwanted_columns_and_rows(Maindf)
-    train_set, test_set = split_data(Maindf, ColName)
+    if method == "group":
+        train_set, test_set = split_data_group(Maindf, ColName)
+    elif method == "normal":
+        train_set, test_set = split_data(Maindf, ColName)
     return train_set, test_set ,Mapdf
+
+
+
+# %%
