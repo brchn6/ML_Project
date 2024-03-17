@@ -94,6 +94,3 @@ def show_data():
     display(pd.DataFrame(X_test_np.toarray()))
 # show_data()
 
-
-
-# %%

@@ -19,11 +19,6 @@ from sklearn.pipeline import Pipeline
 from prepare_data import *
 train_set, test_set ,Mapdf= prepare_data_main(method = 'group')
 
-#%%
-#setting up display style
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', 4)
-
 #start with the pipeline classes
 
 #defining the DropDup class
