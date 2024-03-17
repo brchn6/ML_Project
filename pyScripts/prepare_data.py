@@ -77,7 +77,9 @@ def split_data(df, ColName):
     return train_set, test_set
 
 def split_data_group(df, ColName):
-    split = StratifiedGroupKFold(n_splits=5)
+    split = 
+    
+    רכ(n_splits=5)
     for train_index, test_index in split.split(df, df[ColName], groups=df['patient_nbr']):
         train_set = df.loc[train_index]
         test_set = df.loc[test_index]
