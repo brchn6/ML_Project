@@ -19,14 +19,13 @@ A table containing the scores for each classifier is generated and saved as a cs
 Comparisons are made between the original dataset, SMOTE, CopulaGAN and CTGAN dataframes helped us to decide which is will dataframe
 will be used for training.
 """
-
-
 #Started by gnerating synthetic data using CopulaGAN and CTGAN:
 #After generating the synthetic data, the data was combined with the original dataset.
 #The classes were constructed to ensure rubostness and reusability of the code.
 
 #Synthisizer parameters were set to 300 epochs on both CopulaGAN and CTGAN.
 #Boolean_columns were specified.
+#Attempt was made to generate synthetic data with 100 epochs and results did not improve.
 """
 copula_gans = CopulaGANSyntheticDataGenerator(label_column='readmitted', minority_class_label=0,
                                                majority_class_label=1, gans = 'copula',
