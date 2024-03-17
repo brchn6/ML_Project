@@ -260,7 +260,6 @@ cat_cols = [col for col in cols if col not in num_cols and col not in columns_to
 
 
 
-
 # ---------------------------------Define the object for the colprocessor pipeline--------------------------------
 """
 this object is used to in the script RunPipe.py to make the data ready to be used in the ML model
@@ -278,8 +277,3 @@ cat_transformer = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='most_frequent')),
     ('onehot', OneHotEncoder(handle_unknown='ignore',drop='if_binary'))])
 
-
-#---------------------------------Define hard coded values for the pipeline--------------------------------
-"""#hardcoded values for the pipeline"""
-dropdup_col = "patient_nbr"
-columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']

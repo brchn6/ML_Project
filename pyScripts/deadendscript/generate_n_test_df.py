@@ -92,7 +92,3 @@ score_table_all = classifier_evaluation.generate_score_table(X_train=X_train, y_
 csv_filename = 'score_table_all_100_epochs' + '.csv'
 path = os.path.join(os.getcwd(), '..', 'data')
 score_table_all.to_csv(os.path.join(path, csv_filename), index=True)
-
-
-
-
