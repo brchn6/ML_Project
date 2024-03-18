@@ -1,6 +1,6 @@
 #%%
 #-----------------Import the necessary packages-----------------
-# from main import *
+%autoreload 2
 import pandas as pd
 import numpy as np
 import os
@@ -18,6 +18,7 @@ feature_names = np.array(feature_names)
 #-----------------------------Done loading the data----------------------------------
 
 #-------------------------------------------------------------------------------------
+
 # Create the model
 lgb_model = lgb.LGBMClassifier(n_estimators=10, random_state=42)
 xgb_model = xgb.XGBClassifier(n_estimators=10, random_state=42)
@@ -40,9 +41,11 @@ rf_importance, rf_features = rf_inst.calculateFeatureImportance()
 
 
 # # Plot the feature importance
-# lgb_inst.plotFeatureImportance()
-# xgb_inst.plotFeatureImportance()
-# rf_inst.plotFeatureImportance()
+lgb_inst.plotFeatureImportance(model_name='LGBM', n_features=40)
+xgb_inst.plotFeatureImportance(model_name='XGBoost', n_features=40)
+rf_inst.plotFeatureImportance(model_name='Random Forest', n_features=40)
+
+
 
 # Calculate the sum of the original features
 lgb_sums = lgb_inst.calculateSumOfOriginalFeatures()
@@ -50,50 +53,14 @@ xgb_sums = xgb_inst.calculateSumOfOriginalFeatures()
 rf_sums = rf_inst.calculateSumOfOriginalFeatures()
 
 
-# Plot the sum of original features
-lgb_inst.plotOriginalFeatureSums()
-xgb_inst.plotOriginalFeatureSums()
-rf_inst.plotOriginalFeatureSums()
+# # Plot the sum of original features
+# lgb_inst.plotOriginalFeatureSums()
+# xgb_inst.plotOriginalFeatureSums()
+# rf_inst.plotOriginalFeatureSums()
 
 
-#%%
-import re
-def ManipulateFeatureImportanceData(feature_importance, feature_names):
-    # Create a DataFrame
-    df = pd.DataFrame({'feature': feature_names, 'importance': feature_importance})
-    
-    # Define patterns to remove
-    patterns_to_remove = ['>[0-9]+', '[0-9]+-[0-9]+', r'(pipeline-[123]_|_)']
+# Save the plots
+lgb_inst.SavePlots('LGBM')
+xgb_inst.SavePlots('XGBoost')
+rf_inst.SavePlots('Random Forest')
 
-    # Clean up feature names
-    for pattern in patterns_to_remove:
-        df['feature'] = df['feature'].apply(lambda x: re.sub(pattern, '', x))
-
-    # Group by cleaned feature names and sum importance values
-    df = df.groupby('feature')['importance'].sum().reset_index()
-    
-    return df
-
-# Display all rows
-pd.set_option('display.max_rows', 40)
-
-# Assuming lgb_importance and lgb_features are already defined
-print(ManipulateFeatureImportanceData(lgb_importance, lgb_features))
-print(ManipulateFeatureImportanceData(xgb_importance, xgb_features))
-print(ManipulateFeatureImportanceData(rf_importance, rf_features))
-
-
-#%%
-# plot the feature importance df
-def plotFeatureImportance(df, title):
-    import matplotlib.pyplot as plt
-    df = df.sort_values('importance', ascending=False)
-    plt.figure(figsize=(10, 6))
-    plt.barh(df['feature'], df['importance'], color='skyblue')
-    plt.xlabel('Feature Importance Sum')
-    plt.title(title)
-    plt.gca().invert_yaxis()  # Invert y-axis to have the most important feature at the top
-    plt.show()
-plotFeatureImportance(ManipulateFeatureImportanceData(lgb_importance, lgb_features), 'LGBM Feature Importance')
-plotFeatureImportance(ManipulateFeatureImportanceData(xgb_importance, xgb_features), 'XGBoost Feature Importance')
-plotFeatureImportance(ManipulateFeatureImportanceData(rf_importance, rf_features), 'Random Forest Feature Importance')
