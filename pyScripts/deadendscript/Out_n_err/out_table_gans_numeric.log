@@ -1,0 +1,46 @@
+
+------------------------------------------------------------
+Sender: LSF System <DoNotReply>
+Subject: Job 707818: <gans_300_with_numeric_columns> in cluster <wexac> Exited
+
+Job <gans_300_with_numeric_columns> was submitted from host <access4> by user <guyilan> in cluster <wexac> at Mon Mar 18 15:12:27 2024
+Job was executed on host(s) <1*cn598>, in queue <new-short>, as user <guyilan> in cluster <wexac> at Mon Mar 18 15:12:30 2024
+                            <1*cn231>
+                            <1*cn625>
+                            <1*cn617>
+</home/labs/antebilab/guyilan> was used as the home directory.
+</home/labs/antebilab/guyilan/ML project/ML_Project> was used as the working directory.
+Started at Mon Mar 18 15:12:30 2024
+Terminated at Mon Mar 18 15:12:30 2024
+Results reported at Mon Mar 18 15:12:30 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python gans_with_numeric.py
+------------------------------------------------------------
+
+Exited with exit code 2.
+
+Resource usage summary:
+
+    CPU time :                                   0.06 sec.
+    Max Memory :                                 -
+    Average Memory :                             -
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   1 sec.
+    Turnaround time :                            3 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <error_table_gans_numeric.log> for stderr output of this job.
+
