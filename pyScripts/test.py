@@ -2,11 +2,11 @@
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from RunPipe import col_processor
+from RunPipe import col_processor, prepro_train
 import matplotlib.pyplot as plt
 
 #call the X_train from csv name copula_train_set.csv
-X_train = pd.read_csv('../data/copula_train_set.csv')
+X_train = prepro_train
 #extract the lables
 y_train = X_train['readmitted']
 #remove labales from X_train
