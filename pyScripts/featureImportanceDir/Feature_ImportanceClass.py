@@ -10,14 +10,15 @@ class Build_Feature_Importance:
     def fitModel(self):
         self.model.fit(self.X_train, self.y_train)
     
-    def calculateFeatureImportance(self):  # Corrected method name
+    def calculateFeatureImportance(self):  
         self.feature_importance = self.model.feature_importances_
-        self.sorted_idx = np.argsort(self.feature_importance)
+        self.sorted_idx = np.argsort(self.feature_importance).ravel()
         self.feature_names = self.feature_names[self.sorted_idx]
         self.feature_importance = self.feature_importance[self.sorted_idx]
-        self.feature_importance = self.feature_importance[-20:]
-        self.feature_names = self.feature_names[-20:]
+        self.feature_importance = self.feature_importance
+        self.feature_names = self.feature_names
         return self.feature_importance, self.feature_names
+    
     
     def plotFeatureImportance(self):
         import matplotlib.pyplot as plt
@@ -26,17 +27,6 @@ class Build_Feature_Importance:
         ax.set_xlabel('Feature Importance')
         ax.set_title('Feature Importance')
         plt.show()
-
-    #build a method to clac the sum of the feature that originated from the same column before the one hot encoding 
-    def calculateSumOfOriginalFeatures(self):
-        original_feature_names = [name.split('_')[2] if '__' in name else name.split('_')[1] for name in self.feature_names]
-        unique_original_features = set(original_feature_names)
-        feature_sums = {}
-        for feature in unique_original_features:
-            indices = [i for i, name in enumerate(original_feature_names) if name == feature]
-            feature_sum = np.sum(self.feature_importance[indices])
-            feature_sums[feature] = feature_sum
-        return feature_sums
 
     def plotOriginalFeatureSums(self):
         import matplotlib.pyplot as plt
