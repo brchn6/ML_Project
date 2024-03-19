@@ -17,6 +17,7 @@ from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
 #%%
 #Call the train_set from RunPipe.py:
+"""
 train_set = train_set
 
 #Redfine the functions from deadendscript/disease_ids_conds.py:
@@ -55,18 +56,22 @@ path = os.path.join(os.getcwd(), '..', 'data')
 csv_filename = df_name + '.csv'
 df_transformed.to_csv(os.path.join(path, csv_filename), index=False)
 
-#%%
+
 
 #Read the transformed train_set from the csv file:
 train_set = pd.read_csv('../data/copula_train_set_300_epochs_4_numeric.csv')
+"""
+def convert_to_float64(dataframe, columns):
+    dataframe[columns] = dataframe[columns].astype('float64')
+    return dataframe
 
-#change dtype of number_emergency and number_outpatient to float64:
 cols_to_change = ['number_emergency', 'number_outpatient']
-train_set[cols_to_change] = train_set[cols_to_change].astype('float64')
 
 #Define the transformer for the NEW numeric features:
 num_transformer_none = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='mean'))])
+
+train_set = convert_to_float64(train_set, cols_to_change)
 
 #Define the transformer for the original numeric features:
 col_processor = make_column_transformer(
@@ -77,6 +82,7 @@ col_processor = make_column_transformer(
     n_jobs=3
 )
 
+"""
 #fit and transform the train_set:
 X_train = train_set.drop('readmitted', axis=1)
 y_train = train_set['readmitted']
@@ -128,6 +134,6 @@ plt.show()
 
 #export the feature the plot:
 plt.savefig('feature_importance_gans_4_numeric.png')
-
+"""
 
 
