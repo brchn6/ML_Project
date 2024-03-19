@@ -5,7 +5,7 @@ The version of the train set used was the one with 4 numeric features 'num_lab_p
 #%%
 #Import the necessary libraries:
 import os
-from RunPipe import *
+#from RunPipe import *
 #from deadendscript.synthetic_data_test import *
 from classes.evaluation_classes import *
 from DefPipeLineClasses import *
@@ -15,6 +15,7 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
+from sklearn.compose import make_column_selector as selector
 #%%
 #Call the train_set from RunPipe.py:
 """
@@ -57,10 +58,11 @@ csv_filename = df_name + '.csv'
 df_transformed.to_csv(os.path.join(path, csv_filename), index=False)
 
 
-
+"""
+#%%
 #Read the transformed train_set from the csv file:
 train_set = pd.read_csv('../data/copula_train_set_300_epochs_4_numeric.csv')
-"""
+
 def convert_to_float64(dataframe, columns):
     dataframe[columns] = dataframe[columns].astype('float64')
     return dataframe
@@ -125,15 +127,17 @@ for i in range(len(feature_names)):
 #sort the sums in descending order:
 sums = dict(sorted(sums.items(), key=lambda item: item[1], reverse=True))
 
+
 #plot the feature importances according to the sums dictionary (which is sorted):
 plt.figure(figsize=(10, 5))
 plt.title('Feature Importances')
 plt.bar(range(len(sums)), list(sums.values()), align='center')
 plt.xticks(range(len(sums)), list(sums.keys()), rotation=90)
-plt.show()
+
 
 #export the feature the plot:
-plt.savefig('feature_importance_gans_4_numeric.png')
+plt.savefig('feature_importance_gans_4_numeric.jpeg')
+
+plt.show()
+
 """
-
-
