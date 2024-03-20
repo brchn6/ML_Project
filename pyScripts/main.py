@@ -1,4 +1,4 @@
-#%%
+
 """"
 This is the fucking main file, all file should be called from here
 """

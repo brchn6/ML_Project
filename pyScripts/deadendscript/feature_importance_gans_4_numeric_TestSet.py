@@ -5,6 +5,9 @@ The version of the train set used was the one with 4 numeric features 'num_lab_p
 #%%
 #Import the necessary libraries:
 import os
+#from RunPipe import *
+#from deadendscript.synthetic_data_test import *
+from classes.evaluation_classes import *
 #get name of current working directory
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 print(os.getcwd())
@@ -20,7 +23,10 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
 from sklearn.compose import make_column_selector as selector
-
+#%%
+#Call the train_set from RunPipe.py:
+"""
+train_set = train_set
 
 #%%
 %reload_ext autoreload
@@ -59,3 +65,4 @@ path = os.path.join(os.getcwd(),'../', 'data', df_name + '.csv')
 print(path)
 #save the transformed Test set:
 df_transformed_test.to_csv(path, index=False)
+"""
