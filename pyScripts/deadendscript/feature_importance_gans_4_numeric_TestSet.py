@@ -8,6 +8,16 @@ import os
 #from RunPipe import *
 #from deadendscript.synthetic_data_test import *
 from classes.evaluation_classes import *
+#get name of current working directory
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+print(os.getcwd())
+#from RunPipe import *
+#from deadendscript.synthetic_data_test import *
+from classes.evaluation_classes import *
+from classes.ConditionalTransformer import *
+#from RunPipe import *
+#from deadendscript.synthetic_data_test import *
+from classes.evaluation_classes import *
 from DefPipeLineClasses import *
 from classes.CopulaGenerator import *
 from DefPipeLineClasses import *
@@ -21,6 +31,9 @@ from sklearn.compose import make_column_selector as selector
 """
 train_set = train_set
 
+#%%
+%reload_ext autoreload
+%autoreload 2
 #Redfine the functions from deadendscript/disease_ids_conds.py:
 functions = {
     'time_in_hospital': timeInHosp,
@@ -32,6 +45,7 @@ functions = {
 }
 
 #Define copula_gans object:
+copula_gans = None
 copula_gans = CopulaGANSyntheticDataGenerator(label_column='readmitted', minority_class_label=0,
                                                majority_class_label=1, gans = 'copula',
                                                boolean_columns=['change', 'diabetesMed'], 
@@ -42,6 +56,7 @@ preprocessing = make_pipeline(
     DropColumns(columns_to_drop),
     IDSTransformer(),
     CustomTransformer(bool_functions),
+    ConditionalTransformer(condition=False, transformer=copula_gans),
     ConditionalTransformer(condition=True, transformer=copula_gans),
     DiseaseConverter(),
     A1CTransformer(),
@@ -49,6 +64,16 @@ preprocessing = make_pipeline(
 )
 
 #fit and transform the train_set:
+df_transformed_test = preprocessing.fit_transform(test_set)
+df_name =  'copula_gans_4_numeric_TestSet'
+
+#%%
+#creat the path to save the transformed Test set:
+path = os.path.join(os.getcwd(),'../', 'data', df_name + '.csv')
+print(path)
+#save the transformed Test set:
+df_transformed_test.to_csv(path, index=False)
+"""
 df_transformed = preprocessing.fit_transform(train_set)
 df_name =  'copula_train_set_300_epochs_4_numeric'
 
