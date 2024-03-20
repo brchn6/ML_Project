@@ -1,4 +1,8 @@
 #%%
+"""
+This script need to be located in the root (pyScripts) directory of the project. to run it
+"""
+
 #-----------------Import the necessary packages-----------------
 %autoreload 2
 import pandas as pd
