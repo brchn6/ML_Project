@@ -1,4 +1,4 @@
-#%%
+
 import os
 from RunPipe import *
 #from deadendscript.synthetic_data_test import *
@@ -8,7 +8,7 @@ from sklearn.model_selection import cross_validate, StratifiedKFold
 from classes.CopulaGenerator import *
 from DefPipeLineClasses import *
 import pandas as pd
-#%%
+
 """
 train_set = train_set
 The purpose of this file is to generate synthetic data using CopulaGAN and CTGAN, combine each of them to the original dataset
@@ -61,6 +61,7 @@ for gans, name in zip([copula_gans, ct_gans], ['copula', 'ctgan']):
 #The classifiers were evaluated using the original dataset, SMOTE, CopulaGAN and CTGAN datasets.
 #The scores obtained for each classifier were saved as a csv file.
 
+"""
 
 #Import original DF for normal and smote evaluation:
 #dim - 30134 rows × 38 columns
@@ -87,6 +88,28 @@ score_table_all = classifier_evaluation.generate_score_table(X_train=X_train, y_
                                                              X_train_cop=X_train_cop, y_train_cop=y_train_cop,
                                                              X_train_ct=X_train_ct, y_train_ct=y_train_ct,
                                                              normal=True, smote=True, bal_cop=True, bal_ct=True,
+                                                             splits=10)
+
+csv_filename = 'score_table_all_100_epochs' + '.csv'
+path = os.path.join(os.getcwd(), '..', 'data')
+score_table_all.to_csv(os.path.join(path, csv_filename), index=True)
+"""
+
+#This section will test the performance of the copulGANS which generated with 4 numeric features:
+#It will be compared to the other Datasets which were generated in the above section:
+
+#Import synthetic data for copula evaluation:
+#dim - (54428, 38)
+X_train_cop = pd.read_csv(os.path.join(os.getcwd(), '../data','copula_train_set_300_epochs_4_numeric.csv'))
+y_train_cop = X_train_cop['readmitted']
+X_train_cop = X_train_cop.drop(columns=['readmitted'])
+
+#Call ClassifierEvaluation class:
+classifier_evaluation = ClassifierEvaluator(col_processor=col_processor, classifiers=classifiers, scorers=scorers)
+
+#evaluate XGBoost classifier with roc_auc score:
+score_table_all = classifier_evaluation.generate_score_table(X_train_cop=X_train_cop, y_train_cop=y_train_cop,
+                                                             normal=False, smote=False, bal_cop=True, bal_ct=False,
                                                              splits=10)
 
 csv_filename = 'score_table_all_100_epochs' + '.csv'
