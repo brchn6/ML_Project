@@ -12,6 +12,7 @@ AddRootDirectoriesToSys() #implement this function
 import pandas as pd
 from deadendscript.feature_importance_gans_4_numeric import *
 from DefPipeLineClasses import DropColumns
+from RunPipe import X_test
 
 # --------------------- Set up the X and y Train and Test value -----------------------
 #call the X_train from csv name copula_train_set.csv
@@ -27,15 +28,7 @@ X_train = convert_to_float64(X_train, cols_to_change)
 #fit the data: (54428x119)
 X_train_np = col_processor.fit_transform(X_train)
 
+# #%%
+# from BarModels.GetXYstes import save_data
+# save_data(X_train_np, y_train)
 
-import os
-if not os.getcwd() == "/home/labs/cssagi/barc/FGS_ML/ML_Project/pyScripts":
-    os.chdir("/home/labs/cssagi/barc/FGS_ML/ML_Project/pyScripts")
-
-dir_to_save= "./BarModels"
-
-#save the X_train_np matrix to a file
-import numpy as np
-np.save(dir_to_save + "/X_train_np", X_train_np)
-#save the y_train matrix to a file
-np.save(dir_to_save + "/y_train", y_train)

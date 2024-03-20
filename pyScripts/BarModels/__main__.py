@@ -2,6 +2,8 @@
 """
 Main file for the BarModels directory
 """
+%load_ext autoreload
+%autoreload 2
 
 #---------------------------- Imports -------------------------------
 import numpy as np
@@ -16,5 +18,5 @@ y_train = np.load("./y_train.npy")
 # ---------------------------- Rendom_forest -------------------------------
 #create a Rendom_forest_classification_BC object
 from Rendom_forest import Rendom_forest_classification_BC
-rf = Rendom_forest_classification_BC(X_train_np, y_train, X_train_np, y_train)
+rf = Rendom_forest_classification_BC(X_train_np, y_train)
 
