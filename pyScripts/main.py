@@ -1,4 +1,4 @@
-
+#%%
 """"
 This is the fucking main file, all file should be called from here
 """
@@ -22,3 +22,4 @@ X_train = convert_to_float64(X_train, cols_to_change)
 #run col_processor (pipeline from RunPipe.py) on X_train to get X_train_np
 X_train_np = col_processor.fit_transform(X_train)
 
+#%%
