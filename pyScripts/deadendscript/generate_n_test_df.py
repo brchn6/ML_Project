@@ -1,6 +1,6 @@
 
 import os
-from RunPipe import *
+#from RunPipe import *
 #from deadendscript.synthetic_data_test import *
 from classes.evaluation_classes import *
 from DefPipeLineClasses import *
@@ -97,12 +97,30 @@ score_table_all.to_csv(os.path.join(path, csv_filename), index=True)
 
 #This section will test the performance of the copulGANS which generated with 4 numeric features:
 #It will be compared to the other Datasets which were generated in the above section:
-
+from deadendscript.feature_importance_gans_4_numeric import col_processor, cols_to_change, convert_to_float64
 #Import synthetic data for copula evaluation:
 #dim - (54428, 38)
-X_train_cop = pd.read_csv(os.path.join(os.getcwd(), '../data','copula_train_set_300_epochs_4_numeric.csv'))
-y_train_cop = X_train_cop['readmitted']
-X_train_cop = X_train_cop.drop(columns=['readmitted'])
+X_train = pd.read_csv('../data/copula_train_set_300_epochs_4_numeric.csv')
+#extract the lables
+y_train_cop = X_train['readmitted']
+#remove labales from X_train
+X_train = X_train.drop('readmitted', axis=1)
+#Drop more columns:
+cols_to_drop = ['acarbose',
+ 'miglitol',
+ 'chlorpropamide',
+ 'glipizide-metformin',
+ 'tolazamide',
+ 'tolbutamide',
+ 'metformin-pioglitazone',
+ 'glimepiride-pioglitazone']
+#drop the columns:
+X_train = X_train.drop(cols_to_drop, axis=1)
+#Change 2 columns to float64 (for pipline purposes)
+X_train = convert_to_float64(X_train, cols_to_change)
+
+X_train_cop = X_train
+
 
 #Call ClassifierEvaluation class:
 classifier_evaluation = ClassifierEvaluator(col_processor=col_processor, classifiers=classifiers, scorers=scorers)
@@ -112,6 +130,6 @@ score_table_all = classifier_evaluation.generate_score_table(X_train_cop=X_train
                                                              normal=False, smote=False, bal_cop=True, bal_ct=False,
                                                              splits=10)
 
-csv_filename = 'score_table_all_100_epochs' + '.csv'
+csv_filename = 'score_table_all_300ep_4num_feature_filtered' + '.csv'
 path = os.path.join(os.getcwd(), '..', 'data')
 score_table_all.to_csv(os.path.join(path, csv_filename), index=True)
