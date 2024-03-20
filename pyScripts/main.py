@@ -5,6 +5,8 @@ This is the fucking main file, all file should be called from here
 # ---------------------------- Imports -------------------------------
 #from RunPipe import * #get all the data from the RunPiple.py file 
 #data such as x train, yratin, xtset ect
+import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 from AddRootDirectoriesToSysPath import AddRootDirectoriesToSys #importing the function that add all path in the dir to sys
 AddRootDirectoriesToSys() #implement this function
 import pandas as pd
@@ -26,11 +28,10 @@ X_train = convert_to_float64(X_train, cols_to_change)
 X_train_np = col_processor.fit_transform(X_train)
 
 
-#%%
 import os
 if not os.getcwd() == "/home/labs/cssagi/barc/FGS_ML/ML_Project/pyScripts":
     os.chdir("/home/labs/cssagi/barc/FGS_ML/ML_Project/pyScripts")
-#%%
+
 dir_to_save= "./BarModels"
 
 #save the X_train_np matrix to a file

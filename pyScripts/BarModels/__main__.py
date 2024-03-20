@@ -17,3 +17,4 @@ y_train = np.load("./y_train.npy")
 #create a Rendom_forest_classification_BC object
 from Rendom_forest import Rendom_forest_classification_BC
 rf = Rendom_forest_classification_BC(X_train_np, y_train, X_train_np, y_train)
+
