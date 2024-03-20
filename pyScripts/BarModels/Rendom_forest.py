@@ -30,9 +30,11 @@ def random_forest_script():
     """
 #---------------------------------------Importing the necessary libraries---------------------------------------
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import GridSearchCV
 
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
-class Rendom_forest_regression_BC:
+"""class Rendom_forest_regression_BC:
     def __init__(self, train_features, train_labels, test_features, test_labels):
         self.train_features = train_features
         self.train_labels = train_labels
@@ -52,17 +54,22 @@ class Rendom_forest_regression_BC:
         # Use the forest's predict method on the test data
         predictions = regressor.predict(self.test_features)
         return predictions
-    
+"""    
 # --------------------------------------Rendom_forest Classification Class--------------------------------------
-class Rendom_forest_classification_BC:
-    def __init__(self, train_features,train_labels,test_features,test_labels):
-        self.train_features = train_features
+class Rendom_forest_classification_BC_defultParams:
+    def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
+        self.train_features = np_train_features
         self.train_labels = train_labels
-        self.test_features = test_features
+        self.test_features = np_test_features
         self.test_labels = test_labels
+    
     def build_RandomForestClassifier (self):
+        """
         # Create a random forest classifier object
         # Instantiate model with 10 decision trees
+        Returns:
+        classifier_fit: the trained model
+        """
         classifier = RandomForestClassifier(n_estimators=10, random_state=42)
         
         # Train the model on training data
@@ -74,3 +81,43 @@ class Rendom_forest_classification_BC:
         # Use the forest's predict method on the test data
         predictions = classifier.predict(self.train_features)
         return predictions
+    
+    #build a accuracy score method
+    def accuracy_score(self, predictions):
+        """
+        Returns:
+        accuracy: the accuracy of the model
+        """
+        accuracy = accuracy_score(self.train_labels, predictions)
+        return accuracy
+    
+class Rendom_forest_classification_BC_useingGridSearchCV:
+    def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
+        self.train_features = np_train_features
+        self.train_labels = train_labels
+        self.test_features = np_test_features
+        self.test_labels = test_labels
+
+    def gridSearchCV_RandomForestClassifier(self):
+
+        # Define the parameter grid
+        param_grid = {
+            'n_estimators': [10, 50, 100],
+            'max_depth': [None, 10, 20],
+            'min_samples_split': [2, 5, 10],
+            'min_samples_leaf': [1, 2, 4]
+        }
+        
+        # Create a Random Forest classifier object
+        rf_classifier = RandomForestClassifier(random_state=42)
+        
+        # Create GridSearchCV object
+        grid_search = GridSearchCV(estimator=rf_classifier, param_grid=param_grid, cv=5, n_jobs=-1)
+        
+        # Train the model on training data
+        grid_search.fit(self.train_features, self.train_labels)
+        
+        # Get the best estimator
+        best_rf_classifier = grid_search.best_estimator_
+        
+        return best_rf_classifier

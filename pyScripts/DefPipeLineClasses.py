@@ -17,12 +17,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
 from prepare_data import *
-train_set, test_set ,Mapdf= prepare_data_main()
-
-
-#setting up display style
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', 4)
+train_set, test_set ,Mapdf= prepare_data_main(method = 'group')
 
 #start with the pipeline classes
 
@@ -156,9 +151,9 @@ class IDSTransformer(BaseEstimator, TransformerMixin):
         discharge_disposition_id_DF = discharge_disposition_id_DF[discharge_disposition_id_DF['description.1'].str.contains('Hospice') | discharge_disposition_id_DF['description.1'].str.contains('Expired')]
         X_transformed = X[~X['discharge_disposition_id'].isin(discharge_disposition_id_DF ['discharge_disposition_id'])]
         #Regrouping IDS columns:
-        X_transformed.loc[:, 'admission_type_id'] = X['admission_type_id'].replace([8, 6], 5).replace([7], 6)
-        X_transformed.loc[:, 'discharge_disposition_id'] = X['discharge_disposition_id'].replace([list(range(3, 6)) + [10, 15, 9, 23, 24, 22] + list(range(27, 31))], 2).replace([6, 8], 3).replace(7, 4).replace(12, 5).replace([16, 17], 6).replace([25, 26, 18], 7)
-        X_transformed.loc[:, 'admission_source_id'] = X['admission_source_id'].replace([2, 3], 1).replace([25, 22, 18, 19, 10, 5, 6, 7, 4], 2).replace(8, 3).replace([19, 20, 17, 15, 9], 4).replace([23, 24, 11, 12, 13, 14], 5)
+        X_transformed.loc[:, 'admission_type_id'] = X['admission_type_id'].replace([8, 6, 5], 'other').replace([1], 'emergency').replace([2], 'urgent').replace([3], 'elective').replace([4], 'newborn').replace([7], 'trauma_center')
+        X_transformed.loc[:, 'discharge_disposition_id'] = X['discharge_disposition_id'].replace([1], 'discharged_home').replace(list(range(2, 6)) + [10, 15, 9, 23, 24, 22] + list(range(27, 31)), 'inpatient').replace([6, 8], 'home_care').replace([7], 'left_AMA').replace([12,16,17], 'outpatient').replace([25, 26, 18], 'other')
+        X_transformed.loc[:, 'admission_source_id'] = X['admission_source_id'].replace([1, 2, 3], 'clinical').replace([25, 22, 18, 19, 10, 5, 6, 7, 4], 'medical_care').replace([8], 'enforcement').replace([21, 20, 17, 15, 9], 'other').replace([23, 24, 11, 12, 13, 14], 'new_born')
         return X_transformed
     
 
@@ -265,7 +260,6 @@ cat_cols = [col for col in cols if col not in num_cols and col not in columns_to
 
 
 
-
 # ---------------------------------Define the object for the colprocessor pipeline--------------------------------
 """
 this object is used to in the script RunPipe.py to make the data ready to be used in the ML model
@@ -283,8 +277,3 @@ cat_transformer = Pipeline(steps=[
     ('imputer', SimpleImputer(strategy='most_frequent')),
     ('onehot', OneHotEncoder(handle_unknown='ignore',drop='if_binary'))])
 
-
-#---------------------------------Define hard coded values for the pipeline--------------------------------
-"""#hardcoded values for the pipeline"""
-dropdup_col = "patient_nbr"
-columns_to_drop = ['payer_code', 'encounter_id', 'weight', 'patient_nbr', 'medical_specialty'] + ['acetohexamide', 'troglitazone', 'examide', 'citoglipton', 'metformin-rosiglitazone','max_glu_serum']

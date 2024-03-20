@@ -1,69 +1,45 @@
-#%%
+
 """"
 This is the fucking main file, all file should be called from here
 """
 # ---------------------------- Imports -------------------------------
-from RunPipe import * #get all the data from the RunPiple.py file 
+#from RunPipe import * #get all the data from the RunPiple.py file 
 #data such as x train, yratin, xtset ect
-from AddRootDirectoriesToSysPath import AddRootDirectoriesToSys #importing the funcrion htat add all path in the dir to sys
-AddRootDirectoriesToSys() #implament this function
+import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+from AddRootDirectoriesToSysPath import AddRootDirectoriesToSys #importing the function that add all path in the dir to sys
+AddRootDirectoriesToSys() #implement this function
+import pandas as pd
+from deadendscript.feature_importance_gans_4_numeric import *
+from DefPipeLineClasses import DropColumns
+from RunPipe import X_test
+
+# --------------------- Set up the X and y Train and Test value -----------------------
+#call the DFS from the path
+X_train = pd.read_csv('../data/copula_train_set_300_epochs_4_numeric.csv')
+X_test = pd.read_csv('../data/copula_gans_4_numeric_TestSet.csv')
+#function time
+def FunctionToGet_Y_lables_fromTrainAndTest(X_train, X_test):
+    # make the lable var as y_train and y_test
+    y_train = X_train['readmitted']
+    y_test = X_test['readmitted']
+    #remove the lables from the train and test set
+    X_train = X_train.drop('readmitted', axis=1)
+    X_test = X_test.drop('readmitted', axis=1)
+    #apply the drop columns function to the train and test set
+    X_train = DropColumns(cols_to_drop).fit_transform(X_train)
+    X_test = DropColumns(cols_to_drop).fit_transform(X_test)
+    #convert the columns to float64
+    X_train = convert_to_float64(X_train, cols_to_change)
+    X_test = convert_to_float64(X_test, cols_to_change)
+    #apply the col processor to the train and test set
+    X_train_np = col_processor.fit_transform(X_train)
+    X_test_np = col_processor.fit_transform(X_test)
+    #return all
+    return X_train_np, X_test_np, y_train, y_test
+# call the function
+X_train_np, X_test_np, y_train, y_test = FunctionToGet_Y_lables_fromTrainAndTest(X_train, X_test)
 
 #%%
-# ------------------------------Run Rendom_forest.py script ------------------------------d
-#importing the classes and var from BarModels.Rendom_forest
-from BarModels.Rendom_forest import *
-
-#%%
-#creat an instence of the calss i build
-RF_instance  = Rendom_forest_regression_BC(X_train_np,y_train,X_test_np,y_test)
-#make the regressor
-regressor = RF_instance.build_RandomForestRegressor()
-# Predictions
-predictions = RF_instance.predict_RandomForestRegressor(regressor)
-
-#%%
-errors = abs(predictions - y_test)
-errors 
-#plot
-import matplotlib.pyplot as plt
-
-plt.scatter(y_test, errors)
-plt.xlabel('Original Data')
-plt.ylabel('Error')
-plt.title('Error vs Original Data')
-plt.show()
-
-
-
-
-#%%
-from deadendscript.name import CopulaGANSyntheticDataGenerator
-#%%
-# Specify columns to transform
-
-train_set = build_preprocessing_pipe_withGANS().fit_transform(train_set)
-
-boolean_columns = ['diabetesMed', 'change']
-label_column = 'readmitted'
-
-generator = CopulaGANSyntheticDataGenerator(train_set, label_column, 0, 1, boolean_columns=boolean_columns, enforce_min_max_values=True)
-synthetic_samples = generator.fit_and_generate()
-quality_score = generator.evaluate_quality(synthetic_samples)
-diagnostic_score = generator.run_diagnostic(synthetic_samples)
-balanced_train_set = generator.generate_balanced_df(synthetic_samples, train_set)
-generator.export_balanced_df(balanced_train_set)
-"""
-This part we are implamenting the GANS pipeline
-"""
-ask_use_gans()
-pipe= CombinePipeLine(train_set,use_gans=None)
-
-
-#%%
-#create an instance of the claafication class
-CL_instance = Rendom_forest_classification_BC(X_train_np, y_train, X_test_np, y_test)
-#make the regressor
-classifier = CL_instance.build_RandomForestClassifier()
-# predictions
-CL_instance.predict_RandomForestClassifierTrainData(classifier)
-CL_instance
+# from BarModels.GetXYstes import save_data
+# save_data(X_train_np, y_train, X_test_np, y_test, dir_to_save= "./BarModels")

@@ -120,3 +120,33 @@ bool_functions = {
     'change': changeCol,
     'diabetesMed' : diabMed
 }
+
+#Function to transform feature names for the feature importances plot:
+#need to get feature names fro model
+def transform_feature_names(feature_names):
+    # Remove the first 12 characters from each name
+    feature_names = [name[12:] for name in feature_names]
+
+    # Function to return the feature name up to the last '_'
+    def get_feature_name(name):
+        return name[:name.rfind('_')]
+
+    # Apply the get_feature_name function to all feature names
+    feature_names = list(map(get_feature_name, feature_names))
+
+    # Replace specific strings in the feature names
+    replacements = {
+        'age_Older': 'age',
+        'admission_type_id_trauma': 'admission_type_id',
+        'discharge_disposition_id_discharged': 'discharge_disposition_id',
+        'discharge_disposition_id_home': 'discharge_disposition_id',
+        'discharge_disposition_id_left': 'discharge_disposition_id',
+        'admission_source_id_medical': 'admission_source_id',
+        'num': 'num_medications',
+        'num_lab': 'num_lab_procedures',
+        'chang': 'change',
+        'diabetesMe': 'diabetesMed'
+    }
+    feature_names = [replacements.get(name, name) for name in feature_names]
+
+    return feature_names
