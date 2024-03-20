@@ -55,7 +55,7 @@ class Rendom_forest_regression_BC:
     
 # --------------------------------------Rendom_forest Classification Class--------------------------------------
 class Rendom_forest_classification_BC:
-    def __init__(self, d,train_labels,test_features,test_labels):
+    def __init__(self, train_features,train_labels,test_features,test_labels):
         self.train_features = train_features
         self.train_labels = train_labels
         self.test_features = test_features
