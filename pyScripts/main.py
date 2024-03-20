@@ -26,3 +26,15 @@ X_train = convert_to_float64(X_train, cols_to_change)
 X_train_np = col_processor.fit_transform(X_train)
 
 
+#%%
+import os
+if not os.getcwd() == "/home/labs/cssagi/barc/FGS_ML/ML_Project/pyScripts":
+    os.chdir("/home/labs/cssagi/barc/FGS_ML/ML_Project/pyScripts")
+#%%
+dir_to_save= "./BarModels"
+
+#save the X_train_np matrix to a file
+import numpy as np
+np.save(dir_to_save + "/X_train_np", X_train_np)
+#save the y_train matrix to a file
+np.save(dir_to_save + "/y_train", y_train)
