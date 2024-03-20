@@ -127,7 +127,6 @@ for i in range(len(feature_names)):
 #sort the sums in descending order:
 sums = dict(sorted(sums.items(), key=lambda item: item[1], reverse=True))
 
-
 #plot the feature importances according to the sums dictionary (which is sorted):
 plt.figure(figsize=(10, 5))
 plt.title('Feature Importances')
@@ -136,8 +135,26 @@ plt.xticks(range(len(sums)), list(sums.keys()), rotation=90)
 
 
 #export the feature the plot:
-plt.savefig('feature_importance_gans_4_numeric.jpeg')
+#plt.savefig('feature_importance_gans_4_numeric.jpeg')
 
 plt.show()
 
+#get bottom 10 features:
+bottom_10 = dict(list(sums.items())[-10:])
+
+for k, v in bottom_10.items():
+    bottom_10[k] = round(v, 7)
+
+#Define the features to drop:
+cols_to_drop = [k for k, v in bottom_10.items() if v < 0.0005]
+"""
+"""
+['acarbose',
+ 'miglitol',
+ 'chlorpropamide',
+ 'glipizide-metformin',
+ 'tolazamide',
+ 'tolbutamide',
+ 'metformin-pioglitazone',
+ 'glimepiride-pioglitazone']
 """
