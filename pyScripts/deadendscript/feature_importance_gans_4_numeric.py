@@ -93,7 +93,7 @@ cols_to_drop = ['acarbose',
  'metformin-pioglitazone',
  'glimepiride-pioglitazone']
 
-
+"""
 #fit and transform the train_set:
 X_train = train_set.drop('readmitted', axis=1)
 y_train = train_set['readmitted']
@@ -112,6 +112,7 @@ feature_names = transform_feature_names(feature_names)
 #Manualy change the first feature name to number_outpatient and the second to number_emergency:
 feature_names[0] = 'number_outpatient'
 feature_names[1] = 'number_emergency'
+
 
 #Define the model:
 model = RandomForestClassifier(random_state=42)
@@ -148,7 +149,7 @@ plt.xticks(range(len(sums)), list(sums.keys()), rotation=90)
 
 plt.show()
 
-"""
+
 #get bottom 10 features:
 bottom_10 = dict(list(sums.items())[-10:])
 
