@@ -92,6 +92,7 @@ class Rendom_forest_classification_BC_defultParams:
         return accuracy
     
 class Rendom_forest_classification_BC_useingGridSearchCV:
+    
     def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
         self.train_features = np_train_features
         self.train_labels = train_labels
