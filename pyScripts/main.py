@@ -6,7 +6,7 @@ This is the fucking main file, all file should be called from here
 #from RunPipe import * #get all the data from the RunPiple.py file 
 #data such as x train, yratin, xtset ect
 import os
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+os.chdir(os.path.dirname(os.path.abspath(__file__))) # This line in for sitting the working dir to be the same as the script loc
 from AddRootDirectoriesToSysPath import AddRootDirectoriesToSys #importing the function that add all path in the dir to sys
 AddRootDirectoriesToSys() #implement this function
 import pandas as pd
