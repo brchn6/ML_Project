@@ -1,0 +1,145 @@
+CV with subsample=0.4, colsample_bytree=0.4
+	Logloss 0.20817196692854437 for 49 rounds
+CV with subsample=0.4, colsample_bytree=0.5
+	Logloss 0.2080552319740289 for 29 rounds
+CV with subsample=0.4, colsample_bytree=0.6
+	Logloss 0.20675075700258697 for 37 rounds
+CV with subsample=0.4, colsample_bytree=0.7
+	Logloss 0.20677476377266996 for 34 rounds
+CV with subsample=0.4, colsample_bytree=0.8
+	Logloss 0.2071164317674589 for 28 rounds
+CV with subsample=0.4, colsample_bytree=0.9
+	Logloss 0.20762147901387262 for 22 rounds
+CV with subsample=0.4, colsample_bytree=1.0
+	Logloss 0.20731105190057247 for 25 rounds
+CV with subsample=0.5, colsample_bytree=0.4
+	Logloss 0.20637392337078495 for 49 rounds
+CV with subsample=0.5, colsample_bytree=0.5
+	Logloss 0.20619128606001916 for 30 rounds
+CV with subsample=0.5, colsample_bytree=0.6
+	Logloss 0.20582022044338136 for 33 rounds
+CV with subsample=0.5, colsample_bytree=0.7
+	Logloss 0.20573065769019722 for 37 rounds
+CV with subsample=0.5, colsample_bytree=0.8
+	Logloss 0.2059260046829014 for 25 rounds
+CV with subsample=0.5, colsample_bytree=0.9
+	Logloss 0.2061608205238013 for 33 rounds
+CV with subsample=0.5, colsample_bytree=1.0
+	Logloss 0.20628851402320075 for 28 rounds
+CV with subsample=0.6, colsample_bytree=0.4
+	Logloss 0.2053458177408638 for 51 rounds
+CV with subsample=0.6, colsample_bytree=0.5
+	Logloss 0.20468452571403478 for 41 rounds
+CV with subsample=0.6, colsample_bytree=0.6
+	Logloss 0.2042264789313041 for 57 rounds
+CV with subsample=0.6, colsample_bytree=0.7
+	Logloss 0.2044494931685413 for 32 rounds
+CV with subsample=0.6, colsample_bytree=0.8
+	Logloss 0.20418684765557185 for 33 rounds
+CV with subsample=0.6, colsample_bytree=0.9
+	Logloss 0.20466419091914903 for 33 rounds
+CV with subsample=0.6, colsample_bytree=1.0
+	Logloss 0.2050299138832421 for 43 rounds
+CV with subsample=0.7, colsample_bytree=0.4
+	Logloss 0.20389945330139875 for 51 rounds
+CV with subsample=0.7, colsample_bytree=0.5
+	Logloss 0.20403075424186165 for 32 rounds
+CV with subsample=0.7, colsample_bytree=0.6
+	Logloss 0.20357685459433897 for 32 rounds
+CV with subsample=0.7, colsample_bytree=0.7
+	Logloss 0.20332457877194382 for 33 rounds
+CV with subsample=0.7, colsample_bytree=0.8
+	Logloss 0.20347902268122758 for 48 rounds
+CV with subsample=0.7, colsample_bytree=0.9
+	Logloss 0.20352780557170905 for 35 rounds
+CV with subsample=0.7, colsample_bytree=1.0
+	Logloss 0.2034981905136386 for 47 rounds
+CV with subsample=0.8, colsample_bytree=0.4
+	Logloss 0.20349830992054668 for 64 rounds
+CV with subsample=0.8, colsample_bytree=0.5
+	Logloss 0.20277618854829121 for 49 rounds
+CV with subsample=0.8, colsample_bytree=0.6
+	Logloss 0.2027553191693657 for 45 rounds
+CV with subsample=0.8, colsample_bytree=0.7
+	Logloss 0.2027477673655394 for 42 rounds
+CV with subsample=0.8, colsample_bytree=0.8
+	Logloss 0.20230158307312593 for 47 rounds
+CV with subsample=0.8, colsample_bytree=0.9
+	Logloss 0.2030645386774231 for 47 rounds
+CV with subsample=0.8, colsample_bytree=1.0
+	Logloss 0.2031899458370106 for 43 rounds
+CV with subsample=0.9, colsample_bytree=0.4
+	Logloss 0.20297878258242524 for 63 rounds
+CV with subsample=0.9, colsample_bytree=0.5
+	Logloss 0.2027331016898442 for 49 rounds
+CV with subsample=0.9, colsample_bytree=0.6
+	Logloss 0.2023198772065236 for 51 rounds
+CV with subsample=0.9, colsample_bytree=0.7
+	Logloss 0.2023923889242271 for 53 rounds
+CV with subsample=0.9, colsample_bytree=0.8
+	Logloss 0.20180956403754155 for 42 rounds
+CV with subsample=0.9, colsample_bytree=0.9
+	Logloss 0.2022912590822576 for 47 rounds
+CV with subsample=0.9, colsample_bytree=1.0
+	Logloss 0.20186059230910974 for 40 rounds
+CV with subsample=1.0, colsample_bytree=0.4
+	Logloss 0.20213197846401995 for 64 rounds
+CV with subsample=1.0, colsample_bytree=0.5
+	Logloss 0.20181843029318017 for 53 rounds
+CV with subsample=1.0, colsample_bytree=0.6
+	Logloss 0.2024974591983706 for 47 rounds
+CV with subsample=1.0, colsample_bytree=0.7
+	Logloss 0.2024510830795919 for 62 rounds
+CV with subsample=1.0, colsample_bytree=0.8
+	Logloss 0.20186616028733492 for 51 rounds
+CV with subsample=1.0, colsample_bytree=0.9
+	Logloss 0.2016876811388658 for 45 rounds
+CV with subsample=1.0, colsample_bytree=1.0
+	Logloss 0.20175233051126334 for 48 rounds
+Best params: 1.0, 0.9, Logloss: 0.2016876811388658
+
+------------------------------------------------------------
+Sender: LSF System <DoNotReply>
+Subject: Job 324025: <tune_subsample_colsample> in cluster <wexac> Done
+
+Job <tune_subsample_colsample> was submitted from host <access4> by user <guyilan> in cluster <wexac> at Tue Mar 26 11:09:15 2024
+Job was executed on host(s) <1*cn278>, in queue <new-short>, as user <guyilan> in cluster <wexac> at Tue Mar 26 11:09:16 2024
+                            <1*cn788>
+                            <1*cn757>
+                            <1*cn098>
+</home/labs/antebilab/guyilan> was used as the home directory.
+</home/labs/antebilab/guyilan/ML project/ML_Project/pyScripts/GuyTrain> was used as the working directory.
+Started at Tue Mar 26 11:09:16 2024
+Terminated at Tue Mar 26 11:29:15 2024
+Results reported at Tue Mar 26 11:29:15 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python guy_train_xgboost.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1180.70 sec.
+    Max Memory :                                 889 MB
+    Average Memory :                             859.11 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               31879.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                12
+    Run time :                                   1205 sec.
+    Turnaround time :                            1200 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <error_subsample_colsample.log> for stderr output of this job.
+
