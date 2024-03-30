@@ -12,10 +12,13 @@ here = os.path.dirname(os.path.abspath(__file__))
 os.chdir(here)
 
 # ---------------------------- data incoming -------------------------------
+#load the train ds
 X_train_np = np.load("X_train_np.npy", allow_pickle=True).item()
 y_train = np.load("./y_train.npy")
+#load the test ds
+X_test_np = np.load("X_test_np.npy", allow_pickle=True).item()
 y_test = np.load("./y_test.npy")
-
+#%%
 # ---------------------------- Rendom_forest -------------------------------
 #create a Rendom_forest_classification_BC object
 from Rendom_forest import Rendom_forest_classification_BC_defultParams
@@ -31,6 +34,7 @@ print(predictions)
 #%%
 from sklearn.metrics import confusion_matrix
 confusion_matrix(y_train, predictions)
+
 from sklearn.metrics import precision_score, recall_score
 
 print(precision_score(y_train, predictions))
@@ -58,3 +62,7 @@ def plot_roc_curve(fpr, tpr, label=None):
     plt.ylabel('True Positive Rate (Recall)', fontsize=16)    # Not shown
     plt.grid(True)                                            # Not shown
 plot_roc_curve(fpr, tpr)
+
+
+#%%
+# confusion_matrix(y_test, predictions)
