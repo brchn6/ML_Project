@@ -20,8 +20,9 @@ X_test_np = np.load("X_test_np.npy", allow_pickle=True).item()
 y_test = np.load("./y_test.npy")
 #%%
 # ---------------------------- Rendom_forest -------------------------------
+#importing the Rendom_forest_classification_BC_defultParams class
+from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_defultParams
 #create a Rendom_forest_classification_BC object
-from Rendom_forest import Rendom_forest_classification_BC_defultParams
 rf = Rendom_forest_classification_BC_defultParams(X_train_np, y_train, X_train_np, y_train)
 #build the model
 classifier_fit = rf.build_RandomForestClassifier()
@@ -65,4 +66,31 @@ plot_roc_curve(fpr, tpr)
 
 
 #%%
-# confusion_matrix(y_test, predictions)
+from sklearn.linear_model import SGDClassifier
+sgd_clf = SGDClassifier(max_iter=1000, tol=1e-3, random_state=42)
+sgd_clf.fit(X_train_np, y_train)
+
+#%%
+sgd_clf.predict(X_train_np)
+from sklearn.model_selection import cross_val_score
+cross_val_score(sgd_clf, X_train_np, y_train, cv=3, scoring="accuracy")
+
+
+#%%
+from sklearn.model_selection import StratifiedKFold
+from sklearn.base import clone
+
+skfolds = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+
+for train_index, test_index in skfolds.split(X_train_np, y_train):
+    clone_clf = clone(sgd_clf)
+    X_train_folds = X_train_np[train_index]
+    y_train_folds = y_train[train_index]
+    X_test_fold = X_train_np[test_index]
+    y_test_fold = y_train[test_index]
+
+    clone_clf.fit(X_train_folds, y_train_folds)
+    y_pred = clone_clf.predict(X_test_fold)
+    n_correct = sum(y_pred == y_test_fold)
+    print(n_correct / len(y_pred))
+
