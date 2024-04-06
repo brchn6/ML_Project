@@ -113,7 +113,7 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         rf_classifier = RandomForestClassifier(random_state=42)
         
         # Create GridSearchCV object
-        grid_search = GridSearchCV(estimator=rf_classifier, param_grid=param_grid, cv=5, n_jobs=-1)
+        grid_search = GridSearchCV(estimator=rf_classifier, param_grid=param_grid, cv=2, n_jobs=-1)
         
         # Train the model on training data
         grid_search.fit(self.train_features, self.train_labels)
@@ -122,3 +122,5 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         best_rf_classifier = grid_search.best_estimator_
         
         return best_rf_classifier
+    
+

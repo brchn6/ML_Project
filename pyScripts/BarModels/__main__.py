@@ -2,11 +2,15 @@
 """
 Main file for the BarModels directory
 """
-%load_ext autoreload
+import warnings
+
+warnings.filterwarnings('ignore')
+%reload_ext autoreload
 %autoreload 2
 
 #---------------------------- Imports -------------------------------
 import numpy as np
+import matplotlib.pyplot as plt
 import os
 here = os.path.dirname(os.path.abspath(__file__))
 os.chdir(here)
@@ -33,64 +37,19 @@ accuracy = rf.accuracy_score(predictions)
 print(accuracy)
 print(predictions)
 #%%
-from sklearn.metrics import confusion_matrix
-confusion_matrix(y_train, predictions)
-
-from sklearn.metrics import precision_score, recall_score
-
-print(precision_score(y_train, predictions))
-print(recall_score(y_train, predictions))
-
-from sklearn.metrics import f1_score
-
-f1_score(y_train, predictions)
-
-y_scores = classifier_fit.predict_proba(X_train_np)[:, 1]
-y_scores
-
-
-from sklearn.metrics import roc_curve
-
-fpr, tpr, thresholds = roc_curve(y_train, y_scores)
-print(fpr, tpr, thresholds)
-# plot
-import matplotlib.pyplot as plt
-def plot_roc_curve(fpr, tpr, label=None):
-    plt.plot(fpr, tpr, linewidth=2, label=label)
-    plt.plot([0, 1], [0, 1], 'k--') # dashed diagonal
-    plt.axis([0, 1, 0, 1])                                    # Not shown in the book
-    plt.xlabel('False Positive Rate (Fall-Out)', fontsize=16) # Not shown
-    plt.ylabel('True Positive Rate (Recall)', fontsize=16)    # Not shown
-    plt.grid(True)                                            # Not shown
-plot_roc_curve(fpr, tpr)
-
-
+from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_useingGridSearchCV
+rf = Rendom_forest_classification_BC_useingGridSearchCV(X_train_np, y_train, X_train_np, y_train)
+best_rf_classifier= rf.gridSearchCV_RandomForestClassifier()
 #%%
-from sklearn.linear_model import SGDClassifier
-sgd_clf = SGDClassifier(max_iter=1000, tol=1e-3, random_state=42)
-sgd_clf.fit(X_train_np, y_train)
+# import Random Forest classifier
+from sklearn.ensemble import RandomForestClassifier
+# instantiate the classifier 
+rfc = RandomForestClassifier(random_state=42)
+# fit the model
+rfc.fit(X_train_np, y_train)
+# Predict the Test set results
 
-#%%
-sgd_clf.predict(X_train_np)
-from sklearn.model_selection import cross_val_score
-cross_val_score(sgd_clf, X_train_np, y_train, cv=3, scoring="accuracy")
-
-
-#%%
-from sklearn.model_selection import StratifiedKFold
-from sklearn.base import clone
-
-skfolds = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
-
-for train_index, test_index in skfolds.split(X_train_np, y_train):
-    clone_clf = clone(sgd_clf)
-    X_train_folds = X_train_np[train_index]
-    y_train_folds = y_train[train_index]
-    X_test_fold = X_train_np[test_index]
-    y_test_fold = y_train[test_index]
-
-    clone_clf.fit(X_train_folds, y_train_folds)
-    y_pred = clone_clf.predict(X_test_fold)
-    n_correct = sum(y_pred == y_test_fold)
-    print(n_correct / len(y_pred))
-
+y_pred = rfc.predict(X_train_np)
+# Check accuracy score 
+from sklearn.metrics import accuracy_score
+print('Model accuracy score with 10 decision-trees : {0:0.4f}'. format(accuracy_score(y_test, y_pred)))
