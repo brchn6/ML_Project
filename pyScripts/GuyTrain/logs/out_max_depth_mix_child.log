@@ -1,0 +1,247 @@
+CV with max_depth=1, min_child_weight=1
+	Logloss 0.23847158063814372 for 508 rounds
+CV with max_depth=1, min_child_weight=6
+	Logloss 0.23893140813855068 for 359 rounds
+CV with max_depth=1, min_child_weight=11
+	Logloss 0.23886001631597886 for 434 rounds
+CV with max_depth=1, min_child_weight=16
+	Logloss 0.23896458017891012 for 414 rounds
+CV with max_depth=1, min_child_weight=21
+	Logloss 0.23895256017759414 for 428 rounds
+CV with max_depth=1, min_child_weight=26
+	Logloss 0.23910384023940806 for 337 rounds
+CV with max_depth=1, min_child_weight=31
+	Logloss 0.2390420965632231 for 401 rounds
+CV with max_depth=1, min_child_weight=36
+	Logloss 0.23906879704908204 for 399 rounds
+CV with max_depth=1, min_child_weight=41
+	Logloss 0.23911950102195162 for 380 rounds
+CV with max_depth=1, min_child_weight=46
+	Logloss 0.23912902888899595 for 390 rounds
+CV with max_depth=6, min_child_weight=1
+	Logloss 0.20224870074486442 for 46 rounds
+CV with max_depth=6, min_child_weight=6
+	Logloss 0.20175233051126334 for 48 rounds
+CV with max_depth=6, min_child_weight=11
+	Logloss 0.20207904346401212 for 50 rounds
+CV with max_depth=6, min_child_weight=16
+	Logloss 0.20211227547511407 for 51 rounds
+CV with max_depth=6, min_child_weight=21
+	Logloss 0.20296807062936523 for 61 rounds
+CV with max_depth=6, min_child_weight=26
+	Logloss 0.20233874939826402 for 83 rounds
+CV with max_depth=6, min_child_weight=31
+	Logloss 0.2035025451731975 for 47 rounds
+CV with max_depth=6, min_child_weight=36
+	Logloss 0.20265888205379787 for 78 rounds
+CV with max_depth=6, min_child_weight=41
+	Logloss 0.20256762949270218 for 97 rounds
+CV with max_depth=6, min_child_weight=46
+	Logloss 0.2029803177229122 for 82 rounds
+CV with max_depth=11, min_child_weight=1
+	Logloss 0.2092241499420988 for 18 rounds
+CV with max_depth=11, min_child_weight=6
+	Logloss 0.20534347420972782 for 21 rounds
+CV with max_depth=11, min_child_weight=11
+	Logloss 0.20401675015472714 for 29 rounds
+CV with max_depth=11, min_child_weight=16
+	Logloss 0.20313198678567895 for 27 rounds
+CV with max_depth=11, min_child_weight=21
+	Logloss 0.20343910205382237 for 23 rounds
+CV with max_depth=11, min_child_weight=26
+	Logloss 0.20316353596916792 for 27 rounds
+CV with max_depth=11, min_child_weight=31
+	Logloss 0.20380129951240802 for 38 rounds
+CV with max_depth=11, min_child_weight=36
+	Logloss 0.20332454563393335 for 36 rounds
+CV with max_depth=11, min_child_weight=41
+	Logloss 0.2031999017630181 for 37 rounds
+CV with max_depth=11, min_child_weight=46
+	Logloss 0.2031645306045066 for 38 rounds
+CV with max_depth=16, min_child_weight=1
+	Logloss 0.21632899663527208 for 13 rounds
+CV with max_depth=16, min_child_weight=6
+	Logloss 0.20804391182812468 for 19 rounds
+CV with max_depth=16, min_child_weight=11
+	Logloss 0.20605159161012 for 23 rounds
+CV with max_depth=16, min_child_weight=16
+	Logloss 0.20459691366265184 for 22 rounds
+CV with max_depth=16, min_child_weight=21
+	Logloss 0.20436875171793564 for 26 rounds
+CV with max_depth=16, min_child_weight=26
+	Logloss 0.20416427721534997 for 27 rounds
+CV with max_depth=16, min_child_weight=31
+	Logloss 0.20335973247154993 for 30 rounds
+CV with max_depth=16, min_child_weight=36
+	Logloss 0.20439496949143612 for 31 rounds
+CV with max_depth=16, min_child_weight=41
+	Logloss 0.20384513804427407 for 41 rounds
+CV with max_depth=16, min_child_weight=46
+	Logloss 0.20386276134128298 for 42 rounds
+CV with max_depth=21, min_child_weight=1
+	Logloss 0.2182968226059383 for 12 rounds
+CV with max_depth=21, min_child_weight=6
+	Logloss 0.21048667075834898 for 18 rounds
+CV with max_depth=21, min_child_weight=11
+	Logloss 0.20660348220627922 for 21 rounds
+CV with max_depth=21, min_child_weight=16
+	Logloss 0.20589714458444325 for 21 rounds
+CV with max_depth=21, min_child_weight=21
+	Logloss 0.20472237795291814 for 22 rounds
+CV with max_depth=21, min_child_weight=26
+	Logloss 0.20409537809398587 for 23 rounds
+CV with max_depth=21, min_child_weight=31
+	Logloss 0.2046998209483462 for 30 rounds
+CV with max_depth=21, min_child_weight=36
+	Logloss 0.20458174589631062 for 28 rounds
+CV with max_depth=21, min_child_weight=41
+	Logloss 0.20457918143276754 for 35 rounds
+CV with max_depth=21, min_child_weight=46
+	Logloss 0.20375419206299256 for 31 rounds
+CV with max_depth=26, min_child_weight=1
+	Logloss 0.22028376130264035 for 12 rounds
+CV with max_depth=26, min_child_weight=6
+	Logloss 0.2113816180969444 for 16 rounds
+CV with max_depth=26, min_child_weight=11
+	Logloss 0.2064674731341066 for 19 rounds
+CV with max_depth=26, min_child_weight=16
+	Logloss 0.20590033193733834 for 21 rounds
+CV with max_depth=26, min_child_weight=21
+	Logloss 0.20501009063386982 for 24 rounds
+CV with max_depth=26, min_child_weight=26
+	Logloss 0.20419393043444356 for 26 rounds
+CV with max_depth=26, min_child_weight=31
+	Logloss 0.20459129989161323 for 31 rounds
+CV with max_depth=26, min_child_weight=36
+	Logloss 0.2046119991388363 for 30 rounds
+CV with max_depth=26, min_child_weight=41
+	Logloss 0.20450025803159327 for 44 rounds
+CV with max_depth=26, min_child_weight=46
+	Logloss 0.20366024803472982 for 31 rounds
+CV with max_depth=31, min_child_weight=1
+	Logloss 0.2204123960499884 for 12 rounds
+CV with max_depth=31, min_child_weight=6
+	Logloss 0.2112629430741626 for 17 rounds
+CV with max_depth=31, min_child_weight=11
+	Logloss 0.20701886030590716 for 19 rounds
+CV with max_depth=31, min_child_weight=16
+	Logloss 0.20573100701102837 for 23 rounds
+CV with max_depth=31, min_child_weight=21
+	Logloss 0.20486445672570022 for 24 rounds
+CV with max_depth=31, min_child_weight=26
+	Logloss 0.20417807864867873 for 21 rounds
+CV with max_depth=31, min_child_weight=31
+	Logloss 0.2045617261361258 for 29 rounds
+CV with max_depth=31, min_child_weight=36
+	Logloss 0.2046119991388363 for 30 rounds
+CV with max_depth=31, min_child_weight=41
+	Logloss 0.20450025803159327 for 44 rounds
+CV with max_depth=31, min_child_weight=46
+	Logloss 0.20366024803472982 for 31 rounds
+CV with max_depth=36, min_child_weight=1
+	Logloss 0.22081515984063835 for 12 rounds
+CV with max_depth=36, min_child_weight=6
+	Logloss 0.2115766065493089 for 15 rounds
+CV with max_depth=36, min_child_weight=11
+	Logloss 0.20704194167517193 for 19 rounds
+CV with max_depth=36, min_child_weight=16
+	Logloss 0.20573318137219596 for 23 rounds
+CV with max_depth=36, min_child_weight=21
+	Logloss 0.20486445672570022 for 24 rounds
+CV with max_depth=36, min_child_weight=26
+	Logloss 0.20417807864867873 for 21 rounds
+CV with max_depth=36, min_child_weight=31
+	Logloss 0.2045617261361258 for 29 rounds
+CV with max_depth=36, min_child_weight=36
+	Logloss 0.2046119991388363 for 30 rounds
+CV with max_depth=36, min_child_weight=41
+	Logloss 0.20450025803159327 for 44 rounds
+CV with max_depth=36, min_child_weight=46
+	Logloss 0.20366024803472982 for 31 rounds
+CV with max_depth=41, min_child_weight=1
+	Logloss 0.22083917132945885 for 12 rounds
+CV with max_depth=41, min_child_weight=6
+	Logloss 0.2115766065493089 for 15 rounds
+CV with max_depth=41, min_child_weight=11
+	Logloss 0.20702134601739233 for 19 rounds
+CV with max_depth=41, min_child_weight=16
+	Logloss 0.20573318137219596 for 23 rounds
+CV with max_depth=41, min_child_weight=21
+	Logloss 0.20486445672570022 for 24 rounds
+CV with max_depth=41, min_child_weight=26
+	Logloss 0.20417807864867873 for 21 rounds
+CV with max_depth=41, min_child_weight=31
+	Logloss 0.2045617261361258 for 29 rounds
+CV with max_depth=41, min_child_weight=36
+	Logloss 0.2046119991388363 for 30 rounds
+CV with max_depth=41, min_child_weight=41
+	Logloss 0.20450025803159327 for 44 rounds
+CV with max_depth=41, min_child_weight=46
+	Logloss 0.20366024803472982 for 31 rounds
+CV with max_depth=46, min_child_weight=1
+	Logloss 0.22083917132945885 for 12 rounds
+CV with max_depth=46, min_child_weight=6
+	Logloss 0.2115766065493089 for 15 rounds
+CV with max_depth=46, min_child_weight=11
+	Logloss 0.20704202328550148 for 19 rounds
+CV with max_depth=46, min_child_weight=16
+	Logloss 0.20573318137219596 for 23 rounds
+CV with max_depth=46, min_child_weight=21
+	Logloss 0.20486445672570022 for 24 rounds
+CV with max_depth=46, min_child_weight=26
+	Logloss 0.20417807864867873 for 21 rounds
+CV with max_depth=46, min_child_weight=31
+	Logloss 0.2045617261361258 for 29 rounds
+CV with max_depth=46, min_child_weight=36
+	Logloss 0.2046119991388363 for 30 rounds
+CV with max_depth=46, min_child_weight=41
+	Logloss 0.20450025803159327 for 44 rounds
+CV with max_depth=46, min_child_weight=46
+	Logloss 0.20366024803472982 for 31 rounds
+Best params: 6, 6, Logloss: 0.20175233051126334
+
+------------------------------------------------------------
+Sender: LSF System <DoNotReply>
+Subject: Job 304151: <tune_max_depth_mix_child> in cluster <wexac> Done
+
+Job <tune_max_depth_mix_child> was submitted from host <access4> by user <guyilan> in cluster <wexac> at Mon Mar 25 20:24:54 2024
+Job was executed on host(s) <1*cn192>, in queue <new-short>, as user <guyilan> in cluster <wexac> at Mon Mar 25 20:24:56 2024
+                            <1*cn701>
+                            <1*cn662>
+                            <1*cn677>
+</home/labs/antebilab/guyilan> was used as the home directory.
+</home/labs/antebilab/guyilan/ML project/ML_Project/pyScripts/GuyTrain> was used as the working directory.
+Started at Mon Mar 25 20:24:56 2024
+Terminated at Mon Mar 25 20:52:23 2024
+Results reported at Mon Mar 25 20:52:23 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python guy_train_xgboost.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1631.40 sec.
+    Max Memory :                                 1497 MB
+    Average Memory :                             1010.89 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               31271.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                12
+    Run time :                                   1652 sec.
+    Turnaround time :                            1649 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <error_max_depth_min_child.log> for stderr output of this job.
+

@@ -1,0 +1,7 @@
+INFO:root:Time to train the model: 1250.78 seconds
+INFO:root:Model accuracy score with 10 decision-trees : 0.8525
+INFO:root:run time: 1250.78 seconds
+INFO:root:Best parameters: {'max_depth': None, 'min_samples_leaf': 4, 'min_samples_split': 2, 'n_estimators': 100}
+INFO:root:Time to train the model: 315.32 seconds
+INFO:root:Model accuracy score with 10 decision-trees : 0.8525
+INFO:root:run time: 315.32 seconds

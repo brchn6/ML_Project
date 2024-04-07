@@ -59,7 +59,7 @@ df_transformed.to_csv(os.path.join(path, csv_filename), index=False)
 
 
 """
-#%%
+
 #Read the transformed train_set from the csv file:
 train_set = pd.read_csv('../data/copula_train_set_300_epochs_4_numeric.csv')
 
@@ -84,6 +84,15 @@ col_processor = make_column_transformer(
     n_jobs=3
 )
 
+cols_to_drop = ['acarbose',
+ 'miglitol',
+ 'chlorpropamide',
+ 'glipizide-metformin',
+ 'tolazamide',
+ 'tolbutamide',
+ 'metformin-pioglitazone',
+ 'glimepiride-pioglitazone']
+
 """
 #fit and transform the train_set:
 X_train = train_set.drop('readmitted', axis=1)
@@ -103,6 +112,7 @@ feature_names = transform_feature_names(feature_names)
 #Manualy change the first feature name to number_outpatient and the second to number_emergency:
 feature_names[0] = 'number_outpatient'
 feature_names[1] = 'number_emergency'
+
 
 #Define the model:
 model = RandomForestClassifier(random_state=42)
@@ -139,6 +149,7 @@ plt.xticks(range(len(sums)), list(sums.keys()), rotation=90)
 
 plt.show()
 
+
 #get bottom 10 features:
 bottom_10 = dict(list(sums.items())[-10:])
 
@@ -147,14 +158,5 @@ for k, v in bottom_10.items():
 
 #Define the features to drop:
 cols_to_drop = [k for k, v in bottom_10.items() if v < 0.0005]
-"""
-"""
-['acarbose',
- 'miglitol',
- 'chlorpropamide',
- 'glipizide-metformin',
- 'tolazamide',
- 'tolbutamide',
- 'metformin-pioglitazone',
- 'glimepiride-pioglitazone']
+
 """
