@@ -1,0 +1,60 @@
+--- Logging error ---
+Traceback (most recent call last):
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 1160, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 703, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 392, in getMessage
+    msg = he time is: msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/__main__.py", line 16, in <module>
+    logger.info("now im here starting to import the libraries", "the time is: ", time.time()-startTime)
+Message: 'now im here starting to import the libraries'
+Arguments: ('t', 0.0032265186309814453)
+--- Logging error ---
+Traceback (most recent call last):
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 1160, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 703, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 392, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/__main__.py", line 35, in <module>
+    logger.info("now im here starting to load the data", "the time is: ", time.time()-startTime)
+Message: 'now im here starting to load the data'
+Arguments: ('the time is: ', 2.7566981315612793)
+--- Logging error ---
+Traceback (most recent call last):
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 1160, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 703, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.12/logging/__init__.py", line 392, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/__main__.py", line 57, in <module>
+    logger.info("now im here starting to run the models", "the time is: ", time.time()-startTime)
+Message: 'now im here starting to run the models'
+Arguments: ('the time is: ', 3.440803289413452)
