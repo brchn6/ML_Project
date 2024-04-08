@@ -29,13 +29,13 @@ def random_forest_script():
     Date: 2024/08/03
     """
 #---------------------------------------Importing the necessary libraries---------------------------------------
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import GridSearchCV
 import logging
 import time
-from sklearn.metrics import log_loss
-from sklearn.metrics import f1_score
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
+
+from sklearn.metrics import log_loss , f1_score ,accuracy_score
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
 """class Rendom_forest_regression_BC:
     def __init__(self, train_features, train_labels, test_features, test_labels):
@@ -126,15 +126,15 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         # Create a Random Forest classifier object
         classifier = RandomForestClassifier(random_state=42)
         
-        # Create GridSearchCV object
+        # Create GridSearchCV object with the classifier and parameter grid
         grid_search = GridSearchCV(estimator=classifier, param_grid=self.gridSearchCV_RandomForestClassifier(), cv=3, n_jobs=-1)
         
-        # Train the model on training data
-        classifier_fit = classifier.fit(self.train_features, self.train_labels)
-        
-        # Get the best estimator
-        best_rf_classifier = grid_search.best_estimator_
-        
+        #fitt the model to the train data
+        classifier_fit = grid_search.fit(self.train_features, self.train_labels)
+
+        # Get the best model
+        best_rf_classifier = classifier_fit.best_estimator_
+       
         return best_rf_classifier, classifier_fit
     
     #set a prediction metho for the train data

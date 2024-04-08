@@ -45,8 +45,6 @@ X_train_np=X_train
 X_test_np=X_test
 log_message(f"finished loading the data, the time is: {time.time()-startTime}")
 
-
-
 # ---------------------------- Rendom_forest -------------------------------
 log_message(f"starting to run the Rendom_forest model,the time is: {time.time()-startTime}")
 #create a Rendom_forest_classification_BC object using the default parameters
@@ -89,3 +87,6 @@ print ("accuracy: ", accuracy
        , "f1_weighted: ", f1_weighted
        , "f1_binary: ", f1_binary)
 log_message(f"finished running the Rendom_forest model with GridSearchCV,the time is: {time.time()-startTime}")
+
+
+

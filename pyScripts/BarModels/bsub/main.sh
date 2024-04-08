@@ -1,6 +1,6 @@
 #!/bin/bash
 #BSUB -q short               # Queue name
-#BSUB -R "rusage[mem=16000]"     # Requested memory
+#BSUB -R "rusage[mem=4000]"     # Requested memory
 #BSUB -J main           # Job name
 #BSUB -o pyScripts/BarModels/logs/Output_MainFile-%J.out    # Output file
 #BSUB -e pyScripts/BarModels/logs/Error_MainFile-%J.err    # Error file
