@@ -1,33 +1,65 @@
-#%%
 """
 Main file for the BarModels directory
+
 """
+#---------------------------- Basic Imports and settings -------------------------------
 import warnings
-
 warnings.filterwarnings('ignore')
-%reload_ext autoreload
-%autoreload 2
-
-#---------------------------- Imports -------------------------------
-import numpy as np
-import matplotlib.pyplot as plt
 import os
+import sys
+import logging
+#---------------------------- Importing Libraries -------------------------------
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score  
+#---------------------------- SETTING path and root directory -------------------------------
+root = os.getcwd()
+os.chdir(root)
+here = os.path.join(root, 'pyScripts/BarModels')
+#---------------------------- makeing loggers -------------------------------
 
-#---------------------------- Paths -------------------------------
-here = os.path.dirname(os.path.abspath(__file__))
-os.chdir(here)
+# create logger file
+logger = logging.getLogger(__name__)
 
+# set the log level to INFO
+logger.setLevel(logging.INFO)
+
+# create console handler and set level to INFO
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+
+# create file handler and set level to INFO
+file_handler = logging.FileHandler(os.path.join(here, 'logs', 'main_interactive.log'))
+file_handler.setLevel(logging.INFO)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
+# add formatter to console handler and file handler
+console_handler.setFormatter(formatter)
+file_handler.setFormatter(formatter)
+
+# add console handler and file handler to logger
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
+#configure the logger
+logger.info('Logger has been configured')
 # ---------------------------- data incoming -------------------------------
-#load the train ds
-X_train_np = np.load("X_train_np.npy", allow_pickle=True).item()
-y_train = np.load("./y_train.npy")
-#load the test ds
-X_test_np = np.load("X_test_np.npy", allow_pickle=True).item()
-y_test = np.load("./y_test.npy")
+X_train_np = np.load(os.path.join(here, 'X_train.csv'))
+y_train = np.load(os.path.join(here, 'y_train.csv'))    
+X_test_np = np.load(os.path.join(here, 'X_test.csv'))
+y_test = np.load(os.path.join(here, 'y_test.csv'))
+# validate that the data has been loaded correctly
+try :
+    assert X_train_np.shape[0] == y_train.shape[0]
+    assert X_test_np.shape[0] == y_test.shape[0]
+    print('Data loaded successfully')
+
+
 
 # instantiate the classifier 
 rfc = RandomForestClassifier(random_state=42, n_estimators=10)

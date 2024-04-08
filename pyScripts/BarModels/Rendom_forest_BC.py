@@ -32,7 +32,10 @@ def random_forest_script():
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import GridSearchCV
-
+import logging
+import time
+from sklearn.metrics import log_loss
+from sklearn.metrics import f1_score
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
 """class Rendom_forest_regression_BC:
     def __init__(self, train_features, train_labels, test_features, test_labels):
@@ -82,15 +85,23 @@ class Rendom_forest_classification_BC_defultParams:
         predictions = classifier.predict(self.train_features)
         return predictions
     
+    def predict_RandomForestClassifierTestData(self, classifier):
+        # Use the forest's predict method on the test data
+        predictions = classifier.predict(self.test_features)
+        return predictions
+    
     #build a accuracy score method
-    def accuracy_score(self, predictions):
+    def accuracy_score(self, predictions,data):
         """
         Returns:
         accuracy: the accuracy of the model
         """
-        accuracy = accuracy_score(self.train_labels, predictions)
-        return accuracy
-    
+        accuracy = accuracy_score(data, predictions)
+        logLoss = log_loss(data, predictions)
+        f1_weighted= f1_score(data, predictions, average='weighted')
+        f1_binary= f1_score(data, predictions, average='binary')
+        return accuracy , logLoss, f1_weighted, f1_binary
+
 class Rendom_forest_classification_BC_useingGridSearchCV:
     
     def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
@@ -100,27 +111,63 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         self.test_labels = test_labels
 
     def gridSearchCV_RandomForestClassifier(self):
-
         # Define the parameter grid
         param_grid = {
-            'n_estimators': [10, 50, 100],
-            'max_depth': [None, 10, 20],
-            'min_samples_split': [2, 5, 10],
-            'min_samples_leaf': [1, 2, 4]
+            'n_estimators': [10, 50, 100, 200],
+            'max_depth': [None, 10, 20, 30, 40, 50],
+            'min_samples_split': [2, 5, 10, 20],
+            'min_samples_leaf': [1, 2, 4, 8, 16],
+            'max_features': ['auto', 'sqrt', 'log2'],
+            'bootstrap': [True, False]
         }
+        return param_grid
         
+    def build_RandomForestClassifierWithGridSearchCV(self):
         # Create a Random Forest classifier object
-        rf_classifier = RandomForestClassifier(random_state=42)
+        classifier = RandomForestClassifier(random_state=42)
         
         # Create GridSearchCV object
-        grid_search = GridSearchCV(estimator=rf_classifier, param_grid=param_grid, cv=2, n_jobs=-1)
+        grid_search = GridSearchCV(estimator=classifier, param_grid=self.gridSearchCV_RandomForestClassifier(), cv=3, n_jobs=-1)
         
         # Train the model on training data
-        grid_search.fit(self.train_features, self.train_labels)
+        classifier_fit = classifier.fit(self.train_features, self.train_labels)
         
         # Get the best estimator
         best_rf_classifier = grid_search.best_estimator_
         
-        return best_rf_classifier
+        return best_rf_classifier, classifier_fit
     
+    #set a prediction metho for the train data
+    def predict_RandomForestClassifierTrainData (self, classifier):
+        # Use the forest's predict method on the test data
+        predictions = classifier.predict(self.train_features)
+        return predictions
+    
+    def predict_RandomForestClassifierTestData(self, classifier):
+        # Use the forest's predict method on the test data
+        predictions = classifier.predict(self.test_features)
+        return predictions
+    
+    #build a accuracy score method
+    def accuracy_score(self, predictions,data):
+        """
+        Returns:
+        accuracy: the accuracy of the model
+        """
+        accuracy = accuracy_score(data, predictions)
+        logLoss = log_loss(data, predictions)
+        f1_weighted= f1_score(data, predictions, average='weighted')
+        f1_binary= f1_score(data, predictions, average='binary')
+        return accuracy , logLoss, f1_weighted, f1_binary
 
+
+#---------------------------- Logger -------------------------------
+def log_message(message):
+        current_time=time.localtime() 
+        time_string=time.strftime("%Y-%m-%d %H:%M:%S", current_time)
+        handler = logging.FileHandler('/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/logs/main.log')
+        logging.info(f'{time_string}: {message}')
+        logging.getLogger().handlers[0].flush()
+        logging.basicConfig(filename=f"{__file__}/train_{time.time()}.log",level=logging.INFO,format="%(message)s",
+                            handlers=[handler])
+log_message("Logger is working")

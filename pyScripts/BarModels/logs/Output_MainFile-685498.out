@@ -4,3 +4,69 @@ loaded conda.sh
 sh shell detected
 Setting up environment
 Running Python script
+
+------------------------------------------------------------
+Sender: LSF System <DoNotReply>
+Subject: Job 685498: <main> in cluster <wexac> Done
+
+Job <main> was submitted from host <access4> by user <barc> in cluster <wexac> at Sun Apr  7 14:47:54 2024
+Job was executed on host(s) <cn433>, in queue <short>, as user <barc> in cluster <wexac> at Sun Apr  7 14:47:56 2024
+</home/labs/mayalab/barc> was used as the home directory.
+</home/labs/mayalab/barc/MSc_studies/ML_Project> was used as the working directory.
+Started at Sun Apr  7 14:47:56 2024
+Terminated at Sun Apr  7 18:52:19 2024
+Results reported at Sun Apr  7 18:52:19 2024
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -q short               # Queue name
+#BSUB -R "rusage[mem=16000]"     # Requested memory
+#BSUB -J main           # Job name
+#BSUB -o pyScripts/BarModels/logs/Output_MainFile-%J.out    # Output file
+#BSUB -e pyScripts/BarModels/logs/Error_MainFile-%J.err    # Error file
+
+
+# Load necessary modules
+echo "Loading modules"
+module load miniconda
+
+# Set up your environment
+echo "Setting up environment"
+conda activate ml
+
+# set directory to your working directory
+# cd /home/labs/cssagi/barc/FGS_ML/ML_Project
+
+# Run your Python script
+echo "Running Python script"
+python pyScripts/BarModels/__main__.py
+echo "Done"
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   14599.71 sec.
+    Max Memory :                                 631 MB
+    Average Memory :                             453.44 MB
+    Total Requested Memory :                     16000.00 MB
+    Delta Memory :                               15369.00 MB
+    Max Swap :                                   -
+    Max Processes :                              6
+    Max Threads :                                14
+    Run time :                                   14668 sec.
+    Turnaround time :                            14665 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <pyScripts/BarModels/logs/Error_MainFile-685498.err> for stderr output of this job.
+
