@@ -1,3 +1,4 @@
+#%%
 # """
 # Main file for the BarModels directory
 # """
@@ -6,26 +7,75 @@
 import sys
 import os
 import logging
-import pandas as pd
 import time
+import pandas as pd
 import warnings
 warnings.filterwarnings('ignore')
 startTime = time.time()
 root = os.path.dirname(os.path.abspath(__name__))
+# root = '/home/labs/mayalab/barc/MSc_studies/ML_Project'
 if root not in sys.path:
     sys.path.append(root)
 else:
     pass
 here=os.path.dirname(os.path.abspath(__file__))
+# here = '/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels'
 
-# %reload_ext autoreload
-# %autoreload 2
+%reload_ext autoreload
+%autoreload 2
 #---------------------------- Imports for the model -------------------------------
-from pyScripts.BarModels.Rendom_forest_BC import log_message
+# from pyScripts.BarModels.Rendom_forest_BC import initialize_logging, log_message , time 
 from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_defultParams
 from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_useingGridSearchCV
-# ---------------------------- data incoming -------------------------------
+
+#---------------------------- Logger -------------------------------
+def initialize_logging(here):
+    logging.basicConfig(filename=f"{os.path.join(here, 'logs')}\\{time.strftime('%Y-%m-%d %H-%M-%S')}.log",
+                         level=logging.INFO,
+                         format="%(message)s")
+
+def log_message(message):
+    current_time = time.localtime() 
+    time_string = time.strftime("%Y-%m-%d %H:%M:%S", current_time)
+    logging.info(f"{time_string} - {message}")
+    logging.getLogger().handlers[0].flush()
+
+# Initialize logging
+initialize_logging(here)
+# Log a message
+log_message(f" the logger is working, the time is: {time.time()-startTime}")
 log_message(f"starting to load the data, the time is: {time.time()-startTime}")
+#%%
+import os
+import logging
+import time
+
+#---------------------------- Logger -------------------------------
+def initialize_logging(here):
+    logging.basicConfig(filename=f"{os.path.join(here, 'logs')}\\{time.strftime('%Y-%m-%d %H-%M-%S')}.log",
+                         level=logging.INFO,
+                         format="%(message)s")
+
+def log_message(message):
+    current_time = time.localtime() 
+    time_string = time.strftime("%Y-%m-%d %H:%M:%S", current_time)
+    logging.info(f"{time_string} - {message}")
+    logging.getLogger().handlers[0].flush()
+
+# Define the directory path
+here = os.path.dirname(os.path.abspath(__file__))
+
+# Initialize logging
+initialize_logging(here)
+
+# Log a message
+log_message(f" the logger is working, the time is: {time.time()-startTime}")
+log_message(f"starting to load the data, the time is: {time.time()-startTime}")
+
+#%%
+
+# ---------------------------- data incoming -------------------------------
+#%%
 #load the data:
 X_train = pd.read_csv(os.path.join(here, 'X_train_df.csv'))
 y_train = pd.read_csv(os.path.join(here, 'y_train.csv'))

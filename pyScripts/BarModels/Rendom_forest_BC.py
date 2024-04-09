@@ -31,7 +31,7 @@ def random_forest_script():
 #---------------------------------------Importing the necessary libraries---------------------------------------
 import logging
 import time
-
+import os
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 
@@ -162,12 +162,13 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
 
 
 #---------------------------- Logger -------------------------------
+def initialize_logging(here):
+    logging.basicConfig(filename=f"{os.path.join(here, 'logs')}\\{time.strftime('%Y-%m-%d %H-%M-%S')}.log",
+                         level=logging.INFO,
+                         format="%(message)s")
+
 def log_message(message):
-        current_time=time.localtime() 
-        time_string=time.strftime("%Y-%m-%d %H:%M:%S", current_time)
-        handler = logging.FileHandler('/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/logs/main.log')
-        logging.info(f'{time_string}: {message}')
-        logging.getLogger().handlers[0].flush()
-        logging.basicConfig(filename=f"{__file__}/train_{time.time()}.log",level=logging.INFO,format="%(message)s",
-                            handlers=[handler])
-log_message("Logger is working")
+    current_time = time.localtime() 
+    time_string = time.strftime("%Y-%m-%d %H:%M:%S", current_time)
+    logging.info(f"{time_string} - {message}")
+    logging.getLogger().handlers[0].flush()
