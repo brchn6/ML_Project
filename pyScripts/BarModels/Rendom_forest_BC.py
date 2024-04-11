@@ -126,6 +126,8 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         self.train_features = np_train_features
         self.train_labels = train_labels
         self.test_features = np_test_features
+
+        
         self.test_labels = test_labels
 
     def gridSearchCV_RandomForestClassifier(self):
