@@ -32,8 +32,9 @@ def random_forest_script():
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 import optuna
+from sklearn.linear_model import LogisticRegression
 
-from sklearn.metrics import log_loss , f1_score ,accuracy_score
+from sklearn.metrics import log_loss , f1_score ,accuracy_score, roc_auc_score
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
 """class Rendom_forest_regression_BC:
     def __init__(self, train_features, train_labels, test_features, test_labels):
@@ -87,6 +88,16 @@ class Rendom_forest_classification_BC_defultParams:
         # Use the forest's predict method on the test data
         predictions = classifier.predict(self.test_features)
         return predictions
+
+    def predict_RandomForestClassifierTrainData_proba (self, classifier):
+        # Use the forest's predict method on the test data
+        predictions_proba = classifier.predict_proba(self.train_features)
+        return predictions_proba[:,1]
+
+    def predict_RandomForestClassifierTestData_proba(self, classifier):
+        # Use the forest's predict method on the test data
+        predictions_proba = classifier.predict_proba(self.test_features)
+        return predictions_proba[:,1]
     
     #build a accuracy score method
     def accuracy_score(self, predictions,data):
@@ -95,10 +106,19 @@ class Rendom_forest_classification_BC_defultParams:
         accuracy: the accuracy of the model
         """
         accuracy = accuracy_score(data, predictions)
-        logLoss = log_loss(data, predictions)
         f1_weighted= f1_score(data, predictions, average='weighted')
         f1_binary= f1_score(data, predictions, average='binary')
-        return accuracy , logLoss, f1_weighted, f1_binary
+        return accuracy, f1_weighted, f1_binary
+    
+    #build a accuracy score method
+    def accuracy_score_proba(self, predictions_proba ,data):
+        """
+        Returns:
+        accuracy: the accuracy of the model
+        """
+        logLoss = log_loss(data, predictions_proba)
+        roc_auc = roc_auc_score(data, predictions_proba)
+        return logLoss, roc_auc
 
 class Rendom_forest_classification_BC_useingGridSearchCV:
     
@@ -148,6 +168,16 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         # Use the forest's predict method on the test data
         predictions = classifier.predict(self.test_features)
         return predictions
+
+    def predict_RandomForestClassifierTrainData_proba (self, classifier):
+        # Use the forest's predict method on the test data
+        predictions_proba = classifier.predict_proba(self.train_features)
+        return predictions_proba[:,1]
+
+    def predict_RandomForestClassifierTestData_proba(self, classifier):
+        # Use the forest's predict method on the test data
+        predictions_proba = classifier.predict_proba(self.test_features)
+        return predictions_proba[:,1]
     
     #build a accuracy score method
     def accuracy_score(self, predictions,data):
@@ -156,12 +186,19 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         accuracy: the accuracy of the model
         """
         accuracy = accuracy_score(data, predictions)
-        logLoss = log_loss(data, predictions)
         f1_weighted= f1_score(data, predictions, average='weighted')
         f1_binary= f1_score(data, predictions, average='binary')
-        return accuracy , logLoss, f1_weighted, f1_binary
-
-
+        return accuracy, f1_weighted, f1_binary
+    
+    #build a accuracy score method
+    def accuracy_score_proba(self, predictions_proba ,data):
+        """
+        Returns:
+        accuracy: the accuracy of the model
+        """
+        logLoss = log_loss(data, predictions_proba)
+        roc_auc = roc_auc_score(data, predictions_proba)
+        return logLoss, roc_auc
 
 class Rendom_forest_classification_BC_useing_Optuna:
     
