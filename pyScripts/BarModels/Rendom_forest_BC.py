@@ -29,11 +29,9 @@ def random_forest_script():
     Date: 2024/08/03
     """
 #---------------------------------------Importing the necessary libraries---------------------------------------
-import logging
-import time
-import os
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
+import optuna
 
 from sklearn.metrics import log_loss , f1_score ,accuracy_score
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
@@ -129,13 +127,16 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         # Create GridSearchCV object with the classifier and parameter grid
         grid_search = GridSearchCV(estimator=classifier, param_grid=self.gridSearchCV_RandomForestClassifier(), cv=3, n_jobs=-1)
         
+        #getting the parameters
+        parameters = grid_search.get_params()
+
         #fitt the model to the train data
-        classifier_fit = grid_search.fit(self.train_features, self.train_labels)
+        classifier_fit = grid_search.fit(self.train_features, self.train_labels) 
 
         # Get the best model
         best_rf_classifier = classifier_fit.best_estimator_
        
-        return best_rf_classifier, classifier_fit
+        return best_rf_classifier, classifier_fit ,parameters
     
     #set a prediction metho for the train data
     def predict_RandomForestClassifierTrainData (self, classifier):
@@ -161,14 +162,49 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         return accuracy , logLoss, f1_weighted, f1_binary
 
 
-#---------------------------- Logger -------------------------------
-def initialize_logging(here):
-    logging.basicConfig(filename=f"{os.path.join(here, 'logs')}\\{time.strftime('%Y-%m-%d %H-%M-%S')}.log",
-                         level=logging.INFO,
-                         format="%(message)s")
 
-def log_message(message):
-    current_time = time.localtime() 
-    time_string = time.strftime("%Y-%m-%d %H:%M:%S", current_time)
-    logging.info(f"{time_string} - {message}")
-    logging.getLogger().handlers[0].flush()
+class Rendom_forest_classification_BC_useing_Optuna:
+    
+    def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
+        self.train_features = np_train_features
+        self.train_labels = train_labels
+        self.test_features = np_test_features
+        self.test_labels = test_labels
+
+    def build_RandomForestClassifierWithOptuna_tuning(self, trial):
+        # Define the parameter grid
+        param_grid = {
+            'n_estimators': trial.suggest_int('n_estimators', 10, 200),
+            'max_depth': trial.suggest_categorical('max_depth', [None, 10, 20, 30, 40, 50]),
+            'min_samples_split': trial.suggest_categorical('min_samples_split', [2, 5, 10, 20]),
+            'min_samples_leaf': trial.suggest_categorical('min_samples_leaf', [1, 2, 4, 8, 16]),
+            'max_features': trial.suggest_categorical('max_features', ['auto', 'sqrt', 'log2']),
+            'bootstrap': trial.suggest_categorical('bootstrap', [True, False])
+        }
+        return param_grid
+
+    def build_RandomForestClassifierWithOptuna(self):
+        # Create a Random Forest classifier object
+        classifier = RandomForestClassifier(random_state=42)
+        
+        # Create GridSearchCV object with the classifier and parameter grid
+        study = optuna.create_study(direction='maximize')
+        study.optimize(self.build_RandomForestClassifierWithOptuna_tuning, n_trials=100)
+        best_params = study.best_params
+        best_rf_classifier = RandomForestClassifier(**best_params)
+        
+        #fitt the model to the train data
+        classifier_fit = best_rf_classifier.fit(self.train_features, self.train_labels) 
+
+        return best_rf_classifier, classifier_fit ,best_params 
+
+    #set a prediction metho for the train data
+    def predict_RandomForestClassifierTrainData (self, classifier):
+        # Use the forest's predict method on the test data
+        predictions = classifier.predict(self.train_features)
+        return predictions
+
+    def predict_RandomForestClassifierTestData(self, classifier):
+        # Use the forest's predict method on the test data
+        predictions = classifier.predict(self.test_features)
+        return predictions

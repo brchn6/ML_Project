@@ -1,8 +1,6 @@
-#%%
 # """
 # Main file for the BarModels directory
 # """
-# Create a logger
 #---------------------------- Imports basic -------------------------------
 import sys
 import os
@@ -13,26 +11,28 @@ import warnings
 warnings.filterwarnings('ignore')
 startTime = time.time()
 root = os.path.dirname(os.path.abspath(__name__))
-# root = '/home/labs/mayalab/barc/MSc_studies/ML_Project'
+              # root = '/home/labs/mayalab/barc/MSc_studies/ML_Project'
 if root not in sys.path:
     sys.path.append(root)
 else:
     pass
 here=os.path.dirname(os.path.abspath(__file__))
-# here = '/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels'
+              # here = '/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels'
 
-%reload_ext autoreload
-%autoreload 2
+# %reload_ext autoreload
+# %autoreload 2
 #---------------------------- Imports for the model -------------------------------
-# from pyScripts.BarModels.Rendom_forest_BC import initialize_logging, log_message , time 
 from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_defultParams
 from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_useingGridSearchCV
 
 #---------------------------- Logger -------------------------------
-def initialize_logging(here):
-    logging.basicConfig(filename=f"{os.path.join(here, 'logs')}\\{time.strftime('%Y-%m-%d %H-%M-%S')}.log",
+def initialize_logging():
+    log_directory = os.path.join(here, "logs")
+    if not os.path.exists(log_directory):
+        os.makedirs(log_directory)
+    logging.basicConfig(filename=os.path.join(log_directory, f"{time.strftime('%Y-%m-%d_%H-%M-%S')}.log"),
                          level=logging.INFO,
-                         format="%(message)s")
+                         format="%(asctime)s - %(levelname)s - %(message)s")
 
 def log_message(message):
     current_time = time.localtime() 
@@ -41,41 +41,11 @@ def log_message(message):
     logging.getLogger().handlers[0].flush()
 
 # Initialize logging
-initialize_logging(here)
+initialize_logging()
 # Log a message
 log_message(f" the logger is working, the time is: {time.time()-startTime}")
 log_message(f"starting to load the data, the time is: {time.time()-startTime}")
-#%%
-import os
-import logging
-import time
-
-#---------------------------- Logger -------------------------------
-def initialize_logging(here):
-    logging.basicConfig(filename=f"{os.path.join(here, 'logs')}\\{time.strftime('%Y-%m-%d %H-%M-%S')}.log",
-                         level=logging.INFO,
-                         format="%(message)s")
-
-def log_message(message):
-    current_time = time.localtime() 
-    time_string = time.strftime("%Y-%m-%d %H:%M:%S", current_time)
-    logging.info(f"{time_string} - {message}")
-    logging.getLogger().handlers[0].flush()
-
-# Define the directory path
-here = os.path.dirname(os.path.abspath(__file__))
-
-# Initialize logging
-initialize_logging(here)
-
-# Log a message
-log_message(f" the logger is working, the time is: {time.time()-startTime}")
-log_message(f"starting to load the data, the time is: {time.time()-startTime}")
-
-#%%
-
 # ---------------------------- data incoming -------------------------------
-#%%
 #load the data:
 X_train = pd.read_csv(os.path.join(here, 'X_train_df.csv'))
 y_train = pd.read_csv(os.path.join(here, 'y_train.csv'))
@@ -111,6 +81,8 @@ print ("accuracy: ", accuracy
        , "f1_weighted: ", f1_weighted
        , "f1_binary: ", f1_binary)
 
+data_to_log = {"accuracy": accuracy, "logLoss": logLoss, "f1_weighted": f1_weighted, "f1_binary": f1_binary}
+log_message(f"now we are after the run of the Rendom_forest model with the default parameters,and the results on the train data are: {data_to_log}, the time is: {time.time()-startTime}")
 
 accuracy , logLoss, f1_weighted, f1_binary = rf.accuracy_score(predictions_On_TestDS, y_test)
 print ("accuracy: ", accuracy
@@ -118,10 +90,15 @@ print ("accuracy: ", accuracy
        , "f1_weighted: ", f1_weighted
        , "f1_binary: ", f1_binary)
 
+data_to_log = {"accuracy": accuracy, "logLoss": logLoss, "f1_weighted": f1_weighted, "f1_binary": f1_binary}
+log_message(f"now we are after the run of the Rendom_forest model with the default parameters and the results on the test data are: {data_to_log}, the time is: {time.time()-startTime}")
+
 log_message(f"finished running the Rendom_forest model,the time is: {time.time()-startTime}")
 #---------------------------- Rendom_forest with GridSearchCV -------------------------------
+
 rf_GS_CV = Rendom_forest_classification_BC_useingGridSearchCV(X_train_np, y_train, X_test_np, y_test)
-best_rf_classifier ,classifier_fit_GS_CV = rf_GS_CV.build_RandomForestClassifierWithGridSearchCV()
+best_rf_classifier ,classifier_fit_GS_CV , parameters = rf_GS_CV.build_RandomForestClassifierWithGridSearchCV()
+log_message(f"the parameters that we got from the GridSearchCV are: {parameters}, the time is: {time.time()-startTime}")
 predictions_On_TrainDS = rf_GS_CV.predict_RandomForestClassifierTrainData(classifier_fit_GS_CV)
 predictions_On_TestDS = rf_GS_CV.predict_RandomForestClassifierTestData(classifier_fit_GS_CV)
 #check the accuracy base on accuracy_score log_loss and f1_score
@@ -130,12 +107,17 @@ print ("accuracy: ", accuracy
        , "logLoss: ", logLoss
        , "f1_weighted: ", f1_weighted
        , "f1_binary: ", f1_binary)
+data_to_log = {"accuracy": accuracy, "logLoss": logLoss, "f1_weighted": f1_weighted, "f1_binary": f1_binary}
+log_message(f"now we are after the run of the Rendom_forest model with GridSearchCV and the results on the train data are: {data_to_log}, the time is: {time.time()-startTime}")
 
 accuracy , logLoss, f1_weighted, f1_binary = rf_GS_CV.accuracy_score(predictions_On_TestDS, y_test)
 print ("accuracy: ", accuracy
        , "logLoss: ", logLoss
        , "f1_weighted: ", f1_weighted
        , "f1_binary: ", f1_binary)
+data_to_log = {"accuracy": accuracy, "logLoss": logLoss, "f1_weighted": f1_weighted, "f1_binary": f1_binary}
+log_message(f"now we are after the run of the Rendom_forest model with GridSearchCV and the results on the test data are: {data_to_log}, the time is: {time.time()-startTime}")
+
 log_message(f"finished running the Rendom_forest model with GridSearchCV,the time is: {time.time()-startTime}")
 
 
