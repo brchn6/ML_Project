@@ -82,6 +82,7 @@ print ("accuracy: ", accuracy
        , "f1_binary: ", f1_binary)
 
 data_to_log = {"accuracy": accuracy, "logLoss": logLoss, "f1_weighted": f1_weighted, "f1_binary": f1_binary}
+log_message(f"the parameters that we got from the default parameters are: {classifier_fit.get_params()}, the time is: {time.time()-startTime}")
 log_message(f"now we are after the run of the Rendom_forest model with the default parameters,and the results on the train data are: {data_to_log}, the time is: {time.time()-startTime}")
 
 accuracy , logLoss, f1_weighted, f1_binary = rf.accuracy_score(predictions_On_TestDS, y_test)

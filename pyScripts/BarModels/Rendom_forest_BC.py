@@ -33,6 +33,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 import optuna
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_validate, StratifiedKFold
 
 from sklearn.metrics import log_loss , f1_score ,accuracy_score, roc_auc_score
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
@@ -210,6 +211,29 @@ class Rendom_forest_classification_BC_useing_Optuna:
         self.test_features = np_test_features
         self.test_labels = test_labels
 
+    def objective(trial, np_train_features , params_in_stages,n_splits): # categorical_feats     
+        params = { 
+                     "max_depth" : trial.suggest_int("max_depth", 1, 20),
+                     "learning_rate" : trial.suggest_float("learning_rate", 0.01, 0.1),
+                     "n_estimators" : trial.suggest_int('n_estimators', 5, 300),
+                     'subsample': trial.suggest_float('subsample', 0.01, 1.0, log = True),
+                     'gamma': trial.suggest_float('gamma', 1e-8, 1.0, log = True),
+                     "booster" : trial.suggest_categorical('booster', ['gbtree', 'dart']),
+                     "min_child_weight" : trial.suggest_int("min_child_weight", 1, 50), 
+                     'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 1.0, log = True),
+                     'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 1.0, log = True),
+                     "scale_pos_weight" : trial.suggest_float("scale_pos_weight", 0.5, 1),
+                     "max_delta_step" : trial.suggest_int("max_delta_step", 0, 10),                     
+                     "grow_policy" : trial.suggest_categorical("grow_policy", ["depthwise", "lossguide"]),
+                     'colsample_bytree': trial.suggest_float('colsample_bytree', 0.01, 1.0, log = True)}
+        params.update(params_in_stages)
+        num_boost_round = params.pop('n_estimators')
+        rf_cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+        cross_val_scores = cross_validate(rf_cv, np_train_features, train_labels , cv=rf_cv, scoring='neg_log_loss', n_jobs=-1)
+        score = cross_val_scores['test-logloss-mean'].iloc[-1]
+        print(f"Trial {trial.number}:, Score: {score}")
+        return score
+    
     def build_RandomForestClassifierWithOptuna_tuning(self, trial):
         # Define the parameter grid
         param_grid = {
