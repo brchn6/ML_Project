@@ -1,0 +1,5 @@
+2024-04-19 19:56:31,424 - INFO - 2024-04-19 19:56:31 -  the logger is working, the time is: 0.025385618209838867
+2024-04-19 19:56:31,425 - INFO - 2024-04-19 19:56:31 - starting to load the data, the time is: 0.025640249252319336
+2024-04-19 19:56:31,908 - INFO - 2024-04-19 19:56:31 - finished loading the data, the time is: 0.5090312957763672
+2024-04-19 19:56:49,522 - INFO - 2024-04-19 19:56:49 - starting to run the Rendom_forest model,the time is: 18.122878313064575
+2024-04-19 19:56:49,523 - INFO - 2024-04-19 19:56:49 - finished running the Rendom_forest model,the time is: 18.123716354370117

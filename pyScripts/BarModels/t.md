@@ -1,4 +1,3 @@
-```python
 import time
 import numpy as np 
 import optuna 
@@ -139,7 +138,7 @@ if __name__ == "__main__":
             print("We have reduced logloss by ", score_preds_default - score(y_test, preds_test[:,1]))
 
 print("GPU Training Time: %s seconds" % (str(time.time() - start)))
-```
+"""
 
     /home/labs/antebilab/guyilan/miniconda3/envs/guy_inter/lib/python3.12/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
       from .autonotebook import tqdm as notebook_tqdm

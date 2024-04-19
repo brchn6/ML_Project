@@ -36,6 +36,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_validate, StratifiedKFold
 
 from sklearn.metrics import log_loss , f1_score ,accuracy_score, roc_auc_score
+
+from sklearn.metrics import confusion_matrix
+
+import numpy as np
+
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
 """class Rendom_forest_regression_BC:
     def __init__(self, train_features, train_labels, test_features, test_labels):
@@ -77,7 +82,7 @@ class Rendom_forest_classification_BC_defultParams:
         
         # Train the model on training data
         classifier_fit = classifier.fit(self.train_features, self.train_labels)
-        return classifier_fit
+        return classifier, classifier_fit
     
     #set a prediction metho for the train data
     def predict_RandomForestClassifierTrainData (self, classifier):
@@ -120,16 +125,23 @@ class Rendom_forest_classification_BC_defultParams:
         logLoss = log_loss(data, predictions_proba)
         roc_auc = roc_auc_score(data, predictions_proba)
         return logLoss, roc_auc
+    
+    def get_params(self, classifier):
+        return classifier.get_params()
+    
+    def make_confusion_matrix(self, predictions, data):
+        return confusion_matrix(data, predictions)
 
 class Rendom_forest_classification_BC_useingGridSearchCV:
-    
     def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
         self.train_features = np_train_features
         self.train_labels = train_labels
         self.test_features = np_test_features
-
-        
         self.test_labels = test_labels
+        self.best_params = None  # Initialize best_params attribute
+
+
+
 
     def gridSearchCV_RandomForestClassifier(self):
         # Define the parameter grid
@@ -148,42 +160,48 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         classifier = RandomForestClassifier(random_state=42)
         
         # Create GridSearchCV object with the classifier and parameter grid
-        grid_search = GridSearchCV(estimator=classifier, param_grid=self.gridSearchCV_RandomForestClassifier(), cv=3, n_jobs=-1)
-        
-        #getting the parameters
-        parameters = grid_search.get_params()
+        grid_search = GridSearchCV(estimator=classifier, param_grid=self.gridSearchCV_RandomForestClassifier(), cv=3, n_jobs=-1, verbose=2)
 
-        #fitt the model to the train data
+        #fit the model to the train data
         classifier_fit = grid_search.fit(self.train_features, self.train_labels) 
 
         # Get the best model
         best_rf_classifier = classifier_fit.best_estimator_
+        
+        #get the best parameters and the roc_auc
+        best_params = classifier_fit.best_params_
+        roc_auc = classifier_fit.best_score_    
+        print(f"Best parameters: {best_params}")
+        print(f"The best parameters in this run are: {best_params} and the ROC AUC score is: {roc_auc}")
        
-        return best_rf_classifier, classifier_fit ,parameters
+        return classifier, classifier_fit, best_rf_classifier
     
+    def update_parameter_grid(self):
+        
+        if self.best_params is None:
+            print("Error: Best params are not set yet.")
+            return None
+        
+        updated_param_grid = {
+            'n_estimators': [self.best_params['n_estimators'], self.best_params['n_estimators'] + 50, self.best_params['n_estimators'] + 100],
+            'max_depth': [self.best_params['max_depth'], self.best_params['max_depth'] + 10, self.best_params['max_depth'] + 20],
+            'min_samples_split': [self.best_params['min_samples_split'], self.best_params['min_samples_split'] + 3, self.best_params['min_samples_split'] + 6],
+            'min_samples_leaf': [self.best_params['min_samples_leaf'], self.best_params['min_samples_leaf'] + 1, self.best_params['min_samples_leaf'] + 2],
+            'max_features': ['auto', 'sqrt', 'log2'],
+            'bootstrap': [self.best_params['bootstrap'], not self.best_params['bootstrap']]
+        }
+        return updated_param_grid
+
+
     #set a prediction metho for the train data
-    def predict_RandomForestClassifierTrainData (self, classifier):
+    def predict_RandomForestClassifier(self, classifier):
         # Use the forest's predict method on the test data
-        predictions = classifier.predict(self.train_features)
-        return predictions
-    
-    def predict_RandomForestClassifierTestData(self, classifier):
-        # Use the forest's predict method on the test data
-        predictions = classifier.predict(self.test_features)
-        return predictions
-
-    def predict_RandomForestClassifierTrainData_proba (self, classifier):
-        # Use the forest's predict method on the test data
-        predictions_proba = classifier.predict_proba(self.train_features)
-        return predictions_proba[:,1]
-
-    def predict_RandomForestClassifierTestData_proba(self, classifier):
-        # Use the forest's predict method on the test data
-        predictions_proba = classifier.predict_proba(self.test_features)
-        return predictions_proba[:,1]
+        predictions_Train_set= classifier.predict(self.train_features)
+        predictions_Train_set_proba= classifier.predict_proba(self.train_features)
+        return predictions_Train_set, predictions_Train_set_proba[:,1]
     
     #build a accuracy score method
-    def accuracy_score(self, predictions,data):
+    def accuracy_score(self, predictions , predictions_proba, data):
         """
         Returns:
         accuracy: the accuracy of the model
@@ -191,17 +209,15 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         accuracy = accuracy_score(data, predictions)
         f1_weighted= f1_score(data, predictions, average='weighted')
         f1_binary= f1_score(data, predictions, average='binary')
-        return accuracy, f1_weighted, f1_binary
-    
-    #build a accuracy score method
-    def accuracy_score_proba(self, predictions_proba ,data):
-        """
-        Returns:
-        accuracy: the accuracy of the model
-        """
+
         logLoss = log_loss(data, predictions_proba)
         roc_auc = roc_auc_score(data, predictions_proba)
-        return logLoss, roc_auc
+        return accuracy, f1_weighted, f1_binary , logLoss, roc_auc
+
+    def get_best_params(self):
+        return self.best_params
+    def make_confusion_matrix(self, predictions, data):
+        return confusion_matrix(data, predictions)
 
 class Rendom_forest_classification_BC_useing_Optuna:
     
@@ -211,7 +227,7 @@ class Rendom_forest_classification_BC_useing_Optuna:
         self.test_features = np_test_features
         self.test_labels = test_labels
 
-    def objective(trial, np_train_features , params_in_stages,n_splits): # categorical_feats     
+    def objective(self, trial):
         params = { 
                      "max_depth" : trial.suggest_int("max_depth", 1, 20),
                      "learning_rate" : trial.suggest_float("learning_rate", 0.01, 0.1),
@@ -225,14 +241,43 @@ class Rendom_forest_classification_BC_useing_Optuna:
                      "scale_pos_weight" : trial.suggest_float("scale_pos_weight", 0.5, 1),
                      "max_delta_step" : trial.suggest_int("max_delta_step", 0, 10),                     
                      "grow_policy" : trial.suggest_categorical("grow_policy", ["depthwise", "lossguide"]),
-                     'colsample_bytree': trial.suggest_float('colsample_bytree', 0.01, 1.0, log = True)}
-        params.update(params_in_stages)
-        num_boost_round = params.pop('n_estimators')
-        rf_cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
-        cross_val_scores = cross_validate(rf_cv, np_train_features, train_labels , cv=rf_cv, scoring='neg_log_loss', n_jobs=-1)
-        score = cross_val_scores['test-logloss-mean'].iloc[-1]
-        print(f"Trial {trial.number}:, Score: {score}")
+                     'colsample_bytree': trial.suggest_float('colsample_bytree', 0.01, 1.0, log = True)
+                     }
+        # Create a Random Forest classifier object
+        with tf.device('/GPU:0'):
+            classifier = RandomForestClassifier(**params, renmode_state=42)
+
+        # Use cross-validation to evaluate the model
+        with tf.device('/GPU:0'):
+            score = cross_val_score(classifier, self.train_features, self.train_labels, cv=3, scoring='roc_auc').mean()
+
         return score
+        
+    def optimize_params(self):
+        with tf.device('/GPU:1'):
+            study = optuna.create_study(direction='maximize')
+            study.optimize(self.objective, n_trials=1000)
+
+            best_params = study.best_params
+            best_rf_classifier = RandomForestClassifier(**best_params)
+            best_score = study.best_value
+
+            print(f"the best parameters are: {best_params} and the best score is: {best_score}")
+        return best_rf_classifier, best_params
+        
+    def train_model(self, best_rf_classifier):
+        best_classifier = RandomForestClassifier(**best_rf_classifier)
+        with tf.device('/GPU:1'):
+            best_classifier_fit = best_classifier.fit(self.train_features, self.train_labels)
+
+        return best_classifier_fit
+    
+    def evaluate_model(self, classifier):
+        predictions = classifier.predict(self.test_features)
+        accuracy = accuracy_score(self.test_labels, predictions)
+        f1_weighted = f1_score(self.test_labels, predictions, average='weighted')
+
+        return accuracy, f1_weighted
     
     def build_RandomForestClassifierWithOptuna_tuning(self, trial):
         # Define the parameter grid
@@ -251,13 +296,15 @@ class Rendom_forest_classification_BC_useing_Optuna:
         classifier = RandomForestClassifier(random_state=42)
         
         # Create GridSearchCV object with the classifier and parameter grid
-        study = optuna.create_study(direction='maximize')
-        study.optimize(self.build_RandomForestClassifierWithOptuna_tuning, n_trials=100)
-        best_params = study.best_params
-        best_rf_classifier = RandomForestClassifier(**best_params)
+        with tf.device('/GPU:0'):
+            study = optuna.create_study(direction='maximize')
+            study.optimize(self.build_RandomForestClassifierWithOptuna_tuning, n_trials=100)
+            best_params = study.best_params
+            best_rf_classifier = RandomForestClassifier(**best_params)
         
         #fitt the model to the train data
-        classifier_fit = best_rf_classifier.fit(self.train_features, self.train_labels) 
+        with tf.device('/GPU:0'):
+            classifier_fit = best_rf_classifier.fit(self.train_features, self.train_labels) 
 
         return best_rf_classifier, classifier_fit ,best_params 
 
