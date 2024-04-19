@@ -20,13 +20,13 @@ python pyScripts/MainScript.py
 ## Files description:
 Folder / files
 #### ML_Project/
-Data_preparation/Feature_engineering.xlsx : description of the grouping / feature engineering that was done as part of the preprocessing.
-EDA/EDA.ipynb
-PDFs/ PDFs that are the project description. Given by the course host.
-PO/ **** ADD YOUR DESCRIPTION HERE*****
-bsub/ **** ADD YOUR DESCRIPTION HERE*****
-data/ *.csv files that were used in this project. diabetic_data.csv is the raw data.
-pyScripts/
+Data_preparation/Feature_engineering.xlsx : description of the grouping / feature engineering that was done as part of the preprocessing.  
+EDA/EDA.ipynb  
+PDFs/ PDFs that are the project description. Given by the course host.  
+PO/ **** ADD YOUR DESCRIPTION HERE*****  
+bsub/ **** ADD YOUR DESCRIPTION HERE*****  
+data/ *.csv files that were used in this project. diabetic_data.csv is the raw data.  
+pyScripts/  
 
 ## Contributing
 
