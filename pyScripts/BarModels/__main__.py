@@ -16,8 +16,12 @@ if root not in sys.path:
     sys.path.append(root)
 else:
     pass
-here=os.path.dirname(os.path.abspath(__file__))
-              # here = '/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels'
+
+if __name__ == "__main__":
+    here = '/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels'
+else:
+    here = os.path.dirname(os.path.abspath(__name__))
+    
 
 # %reload_ext autoreload
 # %autoreload 2
