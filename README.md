@@ -5,7 +5,9 @@ The objective of the following project is to predict readmission of diabetic pai
 The dataset we worked on is the Diabetes 130-US Hospitals for Years 1999 – 2008 from the UC Irvine ML Repository:
 https://archive.ics.uci.edu/ml/datasets/diabetes+130-us+hospitals+for+years+1999-2008.
 Description of the original features can be found in the supplemental information of the original research paper (see also data/IDS_mapping.csv).
-Description of features that were engineered or grouped for this project can be found below in the files description section.
+Description of features that were engineered or grouped for this project can be found below in the files description section.  
+  
+A detailed overview of the project and a summary of the results are written in Project_Summary.docsx
 
 ## Installation
 To set up the project environment:
