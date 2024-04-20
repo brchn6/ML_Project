@@ -1,0 +1,6 @@
+2024-04-19 23:40:01,949 - INFO - 2024-04-19 23:40:01 -  the logger is working, the time is: 8.398085594177246
+2024-04-19 23:40:01,949 - INFO - 2024-04-19 23:40:01 - starting to load the data, the time is: 8.398297786712646
+2024-04-19 23:40:02,427 - INFO - 2024-04-19 23:40:02 - finished loading the data, the time is: 8.877000570297241
+2024-04-19 23:49:04,731 - INFO - 2024-04-19 23:49:04 -  the logger is working, the time is: 0.0555272102355957
+2024-04-19 23:49:04,732 - INFO - 2024-04-19 23:49:04 - starting to load the data, the time is: 0.05576658248901367
+2024-04-19 23:49:05,063 - INFO - 2024-04-19 23:49:05 - finished loading the data, the time is: 0.38751959800720215

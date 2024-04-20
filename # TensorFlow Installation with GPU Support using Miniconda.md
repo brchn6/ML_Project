@@ -64,3 +64,7 @@ Num GPUs Available:  1
 ```
 
 This Markdown file outlines the steps to install TensorFlow with GPU support using Miniconda on your cluster. Make sure to replace `<your_cuda_version>` with the appropriate CUDA version mentioned in your cluster's documentation. Additionally, modify the TensorFlow version according to your requirements if necessary.
+
+```
+ml miniconda && conda create --name=ml-gpu python=3.9 && conda activate ml-gpu && conda install -c conda-forge cudatoolkit=11.2.2 cudnn=8.1.0 && mkdir -p $CONDA_PREFIX/etc/conda/activate.d && echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/' > $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh && logout && bsub -q gpu-short -gpu num=1:j_exclusive=yes:gmem=8G -Is /bin/bash && conda activate ml-gpu && ml miniconda && conda activate ml-gpu && python3 -m pip install tensorflow==2.10
+```

@@ -41,6 +41,13 @@ from sklearn.metrics import confusion_matrix
 
 import numpy as np
 
+from sklearn import metrics
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+
+import tensorflow as tf
+
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
 """class Rendom_forest_regression_BC:
     def __init__(self, train_features, train_labels, test_features, test_labels):
@@ -222,10 +229,11 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
 class Rendom_forest_classification_BC_useing_Optuna:
     
     def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
-        self.train_features = np_train_features
-        self.train_labels = train_labels
-        self.test_features = np_test_features
-        self.test_labels = test_labels
+        self.train_features = np_train_features #X_train_np
+        self.train_labels = train_labels #y_train
+        self.test_features = np_test_features #X_test_np
+        self.test_labels = test_labels #y_test
+
 
     def objective(self, trial):
         params = { 
@@ -318,3 +326,55 @@ class Rendom_forest_classification_BC_useing_Optuna:
         # Use the forest's predict method on the test data
         predictions = classifier.predict(self.test_features)
         return predictions
+    
+
+
+
+
+class tedddst:
+    def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
+        self.train_features = np_train_features #X_train_np
+        self.train_labels = train_labels #y_train
+        self.test_features = np_test_features #X_test_np
+        self.test_labels = test_labels #y_test
+
+    def objective(trial, X_train, y_train, X_test, y_test):
+        n_estimators = trial.suggest_int('n_estimators', 100, 1000)
+        max_depth = trial.suggest_int('max_depth', 10, 50)
+        min_samples_split = trial.suggest_int('min_samples_split', 2, 32)
+        min_samples_leaf = trial.suggest_int('min_samples_leaf', 1, 32)
+        max_features = trial.suggest_categorical('max_features', ['sqrt', 'log2'])
+        criterion = trial.suggest_categorical('criterion', ["squared_error", "absolute_error", "friedman_mse", "poisson"])
+
+        model = RandomForestClassifier(
+            n_estimators=n_estimators,
+            max_depth=max_depth,
+            min_samples_split=min_samples_split,
+            min_samples_leaf=min_samples_leaf,
+            max_features=max_features,
+            criterion=criterion,
+            random_state= 21
+        )
+
+        
+        with tf.device('/device:GPU:0'):
+            model.fit(X_train, y_train)
+            y_pred = model.predict(X_test)
+
+        # metric  to optimize
+        score = mean_squared_error(y_test, y_pred)
+        
+        return score
+
+    study = optuna.create_study(direction='minimize', sampler=optuna.samplers.RandomSampler(seed=42))
+    study.optimize(objective, n_trials=2)
+
+    # Print the best parameters found 
+    print("Best trial:")
+    trial = study.best_trial
+
+    print("Value: {:.4f}".format(trial.value))
+
+    print("Params: ")
+    for key, value in trial.params.items():
+        print("    {}: {}".format(key, value))
