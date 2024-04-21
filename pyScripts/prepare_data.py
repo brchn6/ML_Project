@@ -97,5 +97,3 @@ def prepare_data_main(method = None):
     return train_set, test_set ,Mapdf
 
 
-
-# %%

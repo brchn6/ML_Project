@@ -24,7 +24,7 @@ else:
 if __name__ == "__main__":
     here = '/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels'
 else:
-    here = os.path.dirname(os.path.abspath(__name__))
+    here = os.path.dirname(os.path.realpath(__file__))
     
 
 # %reload_ext autoreload
@@ -32,28 +32,34 @@ else:
 #---------------------------- Imports for the model -------------------------------
 from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_defultParams
 from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_useingGridSearchCV
-from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_useing_Optuna
+# from pyScripts.BarModels.Rendom_forest_BC import Rendom_forest_classification_BC_useing_Optuna
 
 #---------------------------- Logger -------------------------------
-def initialize_logging():
+def initialize_logger(log_file="logfile.log"):
+    """Initialize logger."""
     log_directory = os.path.join(here, "logs")
     if not os.path.exists(log_directory):
         os.makedirs(log_directory)
-    logging.basicConfig(filename=os.path.join(log_directory, f"{time.strftime('%Y-%m-%d_%H-%M-%S')}.log"),
-                         level=logging.INFO,
-                         format="%(asctime)s - %(levelname)s - %(message)s")
+    log_file_path = os.path.join(log_directory, log_file)
+    logging.basicConfig(filename=log_file_path, level=logging.warning,format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    return logging.getLogger()
 
-def log_message(message):
-    current_time = time.localtime() 
-    time_string = time.strftime("%Y-%m-%d %H:%M:%S", current_time)
-    logging.info(f"{time_string} - {message}")
-    logging.getLogger().handlers[0].flush()
+def log_message(logger, message):
+    """Log a message."""
+    if logger:
+        logger.warning(message)
+    else:
+        print("Logger initialization failed.")
 
 # Initialize logging
-initialize_logging()
+logger = initialize_logger()
+
 # Log a message
-log_message(f" the logger is working, the time is: {time.time()-startTime}")
-log_message(f"starting to load the data, the time is: {time.time()-startTime}")
+if logger:
+    log_message(logger, f"The logger is working, the time is: {time.time()-startTime}")
+    log_message(logger, f"Starting to load the data, the time is: {time.time()-startTime}")
+else:
+    print("Logger initialization failed.")
 # ---------------------------- data incoming -------------------------------
 def load_data():
     # Load the data
@@ -83,9 +89,9 @@ try :
     print(f"the data was loaded successfully, the shapes are: X_train: {X_train_np.shape}, y_train: {y_train.shape}, X_test: {X_test_np.shape}, y_test: {y_test.shape}")
 except:
     raise Exception("the load_data function failed")
-log_message(f"finished loading the data, the time is: {time.time()-startTime}")
+log_message(logger,f"finished loading the data, the time is: {time.time()-startTime}")
 # ---------------------------- Rendom_forest -------------------------------
-log_message(f"starting to run the Rendom_forest model,the time is: {time.time()-startTime}")
+log_message(logger,f"starting to run the Rendom_forest model,the time is: {time.time()-startTime}")
 def run_Rendom_forest():
     #create a Rendom_forest_classification_BC object using the default parameters
     rf = Rendom_forest_classification_BC_defultParams(X_train_np, y_train, X_test_np, y_test)
@@ -99,24 +105,29 @@ def run_Rendom_forest():
     
     accuracy, f1_weighted, f1_binary = rf.accuracy_score(predictions_On_TrainDS, y_train)
     print(f"the results on the train data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
+    log_message(logger,f"the results on the train data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
     accuracy, f1_weighted, f1_binary = rf.accuracy_score(predictions_On_TestDS, y_test)
     print(f"the results on the test data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
+    log_message(logger,f"the results on the test data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
 
 
     log_loss, roc_auc = rf.accuracy_score_proba(predictions_On_TrainDS_proba, y_train)
     print(f"the results on the train data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
+    log_message(logger,f"the results on the train data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
     log_loss, roc_auc = rf.accuracy_score_proba(predictions_On_TestDS_proba, y_test)
     print(f"the results on the test data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
+    log_message(logger,f"the results on the test data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
 
     params = rf.get_params(classifier)
 
     confu = rf.make_confusion_matrix(predictions_On_TestDS, y_test)
 
     return classifier_fit, params , confu
-log_message(f"finished running the Rendom_forest model,the time is: {time.time()-startTime}")
+log_message(logger,f"finished running the Rendom_forest model,the time is: {time.time()-startTime}")
 try :
     classifier_fit, params , confu = run_Rendom_forest()
     print(f"the best parameters are: {params}")
+    log_message(logger,f"the best parameters are: {params}")
 except:
     raise Exception("the run_Rendom_forest function failed")
 
@@ -134,6 +145,7 @@ def run_Rendom_forest_with_GridSearchCV():
     #get the best parameters
     best_params = rf_GS_CV.get_best_params()
     print(f"the best parameters are: {best_params}")
+    log_message(logger,f"the best parameters are: {best_params}")
 
     predictions_On_TrainDS = rf_GS_CV.predict_RandomForestClassifier(y_train)[0]
     predictions_On_TestDS = rf_GS_CV.predict_RandomForestClassifier(y_test)[1]
@@ -142,13 +154,17 @@ def run_Rendom_forest_with_GridSearchCV():
 
     accuracy, f1_weighted, f1_binary = rf_GS_CV.accuracy_score(predictions_On_TrainDS, y_train)[0:3]
     print(f"the results on the train data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
+    log_message(logger,f"the results on the train data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
     log_loss, roc_auc = rf_GS_CV.accuracy_score(predictions_On_TrainDS_proba, y_train)[3:5]
     print(f"the results on the train data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
+    log_message(logger,f"the results on the train data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
     
     accuracy, f1_weighted, f1_binary = rf_GS_CV.accuracy_score(predictions_On_TestDS, y_test)[0:3]
     print(f"the results on the test data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
+    log_message(logger,f"the results on the test data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
     log_loss, roc_auc = rf_GS_CV.accuracy_score(predictions_On_TestDS_proba, y_test)[3:5]
     print(f"the results on the test data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
+    log_message(logger,f"the results on the test data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
     
     params = rf_GS_CV.get_best_params()
     confu = rf_GS_CV.make_confusion_matrix(predictions_On_TestDS, y_test)
