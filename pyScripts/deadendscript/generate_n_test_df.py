@@ -26,7 +26,7 @@ will be used for training.
 #Synthisizer parameters were set to 300 epochs on both CopulaGAN and CTGAN.
 #Boolean_columns were specified.
 #Attempt was made to generate synthetic data with 100 epochs and results did not improve.
-"""
+
 copula_gans = CopulaGANSyntheticDataGenerator(label_column='readmitted', minority_class_label=0,
                                                majority_class_label=1, gans = 'copula',
                                                boolean_columns=['change', 'diabetesMed'], 
@@ -56,12 +56,10 @@ for gans, name in zip([copula_gans, ct_gans], ['copula', 'ctgan']):
     csv_filename = df_name + '.csv'
     df_transformed.to_csv(os.path.join(path, csv_filename), index=False)
 
-"""
+
 #This part was done to evaluate the performance of the classifiers using the different datasets.
 #The classifiers were evaluated using the original dataset, SMOTE, CopulaGAN and CTGAN datasets.
 #The scores obtained for each classifier were saved as a csv file.
-
-"""
 
 #Import original DF for normal and smote evaluation:
 #dim - 30134 rows × 38 columns
@@ -93,7 +91,6 @@ score_table_all = classifier_evaluation.generate_score_table(X_train=X_train, y_
 csv_filename = 'score_table_all_100_epochs' + '.csv'
 path = os.path.join(os.getcwd(), '..', 'data')
 score_table_all.to_csv(os.path.join(path, csv_filename), index=True)
-"""
 
 #This section will test the performance of the copulGANS which generated with 4 numeric features:
 #It will be compared to the other Datasets which were generated in the above section:
@@ -116,4 +113,4 @@ csv_filename = 'score_table_all_100_epochs' + '.csv'
 path = os.path.join(os.getcwd(), '..', 'data')
 score_table_all.to_csv(os.path.join(path, csv_filename), index=True)
 
-#
+# Dataset with best performance was balanced with CopulaGANsynthesizer

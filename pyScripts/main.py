@@ -1,4 +1,4 @@
-
+#%%
 """"
 This is the fucking main file, all file should be called from here
 """
@@ -13,11 +13,13 @@ import pandas as pd
 from deadendscript.feature_importance_gans_4_numeric import *
 from DefPipeLineClasses import DropColumns
 from RunPipe import X_test
-#%%
+
 # --------------------- Set up the X and y Train and Test value -----------------------
 #call the DFS from the path
 X_train = pd.read_csv('../data/copula_train_set_300_epochs_4_numeric.csv')
 X_test = pd.read_csv('../data/copula_gans_4_numeric_TestSet.csv')
+
+cols_to_drop = cols_to_drop
 #function time
 def FunctionToGet_Y_lables_fromTrainAndTest(X_train, X_test):
     # make the lable var as y_train and y_test
@@ -87,3 +89,41 @@ X_test_df.to_csv('GuyTrain/X_test_df.csv', index=False)
 y_train.to_csv('GuyTrain/y_train.csv', index=False)
 y_test.to_csv('GuyTrain/y_test.csv', index=False)
 """
+#%%
+#Test X_traim_df on models:
+
+X_train_df = pd.read_csv('GuyTrain/X_train_df.csv')
+X_test_df = pd.read_csv('GuyTrain/X_test_df.csv')
+y_train = pd.read_csv('GuyTrain/y_train.csv')
+y_test = pd.read_csv('GuyTrain/y_test.csv')
+
+def convert_to_float64(dataframe, columns):
+    dataframe[columns] = dataframe[columns].astype('float64')
+    return dataframe
+
+cols_to_change = ['number_emergency', 'number_outpatient', 'readmitted']
+
+X_train = convert_to_float64(X_train, cols_to_change)
+
+columns = ['diag_3_365.44', 'repaglinide_Down']
+
+def removeRogueColumns(df):
+        df.drop(columns, axis=1, inplace=True)
+        return df
+
+X_train = X_train.drop('readmitted', axis=1)
+
+X_train_df = removeRogueColumns(X_train_df)
+
+cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
+
+cv_pipe = make_impipe(col_processor, xgb_clf)
+
+xgb_cv_cv = cross_validate(cv_pipe, X_train, y_train, cv=cv, scoring='neg_log_loss')
+
+xgb_cv_np = cross_validate(xgb_clf, X_train_np, y_train, cv=cv, scoring='neg_log_loss')
+
+xgb_cv_df = cross_validate(xgb_clf, X_train_df, y_train, cv=cv, scoring='neg_log_loss')
+
+
+# %%
