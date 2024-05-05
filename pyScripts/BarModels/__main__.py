@@ -186,3 +186,8 @@ except Exception as e:
 #---------------------------- applyin the best parameters -------------------------------
 
 bestParams: {'bootstrap': False, 'max_depth': 20, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 20, 'n_estimators': 200}
+
+
+#%%
+
+``
