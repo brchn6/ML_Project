@@ -52,8 +52,6 @@ if __name__ == "__main__":
                           'gamma':0, 
                           'colsample_bytree':0.8,
                           'objective' : 'binary:logistic'}
-                
-                
         else: 
                 params = {}
         #Setting the early stopping rounds to find best number of estimators:
