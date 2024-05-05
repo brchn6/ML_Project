@@ -46,7 +46,6 @@ from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 
-import tensorflow as tf
 
 # --------------------------------------Rendom_forest Regression Class--------------------------------------
 """class Rendom_forest_regression_BC:
@@ -148,8 +147,6 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         self.best_params = None  # Initialize best_params attribute
 
 
-
-
     def gridSearchCV_RandomForestClassifier(self):
         # Define the parameter grid
         param_grid = {
@@ -167,7 +164,7 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         classifier = RandomForestClassifier(random_state=42)
         
         # Create GridSearchCV object with the classifier and parameter grid
-        grid_search = GridSearchCV(estimator=classifier, param_grid=self.gridSearchCV_RandomForestClassifier(), cv=3, n_jobs=-1, verbose=2)
+        grid_search = GridSearchCV(estimator=classifier, param_grid=self.gridSearchCV_RandomForestClassifier(), cv=5, n_jobs=-1, verbose=2)
 
         #fit the model to the train data
         classifier_fit = grid_search.fit(self.train_features, self.train_labels) 
@@ -175,51 +172,69 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         # Get the best model
         best_rf_classifier = classifier_fit.best_estimator_
         
+        
         #get the best parameters and the roc_auc
-        best_params = classifier_fit.best_params_
+        self.best_params = classifier_fit.best_params_
         roc_auc = classifier_fit.best_score_    
-        print(f"Best parameters: {best_params}")
-        print(f"The best parameters in this run are: {best_params} and the ROC AUC score is: {roc_auc}")
+        print(f"Best parameters: {self.best_params}")
+        print(f"The best parameters in this run are: {self.best_params} and the ROC AUC score is: {roc_auc}")
        
-        return classifier, classifier_fit, best_rf_classifier
+        return classifier, classifier_fit, best_rf_classifier, self.best_params
     
     def update_parameter_grid(self):
-        
-        if self.best_params is None:
+        if not self.best_params:
             print("Error: Best params are not set yet.")
             return None
-        
+
+        # Check each parameter individually before use to handle cases where they might be None
+        n_estimators = self.best_params.get('n_estimators', 10)  # Default to 10 if not set
+        max_depth = self.best_params.get('max_depth', 30)  # Default to 30 if not set
+        min_samples_split = self.best_params.get('min_samples_split', 2)  # Default to 2 if not set
+        min_samples_leaf = self.best_params.get('min_samples_leaf', 1)  # Default to 1 if not set
+        max_features = self.best_params.get('max_features', 'auto')  # Default to 'auto' if not set
+        bootstrap = self.best_params.get('bootstrap', True)  # Default to True if not set
+
         updated_param_grid = {
-            'n_estimators': [self.best_params['n_estimators'], self.best_params['n_estimators'] + 50, self.best_params['n_estimators'] + 100],
-            'max_depth': [self.best_params['max_depth'], self.best_params['max_depth'] + 10, self.best_params['max_depth'] + 20],
-            'min_samples_split': [self.best_params['min_samples_split'], self.best_params['min_samples_split'] + 3, self.best_params['min_samples_split'] + 6],
-            'min_samples_leaf': [self.best_params['min_samples_leaf'], self.best_params['min_samples_leaf'] + 1, self.best_params['min_samples_leaf'] + 2],
+            'n_estimators': [n_estimators, n_estimators + 50, n_estimators + 100],
+            'max_depth': [max_depth, max_depth + 10, max_depth + 20] if max_depth is not None else [None],
+            'min_samples_split': [min_samples_split, min_samples_split + 3, min_samples_split + 6],
+            'min_samples_leaf': [min_samples_leaf, min_samples_leaf + 1, min_samples_leaf + 2],
             'max_features': ['auto', 'sqrt', 'log2'],
-            'bootstrap': [self.best_params['bootstrap'], not self.best_params['bootstrap']]
+            'bootstrap': [bootstrap, not bootstrap]
         }
         return updated_param_grid
 
 
-    #set a prediction metho for the train data
+    #set a prediction metho for the train data and the test data
     def predict_RandomForestClassifier(self, classifier):
         # Use the forest's predict method on the test data
         predictions_Train_set= classifier.predict(self.train_features)
         predictions_Train_set_proba= classifier.predict_proba(self.train_features)
-        return predictions_Train_set, predictions_Train_set_proba[:,1]
+        predictions_Test_set= classifier.predict(self.test_features)
+        predictions_Test_set_proba= classifier.predict_proba(self.test_features)
+        return predictions_Train_set, predictions_Train_set_proba[:,1] , predictions_Test_set, predictions_Test_set_proba[:,1]
+
     
     #build a accuracy score method
-    def accuracy_score(self, predictions , predictions_proba, data):
+    def accuracy_score(self, predictions, predictions_proba, data):
         """
+        Calculate accuracy, weighted F1, binary F1 scores, log loss, and ROC AUC for predictions.
+
+        Parameters:
+        - predictions: Predicted labels.
+        - predictions_proba: Predicted probabilities.
+        - data: True labels.
+
         Returns:
-        accuracy: the accuracy of the model
+        - Tuple containing accuracy, f1_weighted, f1_binary, log_loss, and roc_auc scores.
         """
         accuracy = accuracy_score(data, predictions)
-        f1_weighted= f1_score(data, predictions, average='weighted')
-        f1_binary= f1_score(data, predictions, average='binary')
+        f1_weighted = f1_score(data, predictions, average='weighted')
+        f1_binary = f1_score(data, predictions, average='binary')
+        log_loss_val = log_loss(data, predictions_proba)
+        roc_auc_val = roc_auc_score(data, predictions_proba)
 
-        logLoss = log_loss(data, predictions_proba)
-        roc_auc = roc_auc_score(data, predictions_proba)
-        return accuracy, f1_weighted, f1_binary , logLoss, roc_auc
+        return accuracy, f1_weighted, f1_binary, log_loss_val, roc_auc_val
 
     def get_best_params(self):
         return self.best_params
@@ -330,7 +345,7 @@ class Rendom_forest_classification_BC_useing_Optuna:
 
 
 
-
+#%%
 # class tedddst:
 #     def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
 #         self.train_features = np_train_features #X_train_np

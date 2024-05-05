@@ -26,3 +26,19 @@ WARNING:root:the results on the test data are: accuracy: 0.8394422310756973, f1_
 WARNING:root:the results on the train data are: log_loss: 0.06235000835838471, roc_auc: 0.999904797898002
 WARNING:root:the results on the test data are: log_loss: 1.0901229066331197, roc_auc: 0.5999700147288514
 WARNING:root:the best parameters are: {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}
+WARNING:root:the best parameters are: None
+Traceback (most recent call last):
+  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/__main__.py", line 175, in <module>
+    classifier_fit, best_rf_classifier , updated_param_grid , params , confu = run_Rendom_forest_with_GridSearchCV()
+  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/__main__.py", line 150, in run_Rendom_forest_with_GridSearchCV
+    predictions_On_TrainDS = rf_GS_CV.predict_RandomForestClassifier(y_train)[0]
+  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/Rendom_forest_BC.py", line 206, in predict_RandomForestClassifier
+    predictions_Train_set= classifier.predict(self.train_features)
+AttributeError: 'numpy.ndarray' object has no attribute 'predict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/__main__.py", line 177, in <module>
+    raise Exception("the run_Rendom_forest_with_GridSearchCV function failed")
+Exception: the run_Rendom_forest_with_GridSearchCV function failed

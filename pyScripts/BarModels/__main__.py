@@ -137,55 +137,52 @@ def run_Rendom_forest_with_GridSearchCV():
     rf_GS_CV = Rendom_forest_classification_BC_useingGridSearchCV(X_train_np, y_train, X_test_np, y_test)
     
     #build the model using the GridSearchCV
-    classifier, classifier_fit, best_rf_classifier = rf_GS_CV.build_RandomForestClassifierWithGridSearchCV()
+    classifier, classifier_fit, best_rf_classifier, best_params = rf_GS_CV.build_RandomForestClassifierWithGridSearchCV()
     
     #update the parameter grid
     updated_param_grid = rf_GS_CV.update_parameter_grid()
+    print(f"the updated parameter grid is: {updated_param_grid}")
 
     #get the best parameters
     best_params = rf_GS_CV.get_best_params()
     print(f"the best parameters are: {best_params}")
     log_message(logger,f"the best parameters are: {best_params}")
 
-    predictions_On_TrainDS = rf_GS_CV.predict_RandomForestClassifier(y_train)[0]
-    predictions_On_TestDS = rf_GS_CV.predict_RandomForestClassifier(y_test)[1]
-    predictions_On_TrainDS_proba = rf_GS_CV.predict_RandomForestClassifier(y_train)[2]
-    predictions_On_TestDS_proba = rf_GS_CV.predict_RandomForestClassifier(y_test)[3]
-
-    accuracy, f1_weighted, f1_binary = rf_GS_CV.accuracy_score(predictions_On_TrainDS, y_train)[0:3]
-    print(f"the results on the train data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
-    log_message(logger,f"the results on the train data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
-    log_loss, roc_auc = rf_GS_CV.accuracy_score(predictions_On_TrainDS_proba, y_train)[3:5]
-    print(f"the results on the train data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
-    log_message(logger,f"the results on the train data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
+    # Run prediction method
+    predictions_On_TrainDS, predictions_On_TrainDS_proba, predictions_On_TestDS, predictions_On_TestDS_proba = rf_GS_CV.predict_RandomForestClassifier(best_rf_classifier)
     
-    accuracy, f1_weighted, f1_binary = rf_GS_CV.accuracy_score(predictions_On_TestDS, y_test)[0:3]
-    print(f"the results on the test data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
-    log_message(logger,f"the results on the test data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
-    log_loss, roc_auc = rf_GS_CV.accuracy_score(predictions_On_TestDS_proba, y_test)[3:5]
-    print(f"the results on the test data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
-    log_message(logger,f"the results on the test data are: log_loss: {log_loss}, roc_auc: {roc_auc}")
+    # Calculate all metrics for training data
+    train_metrics = rf_GS_CV.accuracy_score(predictions_On_TrainDS, predictions_On_TrainDS_proba, y_train)
+    accuracy, f1_weighted, f1_binary, log_loss_val, roc_auc = train_metrics
+
+    # Logging and printing train data results
+    print(f"the results on the train data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
+    log_message(logger, f"the results on the train data are: accuracy: {accuracy}, f1_weighted: {f1_weighted}, f1_binary: {f1_binary}")
+    print(f"the results on the train data are: log_loss: {log_loss_val}, roc_auc: {roc_auc}")
+    log_message(logger, f"the results on the train data are: log_loss: {log_loss_val}, roc_auc: {roc_auc}")
+
+    # Calculate all metrics for test data
+    test_metrics = rf_GS_CV.accuracy_score(predictions_On_TestDS, predictions_On_TestDS_proba, y_test)
+    accuracy_test, f1_weighted_test, f1_binary_test, log_loss_test, roc_auc_test = test_metrics
+
+    # Logging and printing test data results
+    print(f"the results on the test data are: accuracy: {accuracy_test}, f1_weighted: {f1_weighted_test}, f1_binary: {f1_binary_test}")
+    log_message(logger, f"the results on the test data are: accuracy: {accuracy_test}, f1_weighted: {f1_weighted_test}, f1_binary: {f1_binary_test}")
+    print(f"the results on the test data are: log_loss: {log_loss_test}, roc_auc: {roc_auc_test}")
+    log_message(logger, f"the results on the test data are: log_loss: {log_loss_test}, roc_auc: {roc_auc_test}")
     
     params = rf_GS_CV.get_best_params()
     confu = rf_GS_CV.make_confusion_matrix(predictions_On_TestDS, y_test)
 
     
-    return classifier_fit, best_rf_classifier , updated_param_grid
+    return classifier_fit, best_rf_classifier , updated_param_grid , params , confu
 try:
-    classifier_fit, best_rf_classifier , updated_param_grid , params , confu = run_Rendom_forest_with_GridSearchCV()
-except:
-    raise Exception("the run_Rendom_forest_with_GridSearchCV function failed")
-
-# The best parameters in this run are: {'bootstrap': False, 'max_depth': 20, 'max_features': 'sqrt',
-# 'min_samples_leaf': 2, 'min_samples_split': 20, 'n_estimators': 200} and the ROC AUC score is: 0.9222283046173643
+    classifier_fit, best_rf_classifier, updated_param_grid, params, confu = run_Rendom_forest_with_GridSearchCV()
+except Exception as e:
+    print(f"Failed to run RandomForest with GridSearchCV: {str(e)}")
+    raise
 
 
+#---------------------------- applyin the best parameters -------------------------------
 
-# def Runrf_using_Optuna():
-#     rf_model = Rendom_forest_classification_BC_useing_Optuna(X_train_np, y_train, X_test_np, y_test)
-#     best_params = rf_model.build_RandomForestClassifierWithOptuna()[2]
-#     best_classifier = rf_model.build_RandomForestClassifierWithOptuna()[0]
-#     rf_model.evaluate_model(best_classifier)
-
-#     return best_params , best_classifier , rf_model
-# best_params = Runrf_using_Optuna()
+bestParams: {'bootstrap': False, 'max_depth': 20, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 20, 'n_estimators': 200}

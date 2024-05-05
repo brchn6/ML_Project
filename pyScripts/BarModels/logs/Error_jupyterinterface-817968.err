@@ -1,0 +1,47 @@
+/scratch/1713768884.817968.shell: line 23: cd: /home/labs/cssagi/barc/FGS_ML/ML_Project: Permission denied
+[I 2024-04-22 09:54:54.474 ServerApp] jupyterlab | extension was successfully linked.
+[I 2024-04-22 09:54:54.532 LabApp] JupyterLab extension loaded from /apps/easybd/easybuild/software/JupyterLab/3.1.6-GCCcore-11.2.0/lib/python3.9/site-packages/jupyterlab
+[I 2024-04-22 09:54:54.532 LabApp] JupyterLab application directory is /apps/easybd/easybuild/software/JupyterLab/3.1.6-GCCcore-11.2.0/share/jupyter/lab
+[I 2024-04-22 09:54:54.535 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2024-04-22 09:54:54.536 ServerApp] Serving notebooks from local directory: /home/labs/mayalab/barc/MSc_studies/ML_Project
+[I 2024-04-22 09:54:54.536 ServerApp] Jupyter Server 1.10.2 is running at:
+[I 2024-04-22 09:54:54.536 ServerApp] http://hgn14.wexac.weizmann.ac.il:55720/lab?token=b85ac7e9ce418af08ebc3ff676dced2e01ae036a7897f536
+[I 2024-04-22 09:54:54.536 ServerApp]  or http://127.0.0.1:55720/lab?token=b85ac7e9ce418af08ebc3ff676dced2e01ae036a7897f536
+[I 2024-04-22 09:54:54.536 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 2024-04-22 09:54:54.541 ServerApp] 
+    
+    To access the server, open this file in a browser:
+        file:///home/labs/mayalab/barc/.local/share/jupyter/runtime/jpserver-76360-open.html
+    Or copy and paste one of these URLs:
+        http://hgn14.wexac.weizmann.ac.il:55720/lab?token=b85ac7e9ce418af08ebc3ff676dced2e01ae036a7897f536
+     or http://127.0.0.1:55720/lab?token=b85ac7e9ce418af08ebc3ff676dced2e01ae036a7897f536
+[W 2024-04-22 09:55:23.745 ServerApp] 404 GET /hub/api (132.76.220.31) 30.38ms referer=None
+[I 2024-04-22 09:55:23.756 ServerApp] 302 GET / (132.76.220.31) 0.51ms
+[I 2024-04-22 09:55:23.767 LabApp] 302 GET /lab? (132.76.220.31) 0.48ms
+[W 2024-04-22 09:55:24.921 ServerApp] 404 GET /hub/api (132.76.220.31) 1.65ms referer=None
+[I 2024-04-22 09:55:24.930 ServerApp] 302 GET / (132.76.220.31) 0.24ms
+[I 2024-04-22 09:55:24.941 LabApp] 302 GET /lab? (132.76.220.31) 0.63ms
+[W 2024-04-22 09:55:30.403 ServerApp] 404 GET /hub/api (132.76.220.31) 1.22ms referer=None
+[I 2024-04-22 09:55:30.459 ServerApp] 302 GET / (132.76.220.31) 0.57ms
+[I 2024-04-22 09:55:30.479 LabApp] 302 GET /lab? (132.76.220.31) 0.43ms
+[I 2024-04-22 09:55:30.585 ServerApp] Kernel started: b77347d0-6a74-4c1a-8ff0-72f757a61a2a
+2024-04-22 09:55:40.560459: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-04-22 09:55:43.267740: E tensorflow/stream_executor/cuda/cuda_blas.cc:2981] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-04-22 09:55:46.651229: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer.so.7'; dlerror: libnvinfer.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/apps/easybd/easybuild/software/ZeroMQ/4.3.4-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/util-linux/2.37-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/libsodium/1.0.18-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/OpenPGM/5.2.122-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/Python/3.9.6-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/OpenSSL/1.1/lib:/apps/easybd/easybuild/software/libffi/3.4.2-GCCcore-11.2.0/lib64:/apps/easybd/easybuild/software/GMP/6.2.1-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/XZ/5.2.5-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/SQLite/3.36-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/Tcl/8.6.11-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/libreadline/8.1-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/ncurses/6.2-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/bzip2/1.0.8-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/binutils/2.37-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/zlib/1.2.11-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/GCCcore/11.2.0/lib64:/usr/share/lsf/10.1/linux3.10-glibc2.17-x86_64/lib:/home/labs/testing/almoga/tmp/ncbi-magicblast-1.4.0-src/c++/local/ncbi-vdb-2.9.0-1/lib64:/home/labs/mayalab/barc/.conda/envs/ml-gpu/lib/
+2024-04-22 09:55:46.651401: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libnvinfer_plugin.so.7'; dlerror: libnvinfer_plugin.so.7: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/apps/easybd/easybuild/software/ZeroMQ/4.3.4-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/util-linux/2.37-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/libsodium/1.0.18-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/OpenPGM/5.2.122-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/Python/3.9.6-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/OpenSSL/1.1/lib:/apps/easybd/easybuild/software/libffi/3.4.2-GCCcore-11.2.0/lib64:/apps/easybd/easybuild/software/GMP/6.2.1-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/XZ/5.2.5-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/SQLite/3.36-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/Tcl/8.6.11-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/libreadline/8.1-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/ncurses/6.2-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/bzip2/1.0.8-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/binutils/2.37-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/zlib/1.2.11-GCCcore-11.2.0/lib:/apps/easybd/easybuild/software/GCCcore/11.2.0/lib64:/usr/share/lsf/10.1/linux3.10-glibc2.17-x86_64/lib:/home/labs/testing/almoga/tmp/ncbi-magicblast-1.4.0-src/c++/local/ncbi-vdb-2.9.0-1/lib64:/home/labs/mayalab/barc/.conda/envs/ml-gpu/lib/
+2024-04-22 09:55:46.651411: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Cannot dlopen some TensorRT libraries. If you would like to use Nvidia GPU with TensorRT, please make sure the missing libraries mentioned above are installed properly.
+2024-04-22 10:01:48.794869: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-04-22 10:02:01.022319: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /device:GPU:0 with 46526 MB memory:  -> device: 0, name: NVIDIA A40, pci bus id: 0000:88:00.0, compute capability: 8.6
+2024-04-22 10:02:01.024297: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /device:GPU:1 with 46496 MB memory:  -> device: 1, name: NVIDIA A40, pci bus id: 0000:cd:00.0, compute capability: 8.6
+2024-04-22 10:02:01.042121: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /device:GPU:0 with 46526 MB memory:  -> device: 0, name: NVIDIA A40, pci bus id: 0000:88:00.0, compute capability: 8.6
+2024-04-22 10:02:01.043600: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /device:GPU:1 with 46496 MB memory:  -> device: 1, name: NVIDIA A40, pci bus id: 0000:cd:00.0, compute capability: 8.6
+2024-04-22 10:04:24.834401: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 46526 MB memory:  -> device: 0, name: NVIDIA A40, pci bus id: 0000:88:00.0, compute capability: 8.6
+2024-04-22 10:04:24.835307: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1616] Created device /job:localhost/replica:0/task:0/device:GPU:1 with 46496 MB memory:  -> device: 1, name: NVIDIA A40, pci bus id: 0000:cd:00.0, compute capability: 8.6
+2024-04-22 10:04:44.576765: I tensorflow/stream_executor/cuda/cuda_blas.cc:1614] TensorFloat-32 will be used for the matrix multiplication. This will only be logged once.
+[I 2024-04-22 10:06:56.190 ServerApp] Kernel restarted: b77347d0-6a74-4c1a-8ff0-72f757a61a2a
+[I 2024-04-22 10:06:56.195 ServerApp] Starting buffering for b77347d0-6a74-4c1a-8ff0-72f757a61a2a:bc536a17-5241-4df1-8df7-310a61851476
+[I 2024-04-22 10:06:56.208 ServerApp] Restoring connection for b77347d0-6a74-4c1a-8ff0-72f757a61a2a:bc536a17-5241-4df1-8df7-310a61851476
+[I 2024-04-22 10:07:18.048 ServerApp] Interrupted...
+[IPKernelApp] WARNING | Parent appears to have exited, shutting down.
