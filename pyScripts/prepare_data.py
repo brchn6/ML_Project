@@ -96,4 +96,9 @@ def prepare_data_main(method = None):
         train_set, test_set = split_data(Maindf, ColName)
     return train_set, test_set ,Mapdf
 
+#1 is no
+#0 is <30
 
+#more 1 than 0
+
+# %%

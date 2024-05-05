@@ -1,9 +1,0 @@
-/home/labs/antebilab/guyilan/ML project/ML_Project/pyScripts/GuyTrain/xgboost_optuna.py:2: DeprecationWarning: 
-Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
-(to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
-but was not found to be installed on your system.
-If this would cause problems for you,
-please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
-        
-  import pandas as pd
-[I 2024-03-26 15:17:09,897] A new study created in memory with name: no-name-4b64b82e-47e3-4e26-9459-d81112db05a6
