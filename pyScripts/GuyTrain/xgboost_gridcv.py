@@ -36,7 +36,7 @@ def removeRogueColumns(df):
 
 X_train = removeRogueColumns(X_train)
 
-#Calling maim function:
+#Calling main function:
 if __name__ == "__main__":
 
         start = time.time()

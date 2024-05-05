@@ -1,0 +1,33 @@
+Lmod Warning: The system MODULEPATH has changed: please rebuild your saved
+collection.
+
+
+
+/scratch/1714906890.510299.shell: line 17: cd: /home/labs/cssagi/barc/FGS_ML/ML_Project: Permission denied
+[I 2024-05-05 14:01:33.782 ServerApp] jupyterlab | extension was successfully linked.
+[I 2024-05-05 14:01:33.809 LabApp] JupyterLab extension loaded from /apps/easybd/easybuild/software/JupyterLab/3.1.6-GCCcore-11.2.0/lib/python3.9/site-packages/jupyterlab
+[I 2024-05-05 14:01:33.809 LabApp] JupyterLab application directory is /apps/easybd/easybuild/software/JupyterLab/3.1.6-GCCcore-11.2.0/share/jupyter/lab
+[I 2024-05-05 14:01:33.812 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2024-05-05 14:01:33.813 ServerApp] Serving notebooks from local directory: /home/labs/mayalab/barc/MSc_studies/ML_Project
+[I 2024-05-05 14:01:33.813 ServerApp] Jupyter Server 1.10.2 is running at:
+[I 2024-05-05 14:01:33.813 ServerApp] http://cn433.wexac.weizmann.ac.il:39879/lab?token=b0b7196db87f91d97efb95e030509e5078f6298068f9c09a
+[I 2024-05-05 14:01:33.813 ServerApp]  or http://127.0.0.1:39879/lab?token=b0b7196db87f91d97efb95e030509e5078f6298068f9c09a
+[I 2024-05-05 14:01:33.813 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 2024-05-05 14:01:33.817 ServerApp] 
+    
+    To access the server, open this file in a browser:
+        file:///home/labs/mayalab/barc/.local/share/jupyter/runtime/jpserver-2407032-open.html
+    Or copy and paste one of these URLs:
+        http://cn433.wexac.weizmann.ac.il:39879/lab?token=b0b7196db87f91d97efb95e030509e5078f6298068f9c09a
+     or http://127.0.0.1:39879/lab?token=b0b7196db87f91d97efb95e030509e5078f6298068f9c09a
+[W 2024-05-05 14:02:34.508 ServerApp] 404 GET /hub/api (132.76.220.31) 23.50ms referer=None
+[I 2024-05-05 14:02:34.520 ServerApp] 302 GET / (132.76.220.31) 0.31ms
+[I 2024-05-05 14:02:34.531 LabApp] 302 GET /lab? (132.76.220.31) 0.41ms
+[W 2024-05-05 14:02:35.628 ServerApp] 404 GET /hub/api (132.76.220.31) 1.06ms referer=None
+[I 2024-05-05 14:02:35.638 ServerApp] 302 GET / (132.76.220.31) 0.28ms
+[I 2024-05-05 14:02:35.648 LabApp] 302 GET /lab? (132.76.220.31) 0.37ms
+[W 2024-05-05 14:03:17.710 ServerApp] 404 GET /hub/api (132.76.220.31) 1.08ms referer=None
+[I 2024-05-05 14:03:17.721 ServerApp] 302 GET / (132.76.220.31) 0.28ms
+[I 2024-05-05 14:03:17.729 LabApp] 302 GET /lab? (132.76.220.31) 0.36ms
+[I 2024-05-05 14:03:17.822 ServerApp] Kernel started: 96635a73-5763-4e44-aadf-109bb63df971
+[I 2024-05-05 14:22:16.414 ServerApp] Starting buffering for 96635a73-5763-4e44-aadf-109bb63df971:7519443e-9e7c-4fa5-ae47-abc2f7414993
