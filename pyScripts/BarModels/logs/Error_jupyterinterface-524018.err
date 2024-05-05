@@ -1185,3 +1185,7 @@ collection.
 [I 2024-05-05 16:13:17.182 ServerApp] Starting buffering for be5d221a-83d5-40da-b91a-826e12e4c04f:5541ba1e-cba1-4d2b-9f4b-c64ead457e7c
 [I 2024-05-05 16:13:17.190 ServerApp] Starting buffering for 54bbbfce-1f4f-49db-8187-b8d84311a1dc:f6a51357-9cbd-4810-9ebe-bbd990dc43a3
 [I 2024-05-05 16:28:01.500 ServerApp] Kernel shutdown: 9898fa0e-b15b-4351-9c9d-9c176b4a0a86
+[I 2024-05-05 19:00:49.061 ServerApp] Interrupted...
+[IPKernelApp] WARNING | Parent appears to have exited, shutting down.
+[IPKernelApp] WARNING | Parent appears to have exited, shutting down.
+[IPKernelApp] WARNING | Parent appears to have exited, shutting down.

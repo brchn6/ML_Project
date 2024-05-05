@@ -41,6 +41,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn import metrics
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+from Class import *
 # --------------------------------------Rendom_forest Classification Class--------------------------------------
 class Rendom_forest_classification_BC_defultParams:
     def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
@@ -235,57 +237,6 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
     def make_confusion_matrix(self, predictions, data):
         return confusion_matrix(data, predictions)
     
-    def featureImportancePlot (feature_names, table):
-        import matplotlib.pyplot as plt
-        table_mean = table.mean(axis = 0)
-        table_std = table.std(axis = 0)
-
-        #Transform the feature names:
-        feature_names = transform_feature_names(feature_names)
-
-        #Change first column names:
-        feature_names[0] = 'number_emergency'
-        feature_names[1] = 'number_outpatient'
-        
-        feature_count = pd.DataFrame(feature_names).value_counts()
-        
-        sums = {}
-        stds = {}
-        for i in range(len(feature_names)):
-            name = feature_names[i]
-            if name in sums:
-                sums[name] += table_mean[i]
-                stds[name] += table_std[i]
-            else:
-                sums[name] = table_mean[i]
-                stds[name] = table_std[i]
-        
-        #Divide the stds by the feature count:
-        for key in stds:
-            stds[key] = stds[key]/feature_count[key]
-        
-        #sort the sums in descending order:
-        sums = dict(sorted(sums.items(), key=lambda item: item[1], reverse=True))
-        
-        #order stds by sums:
-        stds = {k: stds[k] for k in sums.keys()}
-        
-        #plot the feature importances according to the sums dictionary (which is sorted):
-        plt.figure(figsize=(10, 5))
-        
-        error = list(stds.values())[:10][::-1]
-        plt.barh(list(sums.keys())[:10][::-1], list(sums.values())[:10][::-1], align='center', xerr=error, color='skyblue', alpha=0.7)
-        
-        # Add labels and title
-        plt.xlabel('Relative Importance')
-        plt.ylabel('Features')
-        plt.title('Top 10 Feature Importance on (mean of 15 seeds)')
-        
-        
-        #export the feature the plot:z
-        # plt.savefig('feature_importance_15_seeds_mean.png')
-        
-        plt.show()
 
     def prediction_table_and_feature_importance_table(self):
         #Generarting prediction table and feature importance table on 15 different seeds:

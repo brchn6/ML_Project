@@ -189,6 +189,8 @@ def run_Rendom_forest_with_GridSearchCV():
     params = rf_GS_CV.get_best_params()
     confu = rf_GS_CV.make_confusion_matrix(predictions_On_TestDS, y_test)
     
+    rf_GS_CV.prediction_table_and_feature_importance_table()
+
     return classifier_fit, best_rf_classifier , updated_param_grid , params , confu
 try:
     classifier_fit, best_rf_classifier, updated_param_grid, best_params, confu, cv_results = run_Rendom_forest_with_GridSearchCV()

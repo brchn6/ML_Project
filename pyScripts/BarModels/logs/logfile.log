@@ -19,3 +19,81 @@
 05-May-24 16:36:35 - INFO - The results on the train data are: (0.9384140515910928, 0.9383231028733563, 0.9403027604630454, 0.15447068102268013, 0.9919789801440756)
 05-May-24 16:36:35 - INFO - The results on the test data are: (0.8697211155378486, 0.8381814553192463, 0.9297730689383634, 0.36188168319366426, 0.6573817600546661)
 05-May-24 16:36:35 - ERROR - Failed to run RandomForest with GridSearchCV: not enough values to unpack (expected 6, got 5)
+05-May-24 19:11:57 - INFO - Logger initialized successfully
+05-May-24 19:11:57 - WARNING - The logger is working, the time is: 0.717970609664917
+05-May-24 19:11:57 - WARNING - Starting to load the data, the time is: 0.7180390357971191
+05-May-24 19:11:57 - WARNING - finished loading the data, the time is: 1.4715909957885742
+05-May-24 19:11:57 - WARNING - starting to run the Rendom_forest model,the time is: 1.4717576503753662
+05-May-24 19:11:57 - WARNING - finished running the Rendom_forest model,the time is: 1.471796989440918
+05-May-24 19:11:59 - WARNING - the results on the train data are: accuracy: 0.9957926067465275, f1_weighted: 0.9957926986581138, f1_binary: 0.9957356473808682
+05-May-24 19:11:59 - WARNING - the results on the test data are: accuracy: 0.8394422310756973, f1_weighted: 0.8292584113830209, f1_binary: 0.9111225464970963
+05-May-24 19:11:59 - WARNING - the results on the train data are: log_loss: 0.06235000835838471, roc_auc: 0.999904797898002
+05-May-24 19:11:59 - WARNING - the results on the test data are: log_loss: 1.0901229066331197, roc_auc: 0.5999700147288514
+05-May-24 19:11:59 - WARNING - the best parameters are: {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}
+05-May-24 19:31:56 - INFO - Logger initialized successfully
+05-May-24 19:31:56 - WARNING - The logger is working, the time is: 6.036981821060181
+05-May-24 19:31:56 - WARNING - Starting to load the data, the time is: 6.03750205039978
+05-May-24 19:31:57 - WARNING - finished loading the data, the time is: 7.292101144790649
+05-May-24 19:31:57 - WARNING - starting to run the Rendom_forest model,the time is: 7.292307376861572
+05-May-24 19:31:57 - WARNING - finished running the Rendom_forest model,the time is: 7.292396783828735
+05-May-24 19:31:59 - WARNING - the results on the train data are: accuracy: 0.9957926067465275, f1_weighted: 0.9957926986581138, f1_binary: 0.9957356473808682
+05-May-24 19:31:59 - WARNING - the results on the test data are: accuracy: 0.8394422310756973, f1_weighted: 0.8292584113830209, f1_binary: 0.9111225464970963
+05-May-24 19:31:59 - WARNING - the results on the train data are: log_loss: 0.06235000835838471, roc_auc: 0.999904797898002
+05-May-24 19:31:59 - WARNING - the results on the test data are: log_loss: 1.0901229066331197, roc_auc: 0.5999700147288514
+05-May-24 19:31:59 - WARNING - the best parameters are: {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}
+05-May-24 19:52:27 - INFO - Logger initialized successfully
+05-May-24 19:52:27 - WARNING - The logger is working, the time is: 2.6808066368103027
+05-May-24 19:52:27 - WARNING - Starting to load the data, the time is: 2.6809511184692383
+05-May-24 19:52:28 - WARNING - finished loading the data, the time is: 3.357879638671875
+05-May-24 19:52:28 - WARNING - starting to run the Rendom_forest model,the time is: 3.3582565784454346
+05-May-24 19:52:28 - WARNING - finished running the Rendom_forest model,the time is: 3.3583524227142334
+05-May-24 19:52:30 - WARNING - the results on the train data are: accuracy: 0.9957926067465275, f1_weighted: 0.9957926986581138, f1_binary: 0.9957356473808682
+05-May-24 19:52:30 - WARNING - the results on the test data are: accuracy: 0.8394422310756973, f1_weighted: 0.8292584113830209, f1_binary: 0.9111225464970963
+05-May-24 19:52:30 - WARNING - the results on the train data are: log_loss: 0.06235000835838471, roc_auc: 0.999904797898002
+05-May-24 19:52:30 - WARNING - the results on the test data are: log_loss: 1.0901229066331197, roc_auc: 0.5999700147288514
+05-May-24 19:52:30 - WARNING - the best parameters are: {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}
+05-May-24 19:56:32 - INFO - Logger initialized successfully
+05-May-24 19:56:32 - WARNING - The logger is working, the time is: 2.1402881145477295
+05-May-24 19:56:32 - WARNING - Starting to load the data, the time is: 2.140435218811035
+05-May-24 19:56:33 - WARNING - finished loading the data, the time is: 2.804659605026245
+05-May-24 19:56:33 - WARNING - starting to run the Rendom_forest model,the time is: 2.8048622608184814
+05-May-24 19:56:33 - WARNING - finished running the Rendom_forest model,the time is: 2.804948329925537
+05-May-24 19:56:34 - WARNING - the results on the train data are: accuracy: 0.9957926067465275, f1_weighted: 0.9957926986581138, f1_binary: 0.9957356473808682
+05-May-24 19:56:34 - WARNING - the results on the test data are: accuracy: 0.8394422310756973, f1_weighted: 0.8292584113830209, f1_binary: 0.9111225464970963
+05-May-24 19:56:34 - WARNING - the results on the train data are: log_loss: 0.06235000835838471, roc_auc: 0.999904797898002
+05-May-24 19:56:35 - WARNING - the results on the test data are: log_loss: 1.0901229066331197, roc_auc: 0.5999700147288514
+05-May-24 19:56:35 - WARNING - the best parameters are: {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}
+05-May-24 19:56:45 - INFO - Logger initialized successfully
+05-May-24 19:56:45 - WARNING - The logger is working, the time is: 2.1472394466400146
+05-May-24 19:56:45 - WARNING - Starting to load the data, the time is: 2.147418975830078
+05-May-24 19:56:46 - WARNING - finished loading the data, the time is: 2.815338611602783
+05-May-24 19:56:46 - WARNING - starting to run the Rendom_forest model,the time is: 2.8155980110168457
+05-May-24 19:56:46 - WARNING - finished running the Rendom_forest model,the time is: 2.815690279006958
+05-May-24 19:56:47 - WARNING - the results on the train data are: accuracy: 0.9957926067465275, f1_weighted: 0.9957926986581138, f1_binary: 0.9957356473808682
+05-May-24 19:56:47 - WARNING - the results on the test data are: accuracy: 0.8394422310756973, f1_weighted: 0.8292584113830209, f1_binary: 0.9111225464970963
+05-May-24 19:56:47 - WARNING - the results on the train data are: log_loss: 0.06235000835838471, roc_auc: 0.999904797898002
+05-May-24 19:56:47 - WARNING - the results on the test data are: log_loss: 1.0901229066331197, roc_auc: 0.5999700147288514
+05-May-24 19:56:47 - WARNING - the best parameters are: {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}
+05-May-24 19:57:44 - ERROR - Failed to run RandomForest with GridSearchCV: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+
+The exit codes of the workers are {EXIT(1)}
+05-May-24 19:59:34 - INFO - Logger initialized successfully
+05-May-24 19:59:34 - WARNING - The logger is working, the time is: 2.0986809730529785
+05-May-24 19:59:34 - WARNING - Starting to load the data, the time is: 2.098841428756714
+05-May-24 19:59:35 - WARNING - finished loading the data, the time is: 2.737785577774048
+05-May-24 19:59:35 - WARNING - starting to run the Rendom_forest model,the time is: 2.7379913330078125
+05-May-24 19:59:35 - WARNING - finished running the Rendom_forest model,the time is: 2.738079071044922
+05-May-24 19:59:59 - INFO - Logger initialized successfully
+05-May-24 19:59:59 - WARNING - The logger is working, the time is: 2.118492603302002
+05-May-24 19:59:59 - WARNING - Starting to load the data, the time is: 2.1186537742614746
+05-May-24 19:59:59 - WARNING - finished loading the data, the time is: 2.7578675746917725
+05-May-24 19:59:59 - WARNING - starting to run the Rendom_forest model,the time is: 2.7580771446228027
+05-May-24 19:59:59 - WARNING - finished running the Rendom_forest model,the time is: 2.7581663131713867
+05-May-24 20:00:01 - WARNING - the results on the train data are: accuracy: 0.9957926067465275, f1_weighted: 0.9957926986581138, f1_binary: 0.9957356473808682
+05-May-24 20:00:01 - WARNING - the results on the test data are: accuracy: 0.8394422310756973, f1_weighted: 0.8292584113830209, f1_binary: 0.9111225464970963
+05-May-24 20:00:01 - WARNING - the results on the train data are: log_loss: 0.06235000835838471, roc_auc: 0.999904797898002
+05-May-24 20:00:01 - WARNING - the results on the test data are: log_loss: 1.0901229066331197, roc_auc: 0.5999700147288514
+05-May-24 20:00:01 - WARNING - the best parameters are: {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': None, 'oob_score': False, 'random_state': 42, 'verbose': 0, 'warm_start': False}
+05-May-24 20:00:29 - INFO - Logger initialized successfully
+05-May-24 20:00:29 - WARNING - The logger is working, the time is: 2.048152208328247
+05-May-24 20:00:29 - WARNING - Starting to load the data, the time is: 2.04824161529541
