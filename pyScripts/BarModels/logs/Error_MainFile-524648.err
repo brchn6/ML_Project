@@ -1,9 +1,0 @@
-Lmod Warning: The system MODULEPATH has changed: please rebuild your saved
-collection.
-
-
-
-Traceback (most recent call last):
-  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/__main__.py", line 194, in <module>
-    classifier_fit, best_rf_classifier, updated_param_grid, best_params, confu, cv_results = run_Rendom_forest_with_GridSearchCV()
-ValueError: not enough values to unpack (expected 6, got 5)

@@ -1,0 +1,5 @@
+06-May-24 16:03:16 - INFO - Logger initialized
+06-May-24 16:03:21 - INFO - logloss1 - no hyperparameter tuning with sklearn: 0.22774356762680548
+06-May-24 16:03:44 - INFO - logloss1 - no hyperparameter tunning with sk_cv: -0.8307509718979078
+06-May-24 16:03:48 - INFO - logloss2 - early stopping with sklearn: 0.22774356762680548
+06-May-24 16:04:11 - INFO - logloss2 - no hyperparameter tunning with sk_cv early stopping with sklearn: -0.8307509718979078

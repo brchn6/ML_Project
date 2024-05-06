@@ -1,0 +1,16 @@
+/usr/bin/luac: /home/labs/mayalab/barc/.cache/lmod/spiderT.x86_64_Linux.lua:17777: unexpected symbol near '='
+
+CondaError: Run 'conda init' before 'conda deactivate'
+
+/usr/bin/luac: /home/labs/mayalab/barc/.cache/lmod/spiderT.x86_64_Linux.lua:17777: unexpected symbol near '='
+
+Due to MODULEPATH changes, the following have been reloaded:
+  1) OpenSSL/1.1
+
+flatpak: /apps/easybd/easybuild/software/XZ/5.2.4-GCCcore-8.2.0/lib/liblzma.so.5: version `XZ_5.2' not found (required by /lib64/libarchive.so.13)
+flatpak: /apps/easybd/easybuild/software/XZ/5.2.4-GCCcore-8.2.0/lib/liblzma.so.5: version `XZ_5.2' not found (required by /lib64/librpmio.so.9)
+/usr/bin/luac: /home/labs/mayalab/barc/.cache/lmod/spiderT.x86_64_Linux.lua:17777: unexpected symbol near '='
+/usr/bin/luac: /home/labs/mayalab/barc/.cache/lmod/spiderT.x86_64_Linux.lua:17777: unexpected symbol near '='
+
+CondaError: Run 'conda init' before 'conda deactivate'
+

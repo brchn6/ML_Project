@@ -4,7 +4,7 @@ loaded conda.sh
 sh shell detected
 Setting up environment
 Running Python script
-the data was loaded successfully the time is: 4.363914251327515
+the data was loaded successfully the time is: 6.9867002964019775
 the results on the train data are: accuracy: 0.9957926067465275, f1_weighted: 0.9957926986581138, f1_binary: 0.9957356473808682
 the results on the test data are: accuracy: 0.8394422310756973, f1_weighted: 0.8292584113830209, f1_binary: 0.9111225464970963
 the results on the train data are: log_loss: 0.06235000835838471, roc_auc: 0.999904797898002
@@ -13,14 +13,14 @@ the best parameters are: {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': N
 Best parameters: {'bootstrap': False, 'max_depth': 20, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 20, 'n_estimators': 200}
 The best parameters in this run are: {'bootstrap': False, 'max_depth': 20, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 20, 'n_estimators': 200} and the ROC AUC score is: 0.9594881380937451
 Cross-validation results:
-fit_time: 11.246693086624145 +/- 0.06638445631914883
-score_time: 0.42487030029296874 +/- 0.0031139796981812062
+fit_time: 11.98927743434906 +/- 0.4943686574933391
+score_time: 0.419573712348938 +/- 0.003887248103002099
 test_accuracy: 0.9298522700563921 +/- 0.0022846406769314303
 test_roc_auc: 0.9594881380937451 +/- 0.0026089997150999414
 test_f1_weighted: 0.9297545193164968 +/- 0.002292106082861532
-Cross-validation results: {'fit_time': array([11.21177506, 11.1608479 , 11.21899295, 11.15619063, 11.18064094,
-       11.2771585 , 11.33121824, 11.27367449, 11.33399463, 11.32243752]), 'score_time': array([0.43165755, 0.42398858, 0.42416954, 0.42077518, 0.42845726,
-       0.42223501, 0.42368054, 0.42411804, 0.42245865, 0.42716265]), 'test_accuracy': array([0.93036928, 0.92706228, 0.92853206, 0.92816462, 0.92981812,
+Cross-validation results: {'fit_time': array([11.66977978, 11.52205825, 11.60320139, 11.37724304, 11.36785388,
+       12.27583885, 12.55835438, 12.50442123, 12.56351972, 12.45050383]), 'score_time': array([0.42694211, 0.41862273, 0.41907716, 0.41548991, 0.42506599,
+       0.41299033, 0.42075086, 0.41755939, 0.41974568, 0.41949296]), 'test_accuracy': array([0.93036928, 0.92706228, 0.92853206, 0.92816462, 0.92981812,
        0.93294139, 0.93128789, 0.93128789, 0.92594634, 0.93311283]), 'test_roc_auc': array([0.96021849, 0.95689583, 0.96081768, 0.95698969, 0.96361717,
        0.95864224, 0.95931323, 0.9595312 , 0.95524455, 0.9636113 ]), 'test_f1_weighted': array([0.93028231, 0.92696327, 0.92843896, 0.92805483, 0.92971392,
        0.93285941, 0.93120043, 0.93118105, 0.9258294 , 0.93302163])}
@@ -28,5 +28,5 @@ the updated parameter grid is: {'n_estimators': [200, 250, 300], 'max_depth': [2
 the best parameters are: {'bootstrap': False, 'max_depth': 20, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 20, 'n_estimators': 200}
 The results on the train data are: accuracy: 0.9384140515910928, f1_weighted: 0.9383231028733563, f1_binary: 0.9403027604630454, log_loss: 0.15447068102268013, roc_auc: 0.9919789801440756
 The results on the test data are: accuracy: 0.8697211155378486, f1_weighted: 0.8381814553192463, f1_binary: 0.9297730689383634, log_loss: 0.36188168319366426, roc_auc: 0.6573817600546661
-Failed to run RandomForest with GridSearchCV: not enough values to unpack (expected 6, got 5)
+Failed to run RandomForest with GridSearchCV: 'RandomForestClassifier' object has no attribute 'feature_names_in_'
 Done

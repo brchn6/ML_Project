@@ -65,7 +65,7 @@ logger.info("Logger initialized successfully")
 def log_message(logger, message):
     """Log a message."""
     if logger:
-        logger.warning(message)
+        logger.info(message)
     else:
         print("Logger initialization failed.")
 

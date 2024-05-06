@@ -244,7 +244,7 @@ class Rendom_forest_classification_BC_useingGridSearchCV:
         scores = [log_loss, roc_auc_score]
         scores_cm = [precision_score, recall_score, accuracy_score]
         for i in range(15):
-            best_model= RandomForestClassifier(n_estimators=10, random_state=i, **self.best_params)
+            best_model= RandomForestClassifier(random_state=i, **self.best_params)
             best_model.fit(self.train_features, self.train_labels)
             preds_test = best_model.predict_proba(self.test_features)[:,1]
             preds_cm = best_model.predict(self.test_features)
