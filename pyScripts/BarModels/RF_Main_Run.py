@@ -47,7 +47,8 @@ logging.info('Logger initialized')
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import log_loss , f1_score ,accuracy_score, roc_auc_score, precision_score, recall_score , confusion_matrix ,mean_absolute_error, mean_squared_error, median_absolute_error,r2_score
-from sklearn.model_selection import GridSearchCV ,RandomizedSearchCV ,StratifiedKFold , cross_val_score ,cross_validate
+from sklearn.model_selection import GridSearchCV  ,StratifiedKFold  ,cross_validate
+from sklearn.dummy import DummyClassifier
 #---------------------------- function to import data -------------------------------
 def import_data(name):
     """Import data."""
@@ -104,7 +105,7 @@ def make_grid_Parameters(RunParasSearch=False):
             'n_estimators': [200]  # Wrap single value in a list
         }
     return params
-param_grid = make_grid_Parameters(RunParasSearch=False)
+param_grid = make_grid_Parameters(RunParasSearch=True)
 
 #---------------------------- create a Random Forest model -------------------------------
 def create_model(random_state=42, n_jobs=-1, early_stopping=None, **param_grid):
@@ -159,46 +160,88 @@ print('logloss3 - hyperparameter tunning with sk_cv', cv_results['test_score'].m
 logging.info('logloss3 - hyperparameter tunning with sk_cv: %s' %cv_results['test_score'].mean())
 
 
-#---------------------------- fit the model with hyperparameter tuning using RandomizedSearchCV ------------------------------
-rf_model= create_model()
-rf_random_search = RandomizedSearchCV(estimator= rf_model, param_distributions= param_grid, n_iter=100, cv=cv, scoring='neg_log_loss', n_jobs=-1, verbose=2)
-rf_random_search.fit(X_train_es, y_train_es)
-best_params = rf_random_search.best_params_
-#---------------------------- predict the model ------------------------------
-y_pred, rf_pre_Proba = predict_model(rf_random_search, X_val)
-logloss4 = log_loss(y_val, rf_pre_Proba)
-print('logloss4 - hyperparameter tuning with RandomizedSearchCV', logloss4)
-logging.info('logloss4 - hyperparameter tuning with RandomizedSearchCV: %s' %logloss4)
-# Perform cross-validation
-cv_results = cross_validate(rf_random_search, X_train, y_train, cv=5, scoring='neg_log_loss')
-print('logloss4 - hyperparameter tunning with sk_cv', cv_results['test_score'].mean())
-logging.info('logloss4 - hyperparameter tunning with sk_cv: %s' %cv_results['test_score'].mean())
 
-# Repeating the process 15 times with random seed
-log_losses = []
+#---------------------------- fit the model with best hyperparameters ------------------------------
+best_params = rf_model.best_params_
+print('Best hyperparameters:', best_params)
+logging.info('Best hyperparameters: %s' %best_params)
+rf_best = RandomForestClassifier(**best_params, random_state=42)
+rf_best.fit(X_train_es, y_train_es)
+logging.info('besst model fitteed % s' %rf_best)
+predictions = rf_best.predict_proba(X_val)
+log_loss4 = log_loss(y_val, predictions)
+print('logloss4 - best hyperparameter tuning with sklearn', log_loss4)
+logging.info('logloss4 - best hyperparameter tuning with sklearn: %s' %log_loss4)
+
+
+#---------------------------- # Feature Importance ------------------------------
+feature_importances = rf_best.feature_importances_
+print('Feature Importance:', feature_importances)
+logging.info('Feature Importance: %s' %feature_importances)
+
+
+#---------------------------- genarate 15 random seeds and calculate the mean log loss ------------------------------
+# Generating prediction and feature importance tables on 15 different seeds:
+prediction_table = pd.DataFrame()
+scores = [log_loss, roc_auc_score]
+scores_cm = [precision_score, recall_score, accuracy_score]
+
+feature_importance_table = pd.DataFrame()
+
 for i in range(15):
-    # Set a new random seed
-    random_seed = 42 + i
-    # Initialize RandomForestClassifier with the new random seed
-    rf_model = RandomForestClassifier(random_state=random_seed, **best_params)
-    # Fit the model
-    rf_model.fit(X_train, y_train)
-    # Predict probabilities
-    y_pred_proba = rf_model.predict_proba(X_val)
-    # Calculate log loss
-    log_loss_val = log_loss(y_val, y_pred_proba)
-    log_losses.append(log_loss_val)
-    print(f'Log loss for iteration {i+1}: {log_loss_val}')
-    logging.info(f'Log loss for iteration {i+1}: {log_loss_val}')
-# Calculate mean log loss
-mean_log_loss = np.mean(log_losses)
-print(f'Mean log loss: {mean_log_loss}')
-logging.info(f'Mean log loss: {mean_log_loss}')
+    best_model = RandomForestClassifier(**best_params, random_state=i)
+    best_model.fit(X_train, y_train)
+    preds_test = best_model.predict_proba(X_test)
+    preds_cm = best_model.predict(X_test)
+
+    # Storing scores in the prediction table
+    for score in scores:
+        prediction_table.loc['seed_' + str(i), score.__name__] = score(y_test, preds_test[:, 1])
+    for score in scores_cm:
+        prediction_table.loc['seed_' + str(i), score.__name__] = score(y_test, preds_cm)
+    
+    # Storing feature importances
+    feature_importance_table.loc['seed_' + str(i)] = best_model.feature_importances_
+
+# Export the prediction table to a CSV file
+prediction_table.to_csv('prediction_table.csv')
+
+# Export feature importance data
+feature_importance_table.to_csv('feature_importance.csv')
+
+# Optional: Create and save a feature importance plot (requires additional plotting libraries)
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(10, 8))
+feature_importance_table.mean().sort_values(ascending=False).plot(kind='bar', ax=ax)
+plt.title('Average Feature Importances Across Seeds')
+plt.savefig('feature_importances.png')
+
+##---------------------------- Dummy Classifier and Default Model Comparison ------------------------------
+# Dummy classifier for baseline comparison
+strategies = ['most_frequent', 'uniform', 'constant']
+constants = [None, None, 1]  # constant value only used with 'constant' strategy
+
+for strategy, constant in zip(strategies, constants):
+    dummy_clf = DummyClassifier(strategy=strategy, random_state=42, constant=constant)
+    dummy_clf.fit(X_train, y_train)
+    dummy_pred = dummy_clf.predict(X_test)
+    dummy_proba = dummy_clf.predict_proba(X_test)
+    print('Strategy used:', strategy)
+    for score in scores:
+        print(score.__name__, round(score(y_test, dummy_proba[:, 1]), 5))
+    for score in scores_cm:
+        print(score.__name__, round(score(y_test, dummy_pred), 5))
+
+# Comparing the best model with a default parameters model
+def_params = {'n_estimators': 100, 'max_depth': None}  # Default parameters for RandomForest
+
+default_rf = RandomForestClassifier(**def_params, random_state=42)
+default_rf.fit(X_train, y_train)
+default_pred_proba = default_rf.predict_proba(X_test)
+for score in scores:
+    print(score.__name__ + ' - default params', round(score(y_test, default_pred_proba[:, 1]), 5))
 
 
-logging.info('Done')
-logging.info(f'Execution time: {time.time() - start_time} seconds')
-#---------------------------- Done ------------------------------
-
-
-
+print("Training Time: %s seconds" % (str(time.time() - start_time)))
+logging.info("Training Time: %s seconds" % (str(time.time() - start_time)))

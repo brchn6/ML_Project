@@ -3,3 +3,25 @@
 06-May-24 16:03:44 - INFO - logloss1 - no hyperparameter tunning with sk_cv: -0.8307509718979078
 06-May-24 16:03:48 - INFO - logloss2 - early stopping with sklearn: 0.22774356762680548
 06-May-24 16:04:11 - INFO - logloss2 - no hyperparameter tunning with sk_cv early stopping with sklearn: -0.8307509718979078
+06-May-24 16:05:50 - INFO - logloss3 - hyperparameter tuning with sklearn: 0.22143396354652672
+06-May-24 16:13:54 - INFO - logloss3 - hyperparameter tunning with sk_cv: -0.3562934498554397
+06-May-24 16:15:33 - INFO - logloss4 - hyperparameter tuning with RandomizedSearchCV: 0.22143396354652672
+06-May-24 16:23:36 - INFO - logloss4 - hyperparameter tunning with sk_cv: -0.3562934498554397
+06-May-24 16:23:49 - INFO - Log loss for iteration 1: 0.1539190764746841
+06-May-24 16:24:03 - INFO - Log loss for iteration 2: 0.15438954695439067
+06-May-24 16:24:17 - INFO - Log loss for iteration 3: 0.15424293043176132
+06-May-24 16:24:30 - INFO - Log loss for iteration 4: 0.15390842784430234
+06-May-24 16:24:44 - INFO - Log loss for iteration 5: 0.15437477953941725
+06-May-24 16:24:58 - INFO - Log loss for iteration 6: 0.1542602650713985
+06-May-24 16:25:11 - INFO - Log loss for iteration 7: 0.1541812607798075
+06-May-24 16:25:25 - INFO - Log loss for iteration 8: 0.15467692270417882
+06-May-24 16:25:38 - INFO - Log loss for iteration 9: 0.15423469583870703
+06-May-24 16:25:52 - INFO - Log loss for iteration 10: 0.15393228864819095
+06-May-24 16:26:06 - INFO - Log loss for iteration 11: 0.1544573830877068
+06-May-24 16:26:19 - INFO - Log loss for iteration 12: 0.15353303912531252
+06-May-24 16:26:33 - INFO - Log loss for iteration 13: 0.15457251072336822
+06-May-24 16:26:47 - INFO - Log loss for iteration 14: 0.1539330343340631
+06-May-24 16:27:00 - INFO - Log loss for iteration 15: 0.15336191713309835
+06-May-24 16:27:00 - INFO - Mean log loss: 0.15413187191269245
+06-May-24 16:27:00 - INFO - Done
+06-May-24 16:27:00 - INFO - Execution time: 1424.596996307373 seconds
