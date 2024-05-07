@@ -189,39 +189,49 @@ except Exception as e:
 feature_importances = get_feature_importance(rf_best)
 
 #---------------------------- genarate 15 random seeds and calculate the mean log loss ------------------------------
-def generate_prediction_and_feature_tables(X_train, y_train, X_test, y_test, best_params, scores=[log_loss, f1_score, accuracy_score, roc_auc_score, precision_score, recall_score], scores_cm=[confusion_matrix]):
+def generate_prediction_and_feature_tables(X_train, y_train, X_test, y_test, best_params, scores, scores_cm, scores_binary):
     # Generating prediction and feature importance tables on 15 different seeds:
     prediction_table = pd.DataFrame()
-    feature_importance_table = pd.DataFrame()
+    feature_importance_table = pd.DataFrame(columns=[f'feature_{i}' for i in range(X_train.shape[1])])
 
     for i in range(15):
-        best_model = RandomForestClassifier(**best_params, random_state=i)
+        best_model = RandomForestClassifier(random_state=i, **best_params)
         best_model.fit(X_train, y_train)
         preds_test = best_model.predict_proba(X_test)
         preds_cm = best_model.predict(X_test)
 
         # Storing scores in the prediction table
-        for score in scores:
-            prediction_table.loc['seed_' + str(i), score.__name__] = score(y_test, preds_test[:, 1])
-        for score in scores_cm:
-            prediction_table.loc['seed_' + str(i), score.__name__] = score(y_test, preds_cm)
+        try:
+            for score in scores:
+                prediction_table.loc['seed_' + str(i), score.__name__] = score(y_test, preds_test[:, 1])
+            for score in scores_binary:
+                prediction_table.loc['seed_' + str(i), score.__name__] = score(y_test, preds_cm)
+            for score in scores_cm:
+                prediction_table.loc['seed_' + str(i), 'confusion_matrix'] = str(score(y_test, preds_cm))
+        except Exception as e:
+            print(f"Error storing scores in the prediction table: {e}")
+            raise
 
         # Storing feature importances
-        feature_importance_table.loc['seed_' + str(i)] = best_model.feature_importances_
-
+        try:
+            feature_importance_table.loc['seed_' + str(i)] = best_model.feature_importances_
+        except Exception as e:
+            print(f"Error storing feature importances: {e}")
+            raise
+        
     try:
         if not os.path.exists(os.path.join(here, 'results')):
             os.makedirs(os.path.join(here, 'results'))
     except Exception as e:
         print(f"Error creating results directory: {e}")
         raise
-    
+
     try:
         # Export the prediction table to a CSV file
-        prediction_table.to_csv('results/prediction_table.csv')
+        prediction_table.to_csv(os.path.join(here, 'results', 'prediction_table.csv'))
 
         # Export feature importance data
-        feature_importance_table.to_csv('results/feature_importance_table.csv')
+        feature_importance_table.to_csv(os.path.join(here, 'results', 'feature_importance_table.csv'))
     except Exception as e:
         print(f"Error exporting data: {e}")
         raise
@@ -239,133 +249,56 @@ def generate_prediction_and_feature_tables(X_train, y_train, X_test, y_test, bes
         print(f"Error plotting feature importance: {e}")
         raise
 
-# Call the function
-generate_prediction_and_feature_tables(X_train, y_train, X_test, y_test, best_params)
-
 ##---------------------------- Dummy Classifier and Default Model Comparison ------------------------------
-def dummy_classifier_comparison(X_train, y_train, X_test, y_test, scores=[log_loss, f1_score, accuracy_score, roc_auc_score, precision_score, recall_score], scores_cm=[confusion_matrix]):
+def dummy_classifier_comparison(X_train, y_train, X_test, y_test, scores, scores_cm, scores_binary):
+    logging.basicConfig(level=logging.INFO)
+    start_time = time.time()
+
     # Dummy classifier for baseline comparison
     strategies = ['most_frequent', 'uniform', 'constant']
     constants = [None, None, 1]  # constant value only used with 'constant' strategy
 
     for strategy, constant in zip(strategies, constants):
-        dummy_clf = DummyClassifier(strategy=strategy, random_state=42, constant=constant)
+        dummy_clf = DummyClassifier(strategy=strategy, constant=constant if strategy == 'constant' else None, random_state=42)
         dummy_clf.fit(X_train, y_train)
         dummy_pred = dummy_clf.predict(X_test)
         dummy_proba = dummy_clf.predict_proba(X_test)
         print('Strategy used:', strategy)
+        logging.info('Strategy used: %s' %strategy)
+
         for score in scores:
-            print(score.__name__, round(score(y_test, dummy_proba[:, 1]), 5))
-        for score in scores_cm:
-            print(score.__name__, round(score(y_test, dummy_pred), 5))
+            if hasattr(score, '__call__'):
+                print(score.__name__, round(score(y_test, dummy_proba[:, 1]), 5))
+        
+        for score in scores_binary:
+            if hasattr(score, '__call__'):
+                print(score.__name__, round(score(y_test, dummy_pred), 5))
 
-    # Comparing the best model with a default parameters model
+        if strategy != 'constant':  # Confusion matrix doesn't work well with constant if y_test doesn't contain '1'
+            for score in scores_cm:
+                print(score.__name__, confusion_matrix(y_test, dummy_pred).tolist())
+
+    # Comparing the best model with default parameters model
     def_params = {'n_estimators': 100, 'max_depth': None}  # Default parameters for RandomForest
-
     default_rf = RandomForestClassifier(**def_params, random_state=42)
     default_rf.fit(X_train, y_train)
     default_pred_proba = default_rf.predict_proba(X_test)
+    
     for score in scores:
-        print(score.__name__ + ' - default params', round(score(y_test, default_pred_proba[:, 1]), 5))
+        if hasattr(score, '__call__'):
+            print(score.__name__ + ' - default params', round(score(y_test, default_pred_proba[:, 1]), 5))
 
-    print("Training Time: %s seconds" % (str(time.time() - start_time)))
-    logging.info("Training Time: %s seconds" % (str(time.time() - start_time)))
+#---------------------------- main function ------------------------------
+def main():
+    scores = [log_loss, roc_auc_score]  # Metrics that can handle probabilities
+    scores_binary = [f1_score, accuracy_score, precision_score, recall_score]  # Metrics that need binary inputs
+    scores_cm = [confusion_matrix]  # Metrics that use confusion matrix
+    generate_prediction_and_feature_tables(X_train, y_train, X_test, y_test, best_params, scores, scores_cm, scores_binary)
+    dummy_classifier_comparison(X_train, y_train, X_test, y_test, scores, scores_cm, scores_binary)
+    # Timing and logging
+    elapsed_time = time.time() - start_time
+    print("Training Time: %s seconds" % elapsed_time)
+    logging.info("Training Time: %s seconds" % elapsed_time)
 
-# Call the function
-dummy_classifier_comparison(X_train, y_train, X_test, y_test)
-
-
-#---------------------------- Model Evaluation ------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#%%
-scores = [log_loss, f1_score, accuracy_score, roc_auc_score, precision_score, recall_score]
-scores_cm = [confusion_matrix]
-prediction_table = pd.DataFrame()
-feature_importance_table = pd.DataFrame()
-
-for i in range(15):
-    best_model = RandomForestClassifier(**best_params, random_state=i)
-    best_model.fit(X_train, y_train)
-    preds_test = best_model.predict_proba(X_test)
-    preds_cm = best_model.predict(X_test)
-
-    # Storing scores in the prediction table
-    for score in scores:
-        prediction_table.loc['seed_' + str(i), score.__name__] = score(y_test, preds_test[:, 1])
-    for score in scores_cm:
-        prediction_table.loc['seed_' + str(i), score.__name__] = score(y_test, preds_cm)
-
-    # Storing feature importances
-    feature_importance_table.loc['seed_' + str(i)] = best_model.feature_importances_
-
-try:
-    if not os.path.exists(os.path.join(here, 'results')):
-        os.makedirs(os.path.join(here, 'results'))
-except Exception as e:
-    print(f"Error creating results directory: {e}")
-    raise
-
-try:
-    # Export the prediction table to a CSV file
-    prediction_table.to_csv('results/prediction_table.csv')
-
-    # Export feature importance data
-    feature_importance_table.to_csv('results/feature_importance_table.csv')
-except Exception as e:
-    print(f"Error exporting data: {e}")
-    raise
-
-try:
-    fig, ax = plt.subplots(figsize=(12, 8))
-    sns.barplot(x=feature_importance_table.columns, y=feature_importance_table.mean(), ax=ax)
-    ax.set_title('Feature Importance')
-    ax.set_ylabel('Mean Feature Importance')
-    ax.set_xlabel('Features')
-    plt.xticks(rotation=90)
-    plt.tight_layout()
-    plt.savefig('results/feature_importance.png')
-except Exception as e:
-    print(f"Error plotting feature importance: {e}")
-    raise
+if __name__ == '__main__':
+    main()
