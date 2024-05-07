@@ -1,0 +1,3 @@
+07-May-24 10:41:53 - INFO - Logger initialized
+07-May-24 10:42:10 - INFO - logloss : 0.22143396354652672
+07-May-24 10:44:22 - INFO - logloss - no hyperparameter tunning with sk_cv: -0.21967955722516158

@@ -1,0 +1,27 @@
+Lmod Warning: The system MODULEPATH has changed: please rebuild your saved
+collection.
+
+
+
+Traceback (most recent call last):
+  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/RF_Main_Run_BestParams.py", line 243, in <module>
+    generate_prediction_and_feature_tables(X_train, y_train, X_test, y_test, best_params)
+  File "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/RF_Main_Run_BestParams.py", line 205, in generate_prediction_and_feature_tables
+    prediction_table.loc['seed_' + str(i), score.__name__] = score(y_test, preds_test[:, 1])
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/utils/_param_validation.py", line 211, in wrapper
+    return func(*args, **kwargs)
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/metrics/_classification.py", line 1238, in f1_score
+    return fbeta_score(
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/utils/_param_validation.py", line 184, in wrapper
+    return func(*args, **kwargs)
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/metrics/_classification.py", line 1411, in fbeta_score
+    _, _, f, _ = precision_recall_fscore_support(
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/utils/_param_validation.py", line 184, in wrapper
+    return func(*args, **kwargs)
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/metrics/_classification.py", line 1721, in precision_recall_fscore_support
+    labels = _check_set_wise_labels(y_true, y_pred, average, labels, pos_label)
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/metrics/_classification.py", line 1499, in _check_set_wise_labels
+    y_type, y_true, y_pred = _check_targets(y_true, y_pred)
+  File "/home/labs/mayalab/barc/.conda/envs/ml/lib/python3.9/site-packages/sklearn/metrics/_classification.py", line 93, in _check_targets
+    raise ValueError(
+ValueError: Classification metrics can't handle a mix of binary and continuous targets
