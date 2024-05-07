@@ -21,5 +21,5 @@ cd /home/labs/mayalab/barc/MSc_studies/ML_Project
 
 # Run your Python script
 echo "Running Python script"
-python /home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/RF_Main_Run.py
+python /home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/RF_Main_Run_FullScript.py
 echo "Done"
