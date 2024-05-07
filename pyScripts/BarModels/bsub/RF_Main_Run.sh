@@ -1,6 +1,6 @@
 #BSUB -q short               # Queue name
-#BSUB -R "rusage[mem=1000]"     # Requested memory
-#BSUB -n 1                  # Number of CPU cores
+#BSUB -R "rusage[mem=1500]"     # Requested memory
+#BSUB -n 2                  # Number of CPU cores
 #BSUB -W 24:00              # Running time
 #BSUB -N                    # Send mail when job ends
 #BSUB -J RF_Main_Run.py     # Job name
