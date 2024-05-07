@@ -300,8 +300,9 @@ def main():
     print("Training Time: %s seconds" % elapsed_time)
     logging.info("Training Time: %s seconds" % elapsed_time)
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
+
 
 
 
@@ -415,3 +416,45 @@ X_train = X_train.drop(columns=['diag_3_365.44', 'repaglinide_Down'], axis=1)
 featureImportancePlot(X_train.columns, feature_importance_table)
 plt.savefig(os.path.join(here, 'results', 'feature_importance_plot.png'))
 
+
+
+#%%
+#print all the parameters of the model
+print(rf_best.get_params())
+
+
+
+#%%
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import os
+here = os.path.dirname(os.path.abspath(__file__))
+dir= "/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/results"
+prediction_table= pd.read_csv(os.path.join(dir, 'prediction_table.csv'))
+prediction_table
+
+def Print_Mean_of_15_seeds(prediction_table):
+#    Neg log loss	Precision	Recall	ROC AUC	Accuracy
+    def calcMean(x):
+        return x.mean()
+    def calcStd(x):
+        return x.std()
+    mean_values = prediction_table.apply(calcMean)
+    std_values = prediction_table.apply(calcStd)
+
+    # Create a new dataframe with the mean and standard deviation values
+    result_table = pd.DataFrame({'Model': mean_values.index,
+                                 'Neg log loss': f"{mean_values['log_loss']:.3f} ± {std_values['log_loss']:.3f}",
+                                 'Precision': f"{mean_values['precision_score']:.3f} ± {std_values['precision_score']:.3f}",
+                                 'Recall': f"{mean_values['recall_score']:.3f} ± {std_values['recall_score']:.3f}",
+                                 'ROC AUC': f"{mean_values['roc_auc_score']:.3f} ± {std_values['roc_auc_score']:.3f}",
+                                 'Accuracy': f"{mean_values['accuracy_score']:.4f} ± {std_values['accuracy_score']:.1E}"}, columns=columns)
+    
+    # Print the result table
+    print(result_table)
+    return result_table
+
+
+
+Print_Mean_of_15_seeds(prediction_table.iloc[:, 1:-1])
