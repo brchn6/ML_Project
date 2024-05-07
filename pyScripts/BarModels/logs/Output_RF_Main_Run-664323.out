@@ -3312,3 +3312,9 @@ Fitting 10 folds for each of 103680 candidates, totalling 1036800 fits
 [CV] END bootstrap=True, ccp_alpha=0.0, class_weight=balanced, criterion=gini, max_depth=None, max_features=log2, min_samples_leaf=1, min_samples_split=2, n_estimators=200; total time=   6.9s
 [CV] END bootstrap=True, ccp_alpha=0.0, class_weight=balanced, criterion=gini, max_depth=None, max_features=log2, min_samples_leaf=1, min_samples_split=2, n_estimators=200; total time=   7.7s
 [CV] END bootstrap=True, ccp_alpha=0.0, class_weight=balanced, criterion=gini, max_depth=None, max_features=log2, min_samples_leaf=1, min_samples_split=2, n_estimators=200; total time=   8.2s
+Loading modules
+loading ...
+loaded conda.sh
+sh shell detected
+Setting up environment
+Running Python script

@@ -1,7 +1,17 @@
-07-May-24 16:08:28 - INFO - Logger initialized
-07-May-24 16:08:46 - INFO - logloss : 0.22143396354652672
-07-May-24 16:09:01 - INFO - logloss : 0.22143396354652672
-07-May-24 16:09:01 - INFO - Feature Importance: [2.89579158e-01 3.20432337e-01 2.22473413e-02 7.41298481e-02
+Loading modules
+loading ...
+loaded conda.sh
+sh shell detected
+Setting up environment
+Creating log directories
+Setting directory to your working directory
+Running Python script
+logloss : 0.22143396354652672
+finished to fit the model with no hyperparameter tuning, time: 13.469186782836914 seconds
+finished to fit the model with the grid search, now ig goes to the best hyperparameters, time: 13.469200134277344 seconds
+best_params: {'bootstrap': False, 'max_depth': 20, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 20, 'n_estimators': 200}
+logloss : 0.22143396354652672
+Feature Importance: [2.89579158e-01 3.20432337e-01 2.22473413e-02 7.41298481e-02
  8.76925896e-03 6.20438635e-03 4.35997652e-03 1.35972434e-04
  4.23945856e-03 3.96840474e-04 4.08705846e-04 9.37110998e-03
  1.70754990e-04 1.89215940e-03 9.37688040e-06 2.39016389e-03
@@ -31,3 +41,30 @@
  3.44950821e-05 2.14823957e-03 8.97110065e-03 3.09914554e-03
  1.83442206e-03 3.88692994e-06 2.10326349e-04 1.41274861e-04
  0.00000000e+00]
+Strategy used: most_frequent
+log_loss 32.06114
+roc_auc_score 0.5
+f1_score 0.0
+accuracy_score 0.11049
+precision_score 0.0
+recall_score 0.0
+confusion_matrix [[832, 0], [6698, 0]]
+Strategy used: uniform
+log_loss 0.69315
+roc_auc_score 0.5
+f1_score 0.63986
+accuracy_score 0.5004
+precision_score 0.89168
+recall_score 0.49895
+confusion_matrix [[426, 406], [3356, 3342]]
+Strategy used: constant
+log_loss 3.98251
+roc_auc_score 0.5
+f1_score 0.94152
+accuracy_score 0.88951
+precision_score 0.88951
+recall_score 1.0
+log_loss - default params 0.39145
+roc_auc_score - default params 0.64411
+Training Time: 248.36972618103027 seconds
+Done

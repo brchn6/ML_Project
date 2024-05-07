@@ -1,7 +1,17 @@
-07-May-24 16:08:13 - INFO - Logger initialized
-07-May-24 16:08:25 - INFO - logloss : 0.22143396354652672
-07-May-24 16:08:36 - INFO - logloss : 0.22143396354652672
-07-May-24 16:08:36 - INFO - Feature Importance: [2.89579158e-01 3.20432337e-01 2.22473413e-02 7.41298481e-02
+Loading modules
+loading ...
+loaded conda.sh
+sh shell detected
+Setting up environment
+Creating log directories
+Setting directory to your working directory
+Running Python script
+logloss : 0.22143396354652672
+finished to fit the model with no hyperparameter tuning, time: 12.699119806289673 seconds
+finished to fit the model with the grid search, now ig goes to the best hyperparameters, time: 12.699132204055786 seconds
+best_params: {'bootstrap': False, 'max_depth': 20, 'max_features': 'sqrt', 'min_samples_leaf': 2, 'min_samples_split': 20, 'n_estimators': 200}
+logloss : 0.22143396354652672
+Feature Importance: [2.89579158e-01 3.20432337e-01 2.22473413e-02 7.41298481e-02
  8.76925896e-03 6.20438635e-03 4.35997652e-03 1.35972434e-04
  4.23945856e-03 3.96840474e-04 4.08705846e-04 9.37110998e-03
  1.70754990e-04 1.89215940e-03 9.37688040e-06 2.39016389e-03
@@ -31,3 +41,5 @@
  3.44950821e-05 2.14823957e-03 8.97110065e-03 3.09914554e-03
  1.83442206e-03 3.88692994e-06 2.10326349e-04 1.41274861e-04
  0.00000000e+00]
+Error plotting feature importance: [Errno 2] No such file or directory: 'results/feature_importance.png'
+Python script failed

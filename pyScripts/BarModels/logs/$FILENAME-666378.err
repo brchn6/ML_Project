@@ -1,6 +1,0 @@
-Lmod Warning: The system MODULEPATH has changed: please rebuild your saved
-collection.
-
-
-
-/scratch/1715087275.666378.shell: line 20: /path/to/miniconda/etc/profile.d/conda.sh: No such file or directory

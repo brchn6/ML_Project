@@ -1,23 +1,20 @@
 #!/bin/bash
-FILENAME=/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/RF_Main_Run_BestParams.py
+FILENAME="/home/labs/mayalab/barc/MSc_studies/ML_Project/pyScripts/BarModels/RF_Main_Run_BestParams.py"
 FILENAME=$(basename $FILENAME)
-
-export FILENAME=$FILENAME
 
 #BSUB -q short                          # Queue name
 #BSUB -R "rusage[mem=1500]"             # Requested memory
 #BSUB -n 1                              # Number of CPU cores
 #BSUB -W 24:00                          # Running time (24 hours)
 #BSUB -N                                # Send mail when job ends
-#BSUB -J $FILENAME                      # Job name
-#BSUB -o pyScripts/BarModels/logs/$FILENAME-%J.out    # Output file
-#BSUB -e pyScripts/BarModels/logs/$FILENAME-%J.err    # Error file
+#BSUB -J RF_Main_Run_BestParams
+#BSUB -o pyScripts/BarModels/logs/RF_Main_Run_BestParams%J.out
+#BSUB -e pyScripts/BarModels/logs/RF_Main_Run_BestParams%J.err
 
 echo "Loading modules"
 module load miniconda || { echo "Failed to load miniconda module"; exit 1; }
 
 echo "Setting up environment"
-source /path/to/miniconda/etc/profile.d/conda.sh
 conda activate ml || { echo "Failed to activate conda environment"; exit 1; }
 
 echo "Creating log directories"
