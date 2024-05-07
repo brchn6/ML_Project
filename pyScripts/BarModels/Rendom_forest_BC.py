@@ -42,7 +42,7 @@ from sklearn import metrics
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-from Class import *
+from personalClass import *
 # --------------------------------------Rendom_forest Classification Class--------------------------------------
 class Rendom_forest_classification_BC_defultParams:
     def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
