@@ -1,0 +1,9 @@
+Loading modules
+loading ...
+loaded conda.sh
+sh shell detected
+Setting up environment
+Running Python script
+logloss : 0.22143396354652672
+finished to fit the model with no hyperparameter tuning, time: 4.3367321491241455 seconds
+Fitting 10 folds for each of 103680 candidates, totalling 1036800 fits

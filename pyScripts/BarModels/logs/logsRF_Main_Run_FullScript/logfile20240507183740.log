@@ -1,0 +1,4 @@
+07-May-24 18:37:40 - INFO - Logger initialized
+07-May-24 18:37:43 - INFO - logloss : 0.22143396354652672
+07-May-24 18:37:43 - INFO - running hyperparameter tuning row 171
+07-May-24 18:37:43 - INFO - fitting the model with the grid search

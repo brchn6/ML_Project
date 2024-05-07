@@ -85,6 +85,8 @@ except Exception as e:
 #---------------------------- Splitting the train set into train and validation set in 80:20 -------------------------------
 try:
     X_train_es, X_val, y_train_es, y_val = train_test_split(X_train, y_train, shuffle=True, random_state=42)
+    y_train_es = y_train_es.squeeze()
+    y_val = y_val.squeeze()
 except Exception as e:
     print(f"Error splitting the train set: {e}")
     raise
@@ -157,7 +159,7 @@ try:
     rf_model.fit(X_train_es, y_train_es)
     y_pred, rf_pre_Proba ,log_loss1 = predict_model(rf_model, X_val)
     # Perform cross-validation
-    cv_results = Perform_cross_validation(rf_model, X_train, y_train)
+    # cv_results = Perform_cross_validation(rf_model, X_train, y_train)
     print("finished to fit the model with no hyperparameter tuning, time: %s seconds" % (str(time.time() - start_time)))
 except Exception as e:
     print(f"Error fitting the model with no hyperparameter tuning: {e}")
@@ -166,9 +168,12 @@ except Exception as e:
                #---------------------------------the second model is trained with hyperparameter tuning----------------
 #---------------------------- fit the model with hyperparameter tuning ------------------------------
 try:
+    logger.info('running hyperparameter tuning row 171')
     rf_grid_search = GridSearchCV(estimator= rf_model, param_grid= param_grid, cv=cv, scoring='neg_log_loss', n_jobs=-1, verbose=2)
+    logger.info('fitting the model with the grid search')
     rf_grid_search.fit(X_train_es, y_train_es)
     #---------------------------- predict the model ------------------------------
+    logger.info('predicting the model row 176')
     y_pred, rf_pre_Proba ,log_loss2 = predict_model(rf_grid_search, X_val)
 
     # Perform cross-validation
