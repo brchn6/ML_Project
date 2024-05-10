@@ -108,12 +108,12 @@ ML_Project/
 ├── EDA
 │   └── EDA.ipynb                  # Exploratory Data Analysis notebook
 ├── PDFs
-│   ├── AMLLS Project Description.pdf
-│   └── AMLLS Project.pdf
+│   ├── AMLLS Project Description.pdf # Description documents provided by course hosts
+│   └── AMLLS Project.pdf             # Description documents provided by course hosts
 ├── PO
-│   ├── final_step_workflow.pptx
-│   └── workflow.pptx
-├── Project_Summary.docx
+│   ├── final_step_workflow.pptx      # Descriptive presentation for the colaborators 
+│   └── workflow.pptx                 # Full workflow
+├── ##Project_Summary.docx            #
 ├── README.md
 ├── README_guy.md
 ├── bsub
