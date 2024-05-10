@@ -29,32 +29,20 @@ def random_forest_script():
     Date: 2024/08/03
     """
 #---------------------------------------Importing the necessary libraries---------------------------------------
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.metrics import accuracy_score
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
+import optuna
+from sklearn.model_selection import cross_validate, StratifiedKFold
 
-# --------------------------------------Rendom_forest Regression Class--------------------------------------
-"""class Rendom_forest_regression_BC:
-    def __init__(self, train_features, train_labels, test_features, test_labels):
-        self.train_features = train_features
-        self.train_labels = train_labels
-        self.test_features = test_features
-        self.test_labels = test_labels
-    
-    def build_RandomForestRegressor(self):
-        # Create a random forest regressor object 
-        # Instantiate model with 1 decision tree
-        regressor = RandomForestRegressor(n_estimators=1, random_state=42)
-        
-        # Train the model on training data
-        regressor = regressor.fit(self.train_features, self.train_labels)
-        return regressor
-    
-    def predict_RandomForestRegressor(self, regressor):
-        # Use the forest's predict method on the test data
-        predictions = regressor.predict(self.test_features)
-        return predictions
-"""    
+from sklearn.metrics import log_loss , f1_score ,accuracy_score, roc_auc_score, precision_score, recall_score
+
+from sklearn.metrics import confusion_matrix
+from sklearn import metrics
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+from personalClass import *
 # --------------------------------------Rendom_forest Classification Class--------------------------------------
 class Rendom_forest_classification_BC_defultParams:
     def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
@@ -74,7 +62,7 @@ class Rendom_forest_classification_BC_defultParams:
         
         # Train the model on training data
         classifier_fit = classifier.fit(self.train_features, self.train_labels)
-        return classifier_fit
+        return classifier, classifier_fit
     
     #set a prediction metho for the train data
     def predict_RandomForestClassifierTrainData (self, classifier):
@@ -82,45 +70,201 @@ class Rendom_forest_classification_BC_defultParams:
         predictions = classifier.predict(self.train_features)
         return predictions
     
+    def predict_RandomForestClassifierTestData(self, classifier):
+        # Use the forest's predict method on the test data
+        predictions = classifier.predict(self.test_features)
+        return predictions
+
+    def predict_RandomForestClassifierTrainData_proba (self, classifier):
+        # Use the forest's predict method on the test data
+        predictions_proba = classifier.predict_proba(self.train_features)
+        return predictions_proba[:,1]
+
+    def predict_RandomForestClassifierTestData_proba(self, classifier):
+        # Use the forest's predict method on the test data
+        predictions_proba = classifier.predict_proba(self.test_features)
+        return predictions_proba[:,1]
+    
     #build a accuracy score method
-    def accuracy_score(self, predictions):
+    def accuracy_score(self, predictions,data):
         """
         Returns:
         accuracy: the accuracy of the model
         """
-        accuracy = accuracy_score(self.train_labels, predictions)
-        return accuracy
+        accuracy = accuracy_score(data, predictions)
+        f1_weighted= f1_score(data, predictions, average='weighted')
+        f1_binary= f1_score(data, predictions, average='binary')
+        return accuracy, f1_weighted, f1_binary
     
+    #build a accuracy score method
+    def accuracy_score_proba(self, predictions_proba ,data):
+        """
+        Returns:
+        accuracy: the accuracy of the model
+        """
+        logLoss = log_loss(data, predictions_proba)
+        roc_auc = roc_auc_score(data, predictions_proba)
+        return logLoss, roc_auc
+    
+    def get_params(self, classifier):
+        return classifier.get_params()
+    
+    def make_confusion_matrix(self, predictions, data):
+        return confusion_matrix(data, predictions)
+
 class Rendom_forest_classification_BC_useingGridSearchCV:
-    
     def __init__(self, np_train_features, train_labels, np_test_features, test_labels):
         self.train_features = np_train_features
         self.train_labels = train_labels
         self.test_features = np_test_features
         self.test_labels = test_labels
+        self.best_params = None  # Initialize best_params attribute
+        self.cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)  # Cross-validation configuration as an attribute
 
-    def gridSearchCV_RandomForestClassifier(self):
-
-        # Define the parameter grid
-        param_grid = {
-            'n_estimators': [10, 50, 100],
-            'max_depth': [None, 10, 20],
-            'min_samples_split': [2, 5, 10],
-            'min_samples_leaf': [1, 2, 4]
-        }
-        
+    def gridSearchCV_RandomForestClassifier(self, RunParasSearch=False):
+        if RunParasSearch:
+            # Define the parameter grid
+            params = {
+                'n_estimators': [10, 50, 100, 200],
+                'max_depth': [None, 10, 20, 30, 40, 50],
+                'min_samples_split': [2, 5, 10, 20],
+                'min_samples_leaf': [1, 2, 4, 8, 16],
+                'max_features': ['auto', 'sqrt', 'log2'],
+                'bootstrap': [True, False],
+                'ccp_alpha': [0.0, 0.1, 0.2, 0.3, 0.4, 0.5],
+                'class_weight': ['balanced', 'balanced_subsample', None],
+                'criterion': ['gini', 'entropy']
+            }
+        else:
+            params = {
+                'bootstrap': [False],  # Wrap single value in a list
+                'max_depth': [20],  # Wrap single value in a list
+                'max_features': ['sqrt'],  # Wrap single value in a list
+                'min_samples_leaf': [2],  # Wrap single value in a list
+                'min_samples_split': [20],  # Wrap single value in a list
+                'n_estimators': [200]  # Wrap single value in a list
+            }
+        return params
+    
+    def build_RandomForestClassifierWithGridSearchCV(self):
         # Create a Random Forest classifier object
-        rf_classifier = RandomForestClassifier(random_state=42)
+        classifier = RandomForestClassifier(random_state=42)
+    
+        # Create GridSearchCV object with the classifier and parameter grid
+        grid_search = GridSearchCV(estimator=classifier, param_grid=self.gridSearchCV_RandomForestClassifier(RunParasSearch = False), cv=self.cv, n_jobs=-1, scoring='roc_auc')
+
+        #fit the model to the train data
+        classifier_fit = grid_search.fit(self.train_features, self.train_labels) 
+
+        # Get the best model
+        best_rf_classifier = classifier_fit.best_estimator_
         
-        # Create GridSearchCV object
-        grid_search = GridSearchCV(estimator=rf_classifier, param_grid=param_grid, cv=2, n_jobs=-1)
-        
-        # Train the model on training data
-        grid_search.fit(self.train_features, self.train_labels)
-        
-        # Get the best estimator
-        best_rf_classifier = grid_search.best_estimator_
-        
-        return best_rf_classifier
+        #get the best parameters and the roc_auc
+        self.best_params = classifier_fit.best_params_
+        roc_auc = classifier_fit.best_score_    
+        print(f"Best parameters: {self.best_params}")
+        print(f"The best parameters in this run are: {self.best_params} and the ROC AUC score is: {roc_auc}")
+       
+        return classifier, classifier_fit, best_rf_classifier, self.best_params
+    
+    def update_parameter_grid(self):
+        if not self.best_params:
+            print("Error: Best params are not set yet.")
+            return None
+
+        # Check each parameter individually before use to handle cases where they might be None
+        n_estimators = self.best_params.get('n_estimators', 10)  # Default to 10 if not set
+        max_depth = self.best_params.get('max_depth', 30)  # Default to 30 if not set
+        min_samples_split = self.best_params.get('min_samples_split', 2)  # Default to 2 if not set
+        min_samples_leaf = self.best_params.get('min_samples_leaf', 1)  # Default to 1 if not set
+        max_features = self.best_params.get('max_features', 'auto')  # Default to 'auto' if not set
+        bootstrap = self.best_params.get('bootstrap', True)  # Default to True if not set
+
+        updated_param_grid = {
+            'n_estimators': [n_estimators, n_estimators + 50, n_estimators + 100],
+            'max_depth': [max_depth, max_depth + 10, max_depth + 20] if max_depth is not None else [None],
+            'min_samples_split': [min_samples_split, min_samples_split + 3, min_samples_split + 6],
+            'min_samples_leaf': [min_samples_leaf, min_samples_leaf + 1, min_samples_leaf + 2],
+            'max_features': ['auto', 'sqrt', 'log2'],
+            'bootstrap': [bootstrap, not bootstrap]
+        }
+        return updated_param_grid
+
+
+    #set a prediction metho for the train data and the test data
+    def predict_RandomForestClassifier(self, classifier):
+        # Use the forest's predict method on the test data
+        predictions_Train_set= classifier.predict(self.train_features)
+        predictions_Train_set_proba= classifier.predict_proba(self.train_features)
+        predictions_Test_set= classifier.predict(self.test_features)
+        predictions_Test_set_proba= classifier.predict_proba(self.test_features)
+        return predictions_Train_set, predictions_Train_set_proba[:,1] , predictions_Test_set, predictions_Test_set_proba[:,1]
+
+    
+    #build a accuracy score method
+    def accuracy_score(self, predictions, predictions_proba, data):
+        """
+        Calculate accuracy, weighted F1, binary F1 scores, log loss, and ROC AUC for predictions.
+
+        Parameters:
+        - predictions: Predicted labels.
+        - predictions_proba: Predicted probabilities.
+        - data: True labels.
+
+        Returns:
+        - Tuple containing accuracy, f1_weighted, f1_binary, log_loss, and roc_auc scores.
+        """
+        accuracy = accuracy_score(data, predictions)
+        f1_weighted = f1_score(data, predictions, average='weighted')
+        f1_binary = f1_score(data, predictions, average='binary')
+        log_loss_val = log_loss(data, predictions_proba)
+        roc_auc_val = roc_auc_score(data, predictions_proba)
+
+        return accuracy, f1_weighted, f1_binary, log_loss_val, roc_auc_val
+
+    def cross_validate_model(self):
+        classifier = RandomForestClassifier(**self.best_params, random_state=42)
+        scoring = ['accuracy', 'roc_auc', 'f1_weighted']
+        cv_results = cross_validate(classifier, self.train_features, self.train_labels, cv=self.cv, scoring=scoring, return_train_score=False)
+        print("Cross-validation results:")
+        for key, values in cv_results.items():
+            print(f"{key}: {values.mean()} +/- {values.std()}")
+        return cv_results
+
+    def get_best_params(self):
+        return self.best_params
+    
+    def make_confusion_matrix(self, predictions, data):
+        return confusion_matrix(data, predictions)
     
 
+    def prediction_table_and_feature_importance_table(self):
+        #Generarting prediction table and feature importance table on 15 different seeds:
+        prediction_table = pd.DataFrame()
+        scores = [log_loss, roc_auc_score]
+        scores_cm = [precision_score, recall_score, accuracy_score]
+        for i in range(15):
+            best_model= RandomForestClassifier(random_state=i, **self.best_params)
+            best_model.fit(self.train_features, self.train_labels)
+            preds_test = best_model.predict_proba(self.test_features)[:,1]
+            preds_cm = best_model.predict(self.test_features)
+            for score in scores:
+                prediction_table.loc['seed_'+str(i), score.__name__] = score(self.test_labels, preds_test)
+            for score in scores_cm:
+                prediction_table.loc['seed_'+str(i), score.__name__] = score(self.test_labels, preds_cm)
+        #extracting prediction_table to csv 
+        prediction_table.to_csv('prediction_table.csv')
+
+        #get the feature names
+        feature_names = best_model.feature_names_in_
+        fi_table = pd.DataFrame(columns=feature_names)
+
+        for i in range(15):
+            best_model = RandomForestClassifier(n_estimators=10, random_state=i, **self.best_params)
+            best_model.fit(self.train_features, self.train_labels)
+            fi_table.loc['seed_'+str(i)] = best_model.feature_importances_
+
+        #extracting feature importance table to csv
+        fi_table.to_csv('feature_importance_table.csv')
+        #Generate fi_plot:
+        featureImportancePlot(feature_names, fi_table)
