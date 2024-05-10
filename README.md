@@ -113,7 +113,7 @@ ML_Project/
 ├── PO
 │   ├── final_step_workflow.pptx      # Descriptive presentation for the colaborators 
 │   └── workflow.pptx                 # Full workflow
-├── ##Project_Summary.docx            #
+├── *Project_Summary.docx*            #
 ├── README.md
 ├── README_guy.md
 ├── bsub
