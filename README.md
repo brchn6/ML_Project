@@ -132,7 +132,17 @@ Saar Ezagouri -  saare@weizmann.ac.il
 Guy Ilan - guy.ilan@weizmann.ac.il
 Bar Cohen - bar.cohen@weizmann.ac.il
 Project Link: https://github.com/brchn6/ML_Project.git
-# Workflow Check
+# <u>Workflow Checklist</u>:
+
+### WORKFLOW:
+###### 1. The data is uploaded and preprocessed in the Data_preparation directory.
+###### 2. EDA is conducted in the EDA/EDA.ipynb notebook.
+###### 3. Feature engineering details are documented in the Data_preparation/Feature_engineering.xlsx file.
+###### 4. The main script is run in the pyScripts directory => got the split and GANS generated data.
+###### 5. now each of the team members is running the model on the same data and comparing the results.
+###### 6. The final results will be compared and the best model will be chosen.
+
+### WORKFLOW DETAILS:
 1. Data upload and initial preprocessing occur within the `Data_preparation/` directory.
     The data folder contains all the CSV files given to us at the beginning of the project as well as the final training set used for training the model:
     1. diabetes_data.csv
@@ -141,20 +151,8 @@ Project Link: https://github.com/brchn6/ML_Project.git
 
 2. EDA is conducted in `EDA/EDA.ipynb`, providing insights necessary for model building.
 3. Feature engineering details are documented in `Data_preparation/Feature_engineering.xlsx`.
-4. # pyScripts folder:  
-    ## deadendscript:
-
-        '''
-        1. disease_ids_conds.py - This script contains a function used for recategorizing the data in the dataset, 
-        as well as to store long lists used to generate the dataset.
-
-        2. feature_importance_rnd_clf.py - This script is used to generate the feature importance plot of the dataset using the random forest classifier.
-
-        3.generate_n_test_df.py - This script is used to generate the balanced datasets and evaluate the performance of the classifiers on the different datasets.
-        The classes CopulaGenerator, ConditionalTransformer, and ClassifierEvaluator are used in this script.
-        '''
-
-    # GuyTrain:
+4. **pyScripts folder**:  
+    ## GuyTrain:
     ```
     1. [X_test_df, X_train_df, y_test_df, y_train_df] - the final train and test sets used for training the model, 
     customized to fit the xgboost model.
@@ -167,7 +165,7 @@ Project Link: https://github.com/brchn6/ML_Project.git
     the feature importance plot of the xgboost model after hyperparameter tuning.
     ```
 
-    # BarModels:
+    ## BarModels:
     ```
     1. __main__.py  is the main python script that run the classes build in Rendom_forest_BC.py file
     2. Rendom_forest_BC.py hold the classes use in the main script
@@ -180,9 +178,21 @@ Project Link: https://github.com/brchn6/ML_Project.git
     9. X_test_df.csv , X_train_df.csv , y_test.csv , y_train.csv are the final train and test sets used for training the model
     ```
 
-    # Saar main script:
+    ## Saar main script:
     ``` 
     1. LGBM.py - This script is used to train the LightGBM model on the dataset.
+    ```
+
+    ## deadendscript:
+
+    ```
+    1. disease_ids_conds.py - This script contains a function used for recategorizing the data in the dataset, 
+    as well as to store long lists used to generate the dataset.
+
+    2. feature_importance_rnd_clf.py - This script is used to generate the feature importance plot of the dataset using the random forest classifier.
+
+    3.generate_n_test_df.py - This script is used to generate the balanced datasets and evaluate the performance of the classifiers on the different datasets.
+    The classes CopulaGenerator, ConditionalTransformer, and ClassifierEvaluator are used in this script.
     ```
 
     ## featureImportanceDir:
@@ -203,12 +213,5 @@ Project Link: https://github.com/brchn6/ML_Project.git
     4. CopulaGenerator.py - This class is used to generate synthetic data in order to balance the dataset. Both ctGAN and copulaGAN can be used to generate and balance the dataset. It was used in order to create the final balanced dataset.
     ```
 
-    # WORKFLOW:
-    ```
-    1. The data is uploaded and preprocessed in the Data_preparation directory.
-    2. EDA is conducted in the EDA/EDA.ipynb notebook.
-    3. Feature engineering details are documented in the Data_preparation/Feature_engineering.xlsx file.
-    4. The main script is run in the pyScripts directory => got the split and GANS generated data.
-    5. now each of the team members is running the model on the same data and comparing the results.
-    6. The final results will be compared and the best model will be chosen.
-    ```
+## Thank you for your reading
+![none](https://datasciencedojo.com/wp-content/uploads/10.jpg)
