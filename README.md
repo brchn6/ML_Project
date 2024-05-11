@@ -1,53 +1,3 @@
-conda # ML Course Project
-
-## Overview
-The objective of this project is to predict readmission of diabetic patients. This objective was predefined as a binary classification task.
-The dataset we worked on is the Diabetes 130-US Hospitals for Years 1999 – 2008 from the UC Irvine ML Repository:
-https://archive.ics.uci.edu/ml/datasets/diabetes+130-us+hospitals+for+years+1999-2008.
-Description of the original features can be found in the supplemental information of the original research paper (see also data/IDS_mapping.csv).
-Description of features that were engineered or grouped for this project can be found below in the files description section.  
-  
-A detailed overview of the project and a summary of the results are written in Project_Summary.docsx
-
-## Installation
-To set up the project environment:
-1. Clone the repository:
-
-2. Install required packages:
-pip install -r requirements.txt
-
-## Usage
-python pyScripts/MainScript.py
-
-## Files description:
-Folder / files
-#### ML_Project/
-Data_preparation/Feature_engineering.xlsx : description of the grouping / feature engineering that was done as part of the preprocessing.  
-EDA/EDA.ipynb  
-PDFs/ PDFs that are the project description. Given by the course host.  
-PO/ **** ADD YOUR DESCRIPTION HERE*****  
-bsub/ **** ADD YOUR DESCRIPTION HERE*****  
-data/ *.csv files that were used in this project. diabetic_data.csv is the raw data.  
-pyScripts/  
-
-## Contributing
-
-## License
-
-## Contact
-
-
-## Check Work Flow 
-root *./ML_Project*
-1. The first part in this project is to upload the data into the machine environment 
-2. data store at ./data/diabetes+130-us+hospitals+for+years+1999-2008.zip
-3. The first py script to examine located at EDA/EDA.ipynb ,    
-        This file is a well-documented guide that addresses all the crucial questions that need to be answered before starting to deal with ML training or data handling.
-4. The 
-
-
-
-
 ```markdown
 # ML Course Project: Diabetes Readmission Prediction
 
@@ -59,6 +9,7 @@ The project includes comprehensive data preprocessing, feature engineering, and 
 For a full project report and summary of results, refer to `Project_Summary.docx`.
 
 ## Installation
+#### Note : this project was now developed to install an d run rather to be examined and checked for the workflow.
 To set up and run the project environment:
 1. Clone the repository.
 2. Install required Python packages:
@@ -72,35 +23,12 @@ Execute the main script to start the project:
 python pyScripts/MainScript.py
 ```
 
-## File Structure
-```
-ML_Project/
-├── Data_preparation/
-│   └── Feature_engineering.xlsx  # Describes the feature engineering process
-├── EDA/
-│   └── EDA.ipynb                 # Exploratory Data Analysis notebook
-├── PDFs/
-│   └── Project_description.pdf   # Description documents provided by course hosts
-├── data/
-│   ├── diabetes_data.csv         # Original dataset
-│   ├── IDS_mapping.csv           # Description of original features
-│   ├── copula_train_set_300_epochs_4_numeric.csv  # Balanced dataset
-│   └── score_table.csv           # Classifier performance estimates
-├── pyScripts/
-│   ├── ConditionalTransformer.py # Applies transformers conditionally
-│   ├── CopulaGenerator.py        # Synthetic data generator
-│   ├── evaluation_classifiers.py # Evaluates classifier performance
-│   └── generate_n_test_df.py     # Generates and evaluates datasets
-├── GuyTrain/
-│   ├── X_test_df.csv             # Test dataset
-│   ├── X_train_df.csv            # Training dataset
-│   ├── xgboost_gridcv.py         # XGBoost tuning with grid search CV
-│   └── xgboost_optuna.py         # XGBoost tuning with Optuna
-└── deadendscript/
-    ├── disease_ids_conds.py      # Functions for data recategorization
-    └── feature_importance_rnd_clf.py # Feature importance for random forest
-```
+By running the main script, the following steps will be executed:
+1. Data preprocessing 
+2. Feature engineering
+3. pipeline execution
 
+## File Structure
 ```
 ML_Project/
 ├── Data_preparation
@@ -222,12 +150,14 @@ ML_Project/
 
 
 ## Contact
+Saar Ziv -  saar.
+Guy Ilan - guy.ilan@weizmann.ac.il
 Bar Cohen - bar.cohen@weizmann.ac.il
 Project Link: [GitHub Repository URL]
 
-## Workflow Check
+# Workflow Check
 1. Data upload and initial preprocessing occur within the `Data_preparation/` directory.
-    The data folder contains all the csv files given to us at the beginning of the project as well as the final train set used for trqaining the model:
+    The data folder contains all the CSV files given to us at the beginning of the project as well as the final training set used for training the model:
     1. diabetes_data.csv
     2. IDS_mapping.csv
     3. copula_train_set_300_epochs_4_numeric.csv
@@ -239,7 +169,7 @@ Project Link: [GitHub Repository URL]
         '''
         1. ConditionalTransformer.py - This class is used to conditionally apply a transformer to the data. 
         If the condition is set to True, the transformer is applied to the data, else the data is returned as is.
-        This class was used in the pipline in order to make the GANS class conditional.
+        This class was used in the pipeline in order to make the GANS class conditional.
 
         2. CopulaGenerator.py - This class is used to generate synthetic data in order to balance the dataset.
         Both ctGAN and copulaGAN can be used to generate and balance the dataset.
@@ -249,11 +179,11 @@ Project Link: [GitHub Repository URL]
         The class is used to compare the performance of the classifiers on the original, smote, ctGAN, and copulaGAN datasets.
         The class is used to generate the score_table.csv file.
         '''
-    #deadendscript:
+    ## deadendscript:
 
         '''
-        1. disease_ids_conds.py - This script contains function used for recategorizing the data in the dataset, 
-        as well as to store long lists usedto gnerate the dataset.
+        1. disease_ids_conds.py - This script contains a function used for recategorizing the data in the dataset, 
+        as well as to store long lists used to generate the dataset.
 
         2. feature_importance_rnd_clf.py - This script is used to generate the feature importance plot of the dataset using the random forest classifier.
 
@@ -261,25 +191,25 @@ Project Link: [GitHub Repository URL]
         The classes CopulaGenerator, ConditionalTransformer, and ClassifierEvaluator are used in this script.
         '''
 
-    #GuyTrain:
-        '''
-        1. [X_test_df, X_train_df, y_test_df, y_train_df] - the final train and test sets used for training the model, 
-        customized to fit the xgboost model.
+    # GuyTrain:
+    '''
+    1. [X_test_df, X_train_df, y_test_df, y_train_df] - the final train and test sets used for training the model, 
+    customized to fit the xgboost model.
 
-        2. xgboost_gridcv.py - This script was used to hyperparameter tune the xgboost model using grid search cross validation.
+    2. xgboost_gridcv.py - This script was used to hyperparameter-tune the xgboost model using grid search cross-validation.
 
-        3. xgboost_optuna.py - This script was used to hyperparameter tune the xgboost model using optuna.
+    3. xgboost_optuna.py - This script was used to hyperparameter-tune the xgboost model using Optuna.
 
-        4. feature_importance_script.py - contains the functions used in order to generate
-        the feature importance plot of the xgboost model after hyperparameter tuning.
-        '''
+    4. feature_importance_script.py - contains the functions used in order to generate
+    the feature importance plot of the xgboost model after hyperparameter tuning.
+    '''
 
-    #BarModels:
+    # BarModels:
     ```
     1. __main__.py  is the main python script that run the classes build in Rendom_forest_BC.py file
     2. Rendom_forest_BC.py hold the classes use in the main script
     3. RF_Main_Run_BestParams.py is the script that run the best parameters for the random forest model
-    4. RF_Main_Run_FullScript.py is the script that run the full script for the random forest model
+    4. RF_Main_Run_FullScript.py is the script that run the full script for the random forest model while running grid- search for the best parameters.
     5. bsub is a directory that hold the bash scripts that run the python scripts on the cluster
     6. logs is a directory that hold the logs of the scripts that run on the cluster
     7. personalClass is a directory that hold the classes that are used in the main script
@@ -287,7 +217,12 @@ Project Link: [GitHub Repository URL]
     9. X_test_df.csv , X_train_df.csv , y_test.csv , y_train.csv are the final train and test sets used for training the model
     ```
 
-    #featureImportanceDir:
+    # Saar main script:
+    ``` 
+    1. LGBM.py - This script is used to train the LightGBM model on the dataset.
+    ```
+
+    ## featureImportanceDir:
     ```
     1. Feature_ImportanceClass.py - This class is used to generate the feature importance plot of the dataset using the random forest classifier.
     2. LGBM_feature_importance.png - This image shows the feature importance scores generated by the LightGBM model.
@@ -295,8 +230,13 @@ Project Link: [GitHub Repository URL]
     4. XGBoost_feature_importance.png - This image shows the feature importance scores generated by the XGBoost model.
     ```
 
-    #classes:
+    ## classes:
     ```
     1. ConditionalTransformer.py - This class is used to conditionally apply a transformer to the data.
     If the condition is set to True, the transformer is applied to the data, else the data is returned as is.
     This class was used in the pipline in order to make the GANS class conditional
+    2. seeTheData.py - This class is used to visualize the data in the dataset.
+    3. evaluation_classes.py - This class is used to evaluate the performance of different classifiers on different datasets.
+    4. CopulaGenerator.py - This class is used to generate synthetic data in order to balance the dataset.
+    ```
+
