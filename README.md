@@ -1,4 +1,3 @@
-```markdown
 # ML Course Project: Diabetes Readmission Prediction
 
 ## Overview
@@ -13,9 +12,9 @@ For a full project report and summary of results, refer to `Project_Summary.docx
 To set up and run the project environment:
 1. Clone the repository.
 2. Install required Python packages:
-   ```bash
-   conda install -f environment.yml
-   ```
+```bash
+conda install -f environment.yml
+```
 
 ## Usage
 Execute the main script to start the project:
