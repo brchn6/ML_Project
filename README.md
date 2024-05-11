@@ -8,7 +8,7 @@ The project includes comprehensive data preprocessing, feature engineering, and 
 For a full project report and summary of results, refer to `Project_Summary.docx`.
 
 ## Installation
-#### Note : this project was now developed to install an d run rather to be examined and checked for the workflow.
+#### Note: this project was now developed to install an d run rather to be examined and checked for the workflow.
 To set up and run the project environment:
 1. Clone the repository.
 2. Install required Python packages:
@@ -58,42 +58,21 @@ ML_Project/
 ├── environment.yml
 └── pyScripts
     ├── AddRootDirectoriesToSysPath.py
-    ├── BarModels
-    │   ├── RF_Main_Run_BestParams.py
-    │   ├── RF_Main_Run_FullScript.py
-    │   ├── Rendom_forest_BC.py
-    │   ├── X_test_df.csv
-    │   ├── X_train_df.csv
+    ├── BarModels                        # BarModels - Bar Cohen's directory
+    │   ├── RF_Main_Run_BestParams.py    # This script runs the best parameters for the random forest model.
+    │   ├── RF_Main_Run_FullScript.py    # This script runs the full script for the random forest model while running grid- search for the best parameters.
+    │   ├── Rendom_forest_BC.py          # This script holds the classes used in the main script.
+    │   ├── X_test_df.csv                # Final train and test sets used for training the model.
+    │   ├── X_train_df.csv               # Final train and test sets used for training the model.
     │   ├── __main__.py
-    │   ├── bsub
-    │   │   ├── JupyterHub_Servers.sh
-    │   │   ├── RF_Main_Run_FullScript.sh
-    │   │   ├── dd.sh
-    │   │   ├── getjupitryenv.sh
-    │   │   ├── gettingJupyterEnv.sh
-    │   │   ├── main.sh
-    │   │   ├── sendPythonFileToBsub1coreShortQ.sh
-    │   │   ├── simplebsub.sh
-    │   │   └── test.sh
-    │   ├── logs
-    │   │   ├── Error_RF_Main_Run-667086.err
-    │   │   ├── Error_RF_Main_Run-667311.err
-    │   │   ├── Output_MainFile-815663.out
-    │   │   ├── Output_RF_Main_Run-664323.out
-    │   │   ├── Output_RF_Main_Run-667086.out
-    │   │   └── Output_RF_Main_Run-667311.out
-    │   ├── personalClass
-    │   │   ├── GetXYstes.py
-    │   │   ├── GridSAndXgboostClass.py
-    │   │   ├── Rendom_forest_classification_BC_useing_Optuna.py
-    │   │   ├── __init__.py
-    │   │   ├── feature_importance_script.py
-    │   │   └── getinfo.py
-    │   ├── results
+    │   ├── bsub                       # Bsub - bash scripting directory for the use of wexac user only
+    │   ├── logs                       # Logs - directory for providing the real score of the model
+    │   ├── personalClass              # PersonalClass - directory for the classes used during the project
+    │   ├── results                    # Results - directory for the results of the model
     │   │   ├── Thumbs.db
-    │   │   ├── feature_importance_plot.png
-    │   │   ├── feature_importance_table.csv
-    │   │   └── prediction_table.csv
+    │   │   ├── feature_importance_plot.png          # Feature importance plot for the random forest model.
+    │   │   ├── feature_importance_table.csv         # Feature importance table for the random forest model.
+    │   │   └── prediction_table.csv                 # Prediction table for the random forest model.
     │   ├── y_test.csv
     │   └── y_train.csv
     ├── DefPipeLineClasses.py
@@ -149,11 +128,10 @@ ML_Project/
 
 
 ## Contact
-Saar Ziv -  saar.
+Saar Ezagouri -  saare@weizmann.ac.il
 Guy Ilan - guy.ilan@weizmann.ac.il
 Bar Cohen - bar.cohen@weizmann.ac.il
-Project Link: [GitHub Repository URL]
-
+Project Link: https://github.com/brchn6/ML_Project.git
 # Workflow Check
 1. Data upload and initial preprocessing occur within the `Data_preparation/` directory.
     The data folder contains all the CSV files given to us at the beginning of the project as well as the final training set used for training the model:
@@ -191,7 +169,7 @@ Project Link: [GitHub Repository URL]
         '''
 
     # GuyTrain:
-    '''
+    ```
     1. [X_test_df, X_train_df, y_test_df, y_train_df] - the final train and test sets used for training the model, 
     customized to fit the xgboost model.
 
@@ -201,7 +179,7 @@ Project Link: [GitHub Repository URL]
 
     4. feature_importance_script.py - contains the functions used in order to generate
     the feature importance plot of the xgboost model after hyperparameter tuning.
-    '''
+    ```
 
     # BarModels:
     ```
