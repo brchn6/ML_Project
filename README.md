@@ -195,21 +195,20 @@ Project Link: https://github.com/brchn6/ML_Project.git
 
     ## classes:
     ```
-
     1. ConditionalTransformer.py - This class is used to conditionally apply a transformer to the data. 
     If the condition is set to True, the transformer is applied to the data, else the data is returned as is.
     This class was used in the pipeline in order to make the GANS class conditional.
     2. seeTheData.py - This class is used to visualize the data in the dataset.
     3. evaluation_classifiers.py - This class is used to evaluate the performance of different classifiers on different datasets. The class is used to compare the performance of the classifiers on the original, smote, ctGAN, and copulaGAN datasets. The class is used to generate the score_table.csv file.
     4. CopulaGenerator.py - This class is used to generate synthetic data in order to balance the dataset. Both ctGAN and copulaGAN can be used to generate and balance the dataset. It was used in order to create the final balanced dataset.
-    '''
+    ```
 
     # WORKFLOW:
-    '''
+    ```
     1. The data is uploaded and preprocessed in the Data_preparation directory.
     2. EDA is conducted in the EDA/EDA.ipynb notebook.
     3. Feature engineering details are documented in the Data_preparation/Feature_engineering.xlsx file.
     4. The main script is run in the pyScripts directory => got the split and GANS generated data.
     5. now each of the team members is running the model on the same data and comparing the results.
     6. The final results will be compared and the best model will be chosen.
-    '''
+    ```
